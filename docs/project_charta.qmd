@@ -151,12 +151,12 @@ gantt
         Submit visualization project         :milestone, m3, 2026-06-01, 1d
 ```
 
-See [Mermaid syntax for Gantt charts](https://mermaid.js.org/syntax/gantt.html). It might not be displayed correctly in Safari &#8594; use Chrome. [Live editor with export functionality](https://mermaid.live/)
+It might not be displayed correctly in Safari &#8594; use Chrome. [Live editor with export functionality](https://mermaid.live/)
 
 ## Roles and Contact Details
 
 | Name | Role | student ID |
 |---|---|---|
-| Angelina | Organiser | zambrang |
+| Angelina | Organizer | zambrang |
 | Cécile | Visualisation | sulzecec |
 | Charlotte | Analysis | windlcha |
