@@ -3,16 +3,18 @@
 
 This project sits at the intersection of music analytics and data storytelling. The dataset is the publicly available Spotify Tracks Dataset from Kaggle, containing approximately 114,000 tracks spanning 114 genres. Each track is described by audio features computed by Spotify's audio analysis engine — including danceability, energy, valence, tempo, acousticness, loudness, speechiness, instrumentalness, and liveness — along with metadata such as genre, artist, album, duration, explicit flag, key, and mode. A popularity score (0–100) derived from Spotify's internal streaming algorithm serves as the primary response variable of interest. 
 The topical aspects to be addressed include:
-•	The relationship between measurable audio features and track popularity
-•	How audio profiles differ systematically across major music genres
-•	The distribution of popularity scores and what characterises top-performing tracks
-•	Patterns in musical key, mode (major/minor), tempo, and their links to genre or mood
+
+- The relationship between measurable audio features and track popularity
+- How audio profiles differ systematically across major music genres
+- The distribution of popularity scores and what characterises top-performing tracks
+- Patterns in musical key, mode (major/minor), tempo, and their links to genre or mood
 
 The project aims to answer questions such as:
-•	Which audio features are the strongest predictors of a track's popularity on Spotify?
-•	How do genres cluster when described by their average audio feature profiles?
-•	What does a 'popular' song sound like — and how does this differ by genre?
-•	Is there a measurable relationship between mood-related features (valence, energy) and mainstream success?
+
+- Which audio features are the strongest predictors of a track's popularity on Spotify?
+- How do genres cluster when described by their average audio feature profiles?
+- What does a 'popular' song sound like — and how does this differ by genre?
+- Is there a measurable relationship between mood-related features (valence, energy) and mainstream success?
 
 The expected benefits of the project include:
 The project will produce an accessible, visually engaging exploration of what the data reveals about musical taste and popularity on one of the world's largest streaming platforms. For the general public and music enthusiasts, it offers an evidence-based window into the mechanics of hit songs. For the course, it demonstrates best practices in exploratory data analysis, visual encoding, and data storytelling using a rich, real-world dataset.
@@ -20,13 +22,13 @@ The project will produce an accessible, visually engaging exploration of what th
 The visualization product will be published as a GitHub Page (Quarto-based digital article or interactive web app), accessible online to lecturers and the public. All code, data processing steps, and visualizations will be fully reproducible within the team's GitHub repository.
 
 ## Project Objectives and Success Criteria
-Describe the objectives **from the client/stakeholder perspective**. For example: "Enable users to understand the distribution of sales across different regions". 
 
-Objectives: 
-•	Enable users to understand which audio features (e.g. danceability, energy, valence) are associated with high popularity scores on Spotify.
-•	Allow users to compare the audio profiles of different music genres through intuitive visual summaries.
-•	Provide an engaging data story that is accessible to users without a data science background.
-•	Demonstrate reproducible, well-documented data analysis using Python and tools introduced in the course.
+Objectives:
+
+- Enable users to understand which audio features (e.g. danceability, energy, valence) are associated with high popularity scores on Spotify.
+- Allow users to compare the audio profiles of different music genres through intuitive visual summaries.
+- Provide an engaging data story that is accessible to users without a data science background.
+- Demonstrate reproducible, well-documented data analysis using Python and tools introduced in the course.
 
 Success criteria:
 Clearly communicate key drivers of song popularity.
@@ -36,10 +38,11 @@ Fully reproducible analysis pipeline.
 Product published and acessible online. 
 
 Out of scope:
-•	No real-time data retrieval via the Spotify API — the analysis is based solely on the static Kaggle dataset snapshot.
-•	No predictive modelling or machine learning — the project focuses on exploration and visual communication, not prediction.
-•	No analysis of streaming counts, revenue, or artist career trajectories — only track-level audio features and popularity scores.
-•	No user personalisation or recommendation system features.
+
+- No real-time data retrieval via the Spotify API — the analysis is based solely on the static Kaggle dataset snapshot.
+- No predictive modelling or machine learning — the project focuses on exploration and visual communication, not prediction.
+- No analysis of streaming counts, revenue, or artist career trajectories — only track-level audio features and popularity scores.
+- No user personalisation or recommendation system features.
 
 
 ## Stakeholder Analysis
@@ -150,8 +153,6 @@ gantt
         Prepare presentation media           :a12, 2026-05-26, 6d
         Submit visualization project         :milestone, m3, 2026-06-01, 1d
 ```
-
-It might not be displayed correctly in Safari &#8594; use Chrome. [Live editor with export functionality](https://mermaid.live/)
 
 ## Roles and Contact Details
 
