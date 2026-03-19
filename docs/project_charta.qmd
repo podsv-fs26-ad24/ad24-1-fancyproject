@@ -158,5 +158,5 @@ See [Mermaid syntax for Gantt charts](https://mermaid.js.org/syntax/gantt.html).
 | Name | Role | student ID |
 |---|---|---|
 | Angelina | Organiser | zambrang |
-| Cécile | Visualisation | sulzcec |
+| Cécile | Visualisation | sulzecec |
 | Charlotte | Analysis | windlcha |
