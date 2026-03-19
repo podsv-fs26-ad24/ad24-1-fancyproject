@@ -1,7 +1,7 @@
 # Project Charta
 ## Context and Scope
 
-This project sits at the intersection of music analytics and data storytelling. The dataset is the publicly available Spotify Tracks Dataset from Kaggle, containing approximately 114,000 tracks spanning 114 genres. Each track is described by audio features computed by Spotify's audio analysis engine — including danceability, energy, valence, tempo, acousticness, loudness, speechiness, instrumentalness, and liveness — along with metadata such as genre, artist, album, duration, explicit flag, key, and mode. A popularity score (0–100) derived from Spotify's internal streaming algorithm serves as the primary response variable of interest. 
+This project sits at the intersection of music analytics and data storytelling. The dataset is the publicly available Spotify Tracks Dataset from Kaggle, containing approximately 114,000 tracks spanning 114 genres. Each track is described by audio features computed by Spotify's audio analysis engine (danceability, energy, valence, tempo, acousticness, loudness, speechiness, instrumentalness, and liveness), along with metadata such as genre, artist, album, duration, explicit flag, key, and mode. A popularity score (0–100) derived from Spotify's internal streaming algorithm serves as the primary response variable of interest. 
 The topical aspects to be addressed include:
 
 - The relationship between measurable audio features and track popularity
@@ -13,7 +13,7 @@ The project aims to answer questions such as:
 
 - Which audio features are the strongest predictors of a track's popularity on Spotify?
 - How do genres cluster when described by their average audio feature profiles?
-- What does a 'popular' song sound like — and how does this differ by genre?
+- What does a 'popular' song sound like, and how does this differ by genre?
 - Is there a measurable relationship between mood-related features (valence, energy) and mainstream success?
 
 The expected benefits of the project include:
@@ -39,30 +39,30 @@ Product published and acessible online.
 
 Out of scope:
 
-- No real-time data retrieval via the Spotify API — the analysis is based solely on the static Kaggle dataset snapshot.
-- No predictive modelling or machine learning — the project focuses on exploration and visual communication, not prediction.
-- No analysis of streaming counts, revenue, or artist career trajectories — only track-level audio features and popularity scores.
+- No real-time data retrieval via the Spotify API; the analysis is based solely on the static Kaggle dataset snapshot.
+- No predictive modelling or machine learning; the project focuses on exploration and visual communication, not prediction.
+- No analysis of streaming counts, revenue, or artist career trajectories; only track-level audio features and popularity scores.
 - No user personalisation or recommendation system features.
 
 
 ## Stakeholder Analysis
-The project team consists of three students — Angelina, Cécile, and Charlotte — each taking on a defined role. Angelina acts as the organisator, coordinating the team's workflow, deadlines, and communication. Cécile is responsible for the visualisation, designing and implementing the charts and the overall visual language of the product. Charlotte leads the analysis, working through the dataset and deriving the insights that form the backbone of the data story. The three roles are interdependent: the analysis informs what needs to be visualised, and the organisation ensures both happen on time.
-The course lecturers, Manuel Dömer and Wibke Weber, act as the primary clients and assessors of the project. They define the requirements, provide feedback during coaching sessions, and ultimately grade the deliverables. Their expectations shape all major decisions in the project — from the choice of visualisation forms to the structure of the documentation and the reproducibility of the code. They are the most influential stakeholders in terms of the project's direction and evaluation.
-The audience of the published product is primarily fellow students in the course, who will encounter the work during the oral presentation and may visit the GitHub Page. Secondarily, the product is intended to be accessible to anyone with an interest in music — casual listeners or curious readers who stumble upon it online. This group has no active role in the project but shapes design decisions around accessibility and clarity, since the product should be understandable without any prior data literacy.
+The project team consists of three students, Angelina, Cécile, and Charlotte, each taking on a defined role. Angelina acts as the organisator, coordinating the team's workflow, deadlines, and communication. Cécile is responsible for the visualisation, designing and implementing the charts and the overall visual language of the product. Charlotte leads the analysis, working through the dataset and deriving the insights that form the backbone of the data story. The three roles are interdependent: the analysis informs what needs to be visualised, and the organisation ensures both happen on time.
+The course lecturers, Manuel Dömer and Wibke Weber, act as the primary clients and assessors of the project. They define the requirements, provide feedback during coaching sessions, and ultimately grade the deliverables. Their expectations shape all major decisions in the project, from the choice of visualisation forms to the structure of the documentation and the reproducibility of the code. They are the most influential stakeholders in terms of the project's direction and evaluation.
+The audience of the published product is primarily fellow students in the course, who will encounter the work during the oral presentation and may visit the GitHub Page. Secondarily, the product is intended to be accessible to anyone with an interest in music, such as casual listeners or curious readers who stumble upon it online. This group has no active role in the project but shapes design decisions around accessibility and clarity, since the product should be understandable without any prior data literacy.
 
 ## User Analysis
 The visualization product targets two main user groups: fellow students from the same course context, and casual music fans who are daily Spotify listeners. Two personas are developed to represent these groups.
 
 This persona is a student enrolled in the same data visualization course, working on their own project with a different dataset. They have a similar technical background — familiar with Python, data analysis, and the principles of visual encoding — and will encounter the product primarily during the oral presentation or by visiting the GitHub Page out of curiosity or for inspiration. They access the product on a laptop. They use it once or twice, not regularly.
 User tasks: Functionally, they want to quickly grasp what the project is about and what insights were found. They may also be looking to see how other teams structured their data story or chose their visualizations, to compare approaches with their own work. Socially, they might discuss the project with their own team or bring up interesting findings in class. Emotionally, they want to feel engaged and perhaps inspired — not bored by something overly technical or dry.
-Pains: They get frustrated if the product is hard to navigate or if the narrative is unclear, since they have limited time and are juggling their own project. If the visualizations are too complex or unexplained, they will skim rather than read carefully. They are also quick to notice poor design choices, given their shared course background.
+Pains: They get frustrated if the product is hard to navigate or the narrative is unclear, since they have limited time and are juggling their own project. If the visualizations are too complex or unexplained, they will skim rather than read carefully. They are also quick to notice poor design choices, given their shared course background.
 Gains: They appreciate a well-structured, visually clean product that gets to the point quickly. Finding a creative visualization approach or an unexpected insight about music would make the experience memorable. Seeing a project that is clearly reproducible and well-documented also sets a useful reference point for their own work.
 
 Persona 2 — The Casual Music Fan
-This persona is a daily Spotify listener with no particular data science or music theory background. They come across the product through a shared link — perhaps posted by one of the team members — and engage with it out of pure curiosity about music. Age and gender are not defining characteristics here; what matters is that music is a meaningful part of their daily life and they have a natural interest in understanding what makes certain songs resonate. They access the product on a laptop.
+This persona is a daily Spotify listener with no particular data science or music theory background. They come across the product through a shared link, perhaps posted by one of the team members, and engage with it out of pure curiosity about music. Age and gender are not defining characteristics here; what matters is that music is a meaningful part of their daily life and they have a natural interest in understanding what makes certain songs resonate. They access the product on a laptop.
 User tasks: Functionally, they want to explore an interesting question — why do some songs become popular? — in a way that feels effortless and enjoyable. Socially, if something surprises or delights them, they are likely to share it with friends or bring it up in conversation. Emotionally, they want to feel like they have learned something genuine about the music they listen to every day, without feeling talked down to or overwhelmed.
 Pains: They will disengage quickly if the product feels academic, dry, or full of unexplained technical terms. If there is no clear story or hook within the first few seconds, they will not scroll further. They are not looking for a statistics lesson — they want the data to feel relevant to their own listening experience.
-Gains: A surprising or counterintuitive insight — for example, that the most danceable songs are not always the most popular, or that a specific genre dominates in a particular audio dimension — would make the experience worthwhile. They leave satisfied if the product felt like a well-told story rather than a report, and if it gave them a new way to think about the music they already know.
+Gains: A surprising or counterintuitive insight, like finding that the most danceable songs are not always the most popular, or that a specific genre dominates in a particular audio dimension, would make the experience worthwhile. They leave satisfied if the product felt like a well-told story rather than a report, and if it gave them a new way to think about the music they already know.
 
 
 ## Situation Assessment
