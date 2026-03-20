@@ -19,9 +19,11 @@ The project aims to answer questions such as:
 
 The expected benefits of the project include:
 
-The project will produce an accessible, visually engaging exploration of what the data reveals about musical taste and popularity on one of the world's largest streaming platforms. For the general public and music enthusiasts, it offers an evidence-based window into the mechanics of hit songs. For the course, it demonstrates best practices in exploratory data analysis, visual encoding, and data storytelling using a rich, real-world dataset.
-
-The visualization product will be published as a GitHub Page (Quarto-based digital article or interactive web app), accessible online to lecturers and the public. All code, data processing steps, and visualizations will be fully reproducible within the team's GitHub repository.
+- An accessible, visually engaging exploration of what the data reveals about musical taste and popularity on one of the world's largest streaming platforms.
+- An evidence-based window into the mechanics of hit songs for general audiences and music enthusiasts.
+- A demonstration of best practices in exploratory data analysis, visual encoding, and data storytelling using a rich, real-world dataset.
+- A visualization product published as a GitHub Page, accessible online to lecturers and the public.
+- A fully reproducible codebase — all data processing steps and visualizations are documented and re-runnable from the team's GitHub repository.
 
 ## Project Objectives and Success Criteria
 
@@ -34,11 +36,12 @@ The visualization product will be published as a GitHub Page (Quarto-based digit
 
 ### Success criteria
 
-- Clearly communicate key drivers of song popularity.
-- Provide a genre-level audio comparison.
-- Visualization product accessible to non-expert users.
-- Fully reproducible analysis pipeline.
-- Product published and accessible online.
+- Each section of the data story identifies at least one named audio feature as a driver of popularity, supported by a visible chart.
+- At least three genres are compared side-by-side in the genre analysis section.
+- All charts include a plain-language caption and axis labels interpretable without prior data science knowledge.
+- All technical terms (e.g. valence, acousticness) are defined on first use in the narrative text.
+- The analysis pipeline runs end-to-end from a fresh clone of the repository without manual intervention.
+- The published GitHub Page loads and renders all charts correctly in a standard desktop browser.
 
 ### Out of scope
 
@@ -96,15 +99,13 @@ As defined in the scope section, the analysis is limited to a static Kaggle snap
 
 ### Risks
 
-1. Dataset quality issues such as missing values or outliers. Likelihood medium, impact medium. Mitigation: early EDA and documented cleaning rules.
-
-2. Uneven workload across roles. Likelihood medium, impact medium. Mitigation: clear ownership and regular team check ins.
-
-3. Bokeh charts may not render correctly in Quarto output. Likelihood medium, impact high. Mitigation: integration test early and keep a static fallback option.
-
-4. Scope creep toward predictive modelling. Likelihood low, impact medium. Mitigation: keep strict boundaries from the charta scope definition.
-
-5. Time pressure close to submission. Likelihood high, impact medium. Mitigation: reserve final buffer time and use coaching feedback early.
+| # | Risk | Likelihood | Impact | Mitigation |
+|---|------|-----------|--------|------------|
+| 1 | Dataset quality issues (missing values, outliers) | Medium | Medium | Early EDA and documented cleaning rules |
+| 2 | Uneven workload across roles | Medium | Medium | Clear ownership and regular team check-ins |
+| 3 | Bokeh charts not rendering correctly in Quarto output | Medium | High | Integration test early; keep a static fallback option |
+| 4 | Scope creep toward predictive modelling | Low | Medium | Strict boundaries enforced by charta scope definition |
+| 5 | Time pressure close to submission | High | Medium | Reserve buffer time in final week; use coaching feedback early |
 
 ## Visualization Concept
 ### Product Form
@@ -152,6 +153,8 @@ The visual style is clear and engaging. The genre filter increases personal rele
 
 
 ## Project Plan
+
+The data report and visual design phases intentionally overlap by approximately ten days (late April). This allows the visualisation work to begin on preliminary findings while the data report is being finalised, reducing idle time between phases.
 
 ```{mermaid}
 %%| label: fig-project-plan
