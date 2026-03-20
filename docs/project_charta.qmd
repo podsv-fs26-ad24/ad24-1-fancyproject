@@ -195,7 +195,7 @@ The data report and visual design phases intentionally overlap by approximately 
 gantt
     title Project Plan
     dateFormat YYYY-MM-DD
-    axisFormat %d-%m-%Y
+    axisFormat %d %b
     tickInterval 1week
     section Project Understanding
         Team setup and dataset selection     :done, a1, 2026-03-04, 7d
