@@ -1,27 +1,37 @@
 # Meeting Notes
 
-Notes and decisions from the coaching sessions. You might also want to include notes from internal team meetings here, e.g. to document decisions that are relevant for the project and the development of the visualisation product. Sort in reverse chronological order (most recent first).
+Notes and decisions from the coaching sessions as well as team meetings
 
+## 26.03.2026
 
-## 14.04.2022
+**PODSV Coaching 1** — Feedback on Project Charta
 
 Topics:
 
-* topic 1
-* topic 2
-* ...
+* Personas (Section 1.4) are too abstract — described as generic archetypes without names, ages, or specific life context; feedback requires a *konkrete Person* for each persona
+* Conflicting audience orientation across the two personas — one is data-literate, the other a casual listener; need to commit to one primary audience (Hauptzielgruppe)
+* Missing publication context — "GitHub Pages" is only a technical detail; the editorial context (e.g. music magazine, student journalism platform) is absent from Sections 1.6.1 and 1.3
+* Visualization concept (Section 1.6) reads like a list of chart types chosen for analytical completeness rather than for storytelling to the primary user; needs to be sharpened around the music fan's needs
+* Tool stack concerns: Bokeh integration in Quarto is unvalidated; for dashboard-like formats, Streamlit is recommended over Bokeh due to performance with ~114k tracks
 
 Decisions:
 
-* decision 1
-* decision 2
-* ...
+* Music fan is the primary audience; the course peer persona remains as a secondary, clearly subordinate audience
+* Both personas will be rewritten as concrete individuals with full name, age, city, and specific life details
+* An editorial/publication context will be added to Section 1.6.1 to anchor all design decisions
+* Each visualization in Section 1.6.2 will be re-justified from the music fan's perspective (what they want to *feel and learn*, not what the data allows)
+* Bokeh will be validated early with a minimal prototype before full implementation
+* Streamlit will be named explicitly as the fallback/alternative for a dashboard-like format, replacing the vague "static fallback" in Risk #3
 
 Next steps:
 
-* this
-* and that
-* ...
+* Rewrite both personas in Section 1.4 (name, age, city, study/job, specific habits)
+* Update Section 1.3 (Stakeholder Analysis) to reflect primary vs. secondary audience distinction
+* Add publication context paragraph to Section 1.6.1
+* Revise Section 1.6.2–1.6.4 to tie each chart and the narrative structure to the music fan's emotional journey (curiosity → surprise → insight)
+* Add Bokeh prototype validation note to Section 1.5.1
+* Update Risk #3 mitigation in Section 1.5.3 to explicitly name Streamlit as the fallback
+* Add conditional Streamlit note to Section 1.6.1
 
 ## 07.04.2022
 
