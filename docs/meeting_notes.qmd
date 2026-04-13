@@ -53,6 +53,13 @@ Decisions:
 
 Next steps:
 
-* Charlotte: export chart-ready CSV data for all 5 charts (
+* Charlotte: export chart-ready CSV data for all 5 charts 
 * Cécile: build test chart in Bokeh/Quarto to validate the tool stack
 * Angelina: draft story skeleton in `docs/index.qmd` 
+
+## 23.04.2026
+
+**PODSV Coaching 2- Feedback on updated project charta and current state**
+
+Questions:
+- Do we need to have the kaggle dataset downloadable in a script or just the instructions on the readme or raw under data/ ?

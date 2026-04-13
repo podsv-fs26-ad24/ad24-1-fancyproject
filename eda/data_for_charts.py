@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv("/Users/charlottewindlin/4.Semester/spotify_dataset.csv")
+df = pd.read_csv("../data/dataset.csv")
 df = df.drop(columns=["Unnamed: 0"])
 df = df.drop_duplicates(subset="track_id")
 
