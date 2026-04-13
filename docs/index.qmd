@@ -1,16 +1,81 @@
-# Overview 
+---
+title: "Why Do Some Songs Blow Up on Spotify While Most Are Never Heard?"
+---
 
-This documentation describes the conception, development and evaluation of a data visualisation product. The goal of the project is to ....
+<!-- Story skeleton — Angelina, April 2026 -->
+<!-- Chart placeholders marked for Cécile. -->
 
-![The vizualization product development process](pics/vizproductprocess.png){#fig-vizprocess}
+## Opening
 
-The methodological procedure of this work follows the process model shown in @fig-vizprocess, which is based on the concepts on data product development outlined in @DoemerKempf2022_1000150238 and the [data science project-template](https://github.com/phonosync/dataviz-project-template) on github.
+<!-- Hook the reader. Set up the central question: why do some songs reach people and most don't?
+     No data yet — just pull them in. -->
 
-It comprises the following four main phases with the corresponding documentation artefacts:
+---
 
-* **Project Understanding** &rarr; [Project Charta](project_charta.qmd): Context analysis, stakeholder and user analysis (based on the Value Proposition Canvas), formulation of objectives, success criteria, constraints and the visualization concept.
-* **Data Acquisition and Exploration** &rarr; [Data Report](data_report.qmd): Identification and acquisition of relevant data sources, followed by exploratory data analysis to understand data quality and structure.
-* **Visual Encoding and Design** &rarr; [Visualization Design Report](viz_design_report.qmd): Documentation of the data-to-visual mapping, layout and composition, interaction design, visual style and the resulting prototype(s).
-* **Evaluation** &rarr; [Evaluation Report](evaluation.qmd): Assessment of the developed prototype based on success criteria outlined in the project charta, evaluation of stakeholder feedback, checkpoint decision and, if applicable, gathering additional requirements and planning of the deployment.
-* **Deployment** &rarr; [Deployment Report](deployment.qmd): Description of the software architecture and deployment process, as well as the integration of the visualization product into the target environment and processes.
+## Section 1 — How popular are most songs, really? {#sec-popularity}
 
+<!-- What goes here:
+     - The surprising reality of how skewed popularity is (most songs near zero)
+     - Sets up the "so what separates the rare ones?" question
+     - Should feel like the hook that makes the reader want to keep scrolling -->
+
+*[Chart 1 — Popularity distribution]*
+
+---
+
+## Section 2 — Which features are linked to popularity? {#sec-correlations}
+
+<!-- What goes here:
+     - Define the 9 audio features in plain language (one sentence each, first use)
+     - The key finding: correlations exist but are all weak — no single feature predicts popularity
+     - Strongest signal: instrumentalness (vocals help), then loudness and danceability
+     - Also: the features predict *each other* more than popularity -->
+
+*[Chart 2a — Feature-to-popularity correlations]*
+
+*[Chart 2b — Feature correlation matrix]*
+
+---
+
+## Section 3 — How do genres differ from each other? {#sec-genres}
+
+<!-- What goes here:
+     - Show how differently genres "sound" across the 9 features
+     - Classical and metal are at opposite extremes; pop and rock cluster in the middle
+     - Hip-hop leads on danceability; jazz and classical are calmest
+     - Reader can select genres to compare (interactive) -->
+
+*[Chart 3 — Genre radar chart with genre selector]*
+
+---
+
+## Section 4 — What does a hit actually sound like? {#sec-hits}
+
+<!-- What goes here:
+     - Compare top 10% vs bottom 10% in popularity
+     - Hits tend to be louder, more danceable, more energetic, less acoustic, less instrumental
+     - Valence (happy/sad) makes almost no difference — important finding
+     - IMPORTANT: be clear this is a pattern, not a formula. Correlation ≠ causation. -->
+
+*[Chart 4 — Hits vs non-hits comparison]*
+
+---
+
+## Section 5 — Where do genres sit on a happy/energetic map? {#sec-moodmap}
+
+<!-- What goes here:
+     - Map all 113 genres by valence (X: sad↔happy) and energy (Y: calm↔intense)
+     - Key finding: most music is energetic regardless of mood — the calm half is small
+     - Locate the 6 focus genres on the map
+     - This is the wrap-up section — ties everything together -->
+
+*[Chart 5 — Genre mood map]*
+
+---
+
+## Closing
+
+<!-- What goes here:
+     - Land the honest conclusion: no audio feature reliably predicts popularity
+     - Acknowledge what the data can't explain (timing, luck, discovery, marketing)
+     - End on something the reader takes with them -->
