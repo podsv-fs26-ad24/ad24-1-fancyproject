@@ -3,19 +3,17 @@ import numpy as np
 
 df = pd.read_csv("../data/dataset.csv")
 
-# ── Clean up ──────────────────────────────────────────────────────────────────
+# clean up 
 df = df.drop(columns=["Unnamed: 0"])
 df = df.drop_duplicates(subset="track_id")
 
-# Define the audio features we care about
+# define the audio features we care about
 FEATURES = [
     "danceability", "energy", "valence", "acousticness",
     "instrumentalness", "speechiness", "liveness", "loudness", "tempo"
 ]
 
-# ─────────────────────────────────────────────────────────────────────────────
 # QUESTION 1: Distribution of popularity
-# ─────────────────────────────────────────────────────────────────────────────
 print("=" * 60)
 print("Q1: POPULARITY DISTRIBUTION")
 print("=" * 60)
@@ -27,9 +25,7 @@ print(f"Songs with popularity 70–100:  {(df['popularity'] >= 70).sum():,}")
 print(f"\nMedian popularity: {df['popularity'].median()}")
 print(f"Mean popularity:   {df['popularity'].mean():.1f}")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # QUESTION 2: Which features correlate with popularity?
-# ─────────────────────────────────────────────────────────────────────────────
 print("\n" + "=" * 60)
 print("Q2: CORRELATION WITH POPULARITY")
 print("=" * 60)
@@ -41,7 +37,7 @@ for feat in correlations_sorted.index:
     direction = "↑ more popular" if r > 0 else "↓ less popular"
     print(f"  {feat:<20} r = {r:+.3f}   ({direction})")
 
-# Feature-to-feature correlation matrix (for heatmap later)
+# feature-to-feature correlation matrix (for heatmap later)
 feat_corr = df[FEATURES].corr().round(3)
 print("\nFeature correlation matrix (top pairs):")
 # Show only the strongest cross-correlations
@@ -54,9 +50,7 @@ pairs.sort(key=lambda x: abs(x[2]), reverse=True)
 for f1, f2, r in pairs[:8]:
     print(f"  {f1} ↔ {f2}: r = {r:+.3f}")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # QUESTION 3: How do genres differ?
-# ─────────────────────────────────────────────────────────────────────────────
 print("\n" + "=" * 60)
 print("Q3: GENRE DIFFERENCES")
 print("=" * 60)
@@ -66,7 +60,7 @@ print(f"\nTotal genres: {df['track_genre'].nunique()}")
 print(f"\nSongs per genre (sample):")
 print(df["track_genre"].value_counts().head(10))
 
-# Pick 6 representative genres for the report
+# pick 6 representative genres for the report
 FOCUS_GENRES = ["pop", "rock", "hip-hop", "classical", "metal", "jazz"]
 genre_df = df[df["track_genre"].isin(FOCUS_GENRES)]
 
@@ -80,9 +74,7 @@ print(pop_by_genre.head(15))
 print("...")
 print(pop_by_genre.tail(5))
 
-# ─────────────────────────────────────────────────────────────────────────────
 # QUESTION 4: What do hits vs non-hits sound like?
-# ─────────────────────────────────────────────────────────────────────────────
 print("\n" + "=" * 60)
 print("Q4: HITS VS NON-HITS")
 print("=" * 60)
@@ -108,9 +100,7 @@ comparison["direction"]  = comparison["difference"].apply(
 )
 print(comparison.round(3).to_string())
 
-# ─────────────────────────────────────────────────────────────────────────────
 # QUESTION 4b: Mood map — valence + energy by genre
-# ─────────────────────────────────────────────────────────────────────────────
 print("\n" + "=" * 60)
 print("Q4b: MOOD MAP — VALENCE + ENERGY BY GENRE")
 print("=" * 60)
