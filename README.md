@@ -1,11 +1,18 @@
-# Sample Project
-This is a template for a data visualization project using Python, uv for environment and package management and Quarto for documentation.
+# Spotify Data Story
 
-To adapt to your individual project change `sample` to the respective project name in the commands below
+An interactive data story exploring what makes Spotify tracks popular — built as a scrollable webpage with charts, plain-language insights, and no maths degree required.
 
-Adapt the `LICENSE` as required.
+## Dataset
 
-> To do: Provide a brief description of the project here.
+The project uses the [Spotify Tracks Dataset](https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset) from Kaggle (~114,000 songs, each with a popularity score and 9 audio features).
+
+**To download the dataset:**
+1. Create a free account at [kaggle.com](https://www.kaggle.com) if you don't have one.
+2. Go to the dataset page: https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset
+3. Click **Download** (you may need to accept the dataset terms).
+4. Unzip the downloaded file and place `dataset.csv` in the `data/` folder at the project root.
+
+The `data/` folder is already in `.gitignore` — do **not** commit the raw dataset to GitHub.
 
 ## Project Organisation
 The visualization product development is organised according to the following process model:
