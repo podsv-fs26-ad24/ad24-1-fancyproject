@@ -33,22 +33,26 @@ Next steps:
 * Update Risk #3 mitigation in Section 1.5.3 to explicitly name Streamlit as the fallback
 * Add conditional Streamlit note to Section 1.6.1
 
-## 07.04.2022
+## 10.04.2026
+
+**Team check-in — Genre decision + data status**
 
 Topics:
 
-* topic 1
-* topic 2
-* ...
+* Genre selection for the genre comparison section (Section 3 of the data story)
+* Charlotte's data exploration status
+* Scope of the final website: how many genres to feature in the interactive charts
 
 Decisions:
 
-* decision 1
-* decision 2
-* ...
+* **Six genres** will be featured across all charts: **Classical, Hip-Hop, Jazz, Metal, Pop, Rock**
+  * These 6 were selected because they cover the full range of audio feature space (classical and metal sit at opposite extremes; pop and rock cluster in the middle; hip-hop leads on danceability; jazz and classical are the calmest)
+  * They give both Lena (recognisable genres she knows) and Jonas (broad enough for meaningful comparison) what they need
+* Charlotte's analysis confirmed the dataset contains all 6 genres with ~1,000 songs each 
+* The mood map (Section 5) will include all 113 genres as dots, with these 6 highlighted
 
 Next steps:
 
-* this
-* and that
-* ...
+* Charlotte: export chart-ready CSV data for all 5 charts (
+* Cécile: build test chart in Bokeh/Quarto to validate the tool stack
+* Angelina: draft story skeleton in `docs/index.qmd` 
