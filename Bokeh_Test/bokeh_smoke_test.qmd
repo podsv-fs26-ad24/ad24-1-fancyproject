@@ -1,0 +1,34 @@
+---
+title: "Bokeh Smoke Test"
+format: html
+jupyter: python3
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+This page is a minimal compatibility check to confirm that Bokeh renders correctly inside Quarto.
+
+```{python}
+from bokeh.plotting import figure, show
+
+x = [1, 2, 3, 4, 5]
+y = [3, 7, 5, 9, 6]
+
+p = figure(
+    title="Bokeh works in Quarto",
+    x_axis_label="Song index (dummy)",
+    y_axis_label="Popularity (dummy)",
+    width=650,
+    height=350,
+    tools="pan,wheel_zoom,box_zoom,reset,save",
+)
+
+p.circle(x, y, size=12, color="#1DB954", alpha=0.8)
+p.line(x, y, line_width=2, color="#191414", alpha=0.6)
+
+show(p)
+```
+
+If you can see and interact with the chart above after rendering, Bokeh integration is working.

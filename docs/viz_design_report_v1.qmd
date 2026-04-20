@@ -1,0 +1,126 @@
+# Visualization Design Report
+
+This report translates the project concept into a concrete visual design for the Spotify data story website. The goal is to make each section understandable within seconds for casual readers (Lena) while still being practically useful for musicians (Jonas).
+
+## Design Overview
+
+The product is a single long-form, scroll-based webpage with five chart sections. Each section answers one question and uses one primary visual to reduce cognitive load on mobile.
+
+Core design principles:
+
+- One key question per section.
+- Immediate takeaway sentence above every chart.
+- Consistent color language across the whole page.
+- Honest wording: patterns and associations, not causation claims.
+
+## Data-to-Visual Mapping
+
+: Data-to-visual mapping overview. {#tbl-encoding-overview}
+
+| View / Chart | Data variables | Mark type | Visual channels | Scale |
+|---|---|---|---|---|
+| 1. Popularity distribution | popularity (0-100), song count | bars | x-position: popularity bins, y-length: count, fill: single neutral hue | linear x, linear y (optionally log y if skew is extreme) |
+| 2a. Feature vs popularity | one feature + popularity | points | x-position: feature, y-position: popularity, alpha: density | linear x, linear y |
+| 2b. Feature correlation matrix | feature-feature correlation | tiles | x/y-position: features, fill color: correlation strength and sign | diverging scale (-1 to +1) |
+| 3. Genre profile radar | genre, normalized feature means | lines + polygon | angle: feature, radius: standardized value, color hue: genre | radial linear, normalized z-scores |
+| 4. Hits vs non-hits | feature means for top/bottom decile | bars (paired) | x-position: feature, y-length: group mean, hue: hit vs non-hit | categorical x, normalized linear y |
+| 5. Mood map | genre mean valence + energy | points | x-position: valence, y-position: energy, color hue: genre, point size: optional track count | linear x (0-1), linear y (0-1) |
+
+## Layout and Composition
+
+Spatial structure:
+
+- Intro block with one-sentence hook.
+- Five sections stacked vertically in narrative order.
+- Each section follows this pattern: question heading -> takeaway sentence -> chart -> short interpretation.
+
+Responsive behavior:
+
+- Mobile first width and readable labels without zooming.
+- Radar chart and correlation matrix get larger desktop versions.
+- Long legends collapse into dropdown selectors on small screens.
+
+Navigation:
+
+- Sidebar anchors to each section for desktop.
+- Short section IDs for direct linking and lecturer review.
+
+## Interaction Design
+
+Planned interactions and user tasks:
+
+1. Chart 1 (distribution): hover tooltip for bin range and exact count.
+2. Chart 2a (scatter): feature dropdown selector to swap x-variable quickly.
+3. Chart 2b (matrix): hover shows exact correlation value and feature pair.
+4. Chart 3 (radar): multi-select genre filter (default 3-4 genres).
+5. Chart 4 (hits vs non-hits): hover shows absolute and percentage gap.
+6. Chart 5 (mood map): hover with genre summary and number of tracks.
+
+Interaction goals:
+
+- Lena: instant pattern recognition and simple exploration.
+- Jonas: direct genre comparison and actionable production context.
+
+## Visual Style and Aesthetics
+
+Typography:
+
+- Sans-serif body text with strong heading hierarchy.
+- Short subtitles and annotations near key marks.
+
+Color system:
+
+- Neutral base palette for non-categorical charts.
+- Colorblind-safe categorical palette for genres (e.g., `ColorBrewer Set2` or `Tableau 10`).
+- Diverging palette for correlations centered at zero (e.g., blue-white-red).
+
+Accessibility:
+
+- Minimum AA contrast for text and annotations.
+- Do not rely on color alone; add labels or tooltips for critical comparisons.
+- Keep annotation text concise for small screens.
+
+## Prototype Description
+
+Current prototype status:
+
+- High-level structure exists in `index.qmd` with section placeholders.
+- Technical rendering risk for Bokeh in Quarto has been tested and resolved.
+
+Implemented smoke test:
+
+- File: `docs/bokeh_smoke_test.qmd`
+- Render command: `uv run quarto render docs/bokeh_smoke_test.qmd`
+- Result: successful render to `docs/build/bokeh_smoke_test.html` with interactive Bokeh output.
+
+Technology stack:
+
+- Quarto website (`docs/_quarto.yml`)
+- Python in Jupyter execution mode
+- Bokeh for interactive charts
+
+## Design Rationale and Iterations
+
+Key design decisions:
+
+- Histogram for chart 1 instead of box plot because it better communicates "most songs are near zero" at a glance.
+- Correlation matrix + scatter combination in chart 2 to avoid overinterpreting a single statistic.
+- Radar chart in chart 3 for fast "shape" comparison across genres.
+- Decile comparison in chart 4 to make hit vs non-hit differences concrete.
+- Valence-energy map in chart 5 as intuitive emotional wrap-up.
+
+Alternatives considered:
+
+- Violin plots for chart 1 (rejected: harder for non-technical readers).
+- Parallel coordinates for chart 3 (rejected: visually dense on mobile).
+
+## Conclusions and Next Steps
+
+The visual design is aligned with both personas: emotionally engaging for Lena and practically interpretable for Jonas. The highest technical risk (Bokeh embedding in Quarto) is cleared, so implementation can proceed chart by chart.
+
+Immediate next steps:
+
+1. Connect each chart to processed CSV outputs in `data/`.
+2. Build chart 1 and chart 2 first to lock narrative opening.
+3. Implement genre selector behavior before finalizing chart 3 styling.
+4. Add section-level annotation text directly in `index.qmd`.
