@@ -1,7 +1,6 @@
 ---
-format: pdf
+title: "Project Charta"
 ---
-# Project Charta
 ## Context and Scope
 
 This project sits at the intersection of music analytics and data storytelling. The dataset is the publicly available Spotify Tracks Dataset from Kaggle, containing approximately 114,000 tracks spanning 114 genres. Each track is described by audio features computed by Spotify's audio analysis engine (danceability, energy, valence, tempo, acousticness, loudness, speechiness, instrumentalness, and liveness), along with metadata such as genre, artist, album, duration, explicit flag, key, and mode. A popularity score (0–100) derived from Spotify's internal streaming algorithm serves as the primary response variable of interest. 
