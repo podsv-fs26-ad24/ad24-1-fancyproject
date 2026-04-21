@@ -10,11 +10,7 @@ FEATURES = [
     "instrumentalness", "speechiness", "liveness", "loudness", "tempo"
 ]
 
-# output folder — saves all CSV files into the project
-OUT = "/Users/charlottewindlin/4.Semester/PODSV/ad24-1-fancyproject/data/"
-
-import os
-os.makedirs(OUT, exist_ok=True)
+OUT = "../data/"
 
 # Chart 1: Popularity histogram
 pop_counts = df["popularity"].value_counts().sort_index().reset_index()
