@@ -89,9 +89,9 @@ Current prototype status:
 
 Implemented smoke test:
 
-- File: `docs/bokeh_smoke_test.qmd`
-- Render command: `uv run quarto render docs/bokeh_smoke_test.qmd`
-- Result: successful render to `docs/build/bokeh_smoke_test.html` with interactive Bokeh output.
+- File: `Bokeh_Test/bokeh_smoke_test.qmd`
+- Render command: `uv run quarto render Bokeh_Test/bokeh_smoke_test.qmd`
+- Result: successful render to `Bokeh_Test/bokeh_smoke_test.html` with interactive Bokeh output.
 
 Technology stack:
 

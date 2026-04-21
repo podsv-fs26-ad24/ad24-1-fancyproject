@@ -8,6 +8,10 @@ data/*.csv.zip
 # Quarto in docs
 docs/.quarto/
 
+# Quarto rendered outputs outside docs/ (e.g. smoke tests)
+Bokeh_Test/*.html
+Bokeh_Test/*_files/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
