@@ -59,7 +59,29 @@ Next steps:
 
 ## 23.04.2026
 
-**PODSV Coaching 2- Feedback on updated project charta and current state**
+**PODSV Coaching 2 — Feedback on updated project charta and current state**
 
-Questions:
-- Do we need to have the kaggle dataset downloadable in a script or just the instructions on the readme or raw under data/ ?
+Topics:
+
+* **Zusatznutzen (added value):** The project as planned is too close to what already exists on Kaggle — a clear differentiator is needed. One suggestion: let users upload their own Spotify listening history (downloadable as CSV from Spotify) to personalise the analysis. This is just one option; any feature that makes the project participatory or personalised would work.
+* **Interactivity:** Interactive and complex visualisations are explicitly valued. Hover tooltips, drill-downs, or linked views are good examples — they make sense on a webpage but are impossible in a static `.ipynb`. We must be able to argue *why* our approach adds more value than a simple bar chart.
+* **Dataset / reproducibility:** The Kaggle dataset does not need to live in the repo. Best practice is to separate data and code. At minimum, a clear README instruction must be provided so Dömer can reproduce the setup himself. A better option: host the dataset on a publicly accessible shared folder (e.g. SwitchDrive) with a stable URL — Dömer explicitly recommended this.
+* **Grading and submission:** Conceptual part graded by Wiebke, technical part by Dömer. Submission requires: a link to the GitHub repo (containing all code) + a link to the live product. Dömer has an example Streamlit/Quarto project that shows this exact setup — ask him for the link if we can't find it.
+* **Website structure:** Consider a landing page that links separately to the documentation/report and to the actual product/visualisations. Dömer offered to help set this up.
+* **Draft presentation (18 May):** This is purely a practice opportunity — we can present anything. The closer it is to our final presentation the more useful, but the main goal is to rehearse how we present (format, roleplay, interactive delivery, etc.). A possible slot: 21 May.
+
+Decisions:
+
+* We will define a clear Zusatznutzen — personalisation via Spotify history upload is the leading candidate.
+* Dataset will be hosted on SwitchDrive (or equivalent public URL) rather than committed to the repo.
+* A README with full reproduction instructions is mandatory.
+* We will prepare a landing page structure with separate links for the report and the product.
+* We will ask Dömer for his Streamlit/Quarto example link.
+
+Next steps:
+
+* Decide on and document the Zusatznutzen (personalisation feature or alternative)
+* Set up SwitchDrive folder and add dataset link to README
+* Draft reproduction instructions in README
+* Sketch landing page structure
+* Request Dömer's example project link if not found independently
