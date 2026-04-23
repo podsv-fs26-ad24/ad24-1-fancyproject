@@ -136,6 +136,32 @@ The fifth and final section closes the story with a **scatter plot of valence ve
 
 Interactivity is implemented through Bokeh and used selectively. The radar view allows users to choose genres for direct comparison. Scatter plots include hover tooltips with track name, artist, and feature values. A genre filter narrows scatter plots and box plots to a selected genre. Static charts such as the popularity histogram and the hit versus non hit bar chart remain unfiltered to preserve dataset context.
 
+The centrepiece of the product's interactivity is the "What would your song score?" slider panel, documented as the project's key differentiator in the section below.
+
+### Key Differentiator — "What would your song score?" Slider Panel
+
+The project's added value beyond a standard analysis is a fully interactive slider panel that lets any reader bring their own audio choices into the data story and immediately see how they compare.
+
+**What the panel does:**
+
+Five sliders let the user set values for danceability, energy, valence (positivity), acousticness, and tempo (BPM). As the sliders move, three things update in real time without any page reload:
+
+1. A "Your track" dot moves across the mood map (Section 5 — valence vs. energy, coloured by genre), showing where the reader's chosen profile sits in the emotional landscape of all 114,000 songs.
+2. An overlay line appears on the genre radar chart (Section 3), plotting the reader's five feature values against the average profiles of the six selected genres — making it immediately visible which genre the chosen combination most resembles.
+3. A plain-language readout below the sliders shows: *"Tracks with a similar audio profile average a popularity score of X / 100."* This figure is drawn from a pre-computed lookup table (binned by feature ranges) built from the actual dataset. It is framed explicitly as a population average, not a prediction or a formula for success.
+
+**Why this is impossible in a static Jupyter notebook:**
+
+Every other analysis of this dataset — including those on Kaggle — is delivered as a static notebook (`.ipynb`) or its exported equivalents (PDF, HTML snapshot). A static notebook has no mechanism for live user input: once rendered, the output is fixed. Even interactive notebook widgets (ipywidgets, Panel) require a running Python kernel on a server; they cannot be embedded in a self-contained webpage hosted on GitHub Pages without a backend. The real-time computation and visual updates the slider panel provides — a dot moving across a chart, an overlay redrawn on a radar, a readout changing value — require JavaScript callbacks that run entirely in the browser. Bokeh's client-side callback model enables exactly this, making the panel functional as a static HTML file with no server dependency. This is architecturally out of reach for any static notebook export.
+
+**What it adds for Lena (primary persona):**
+
+Lena reads the data story; the slider panel lets her participate in it. Instead of being told where "indie pop" or "hyperpop" sits on the mood map, she can dial in what she thinks her favourite genre sounds like and watch the dot move. This transforms a passive reading experience into a moment of personal recognition — the kind of small discovery she would share with friends. It raises her engagement past the 90-second threshold that determines whether she keeps reading, because the product is now responding to her.
+
+**What it adds for Jonas (secondary persona):**
+
+Jonas's core question is not answered by reading the hit versus non hit bar chart alone. He wants to know: given the specific audio choices I make in my own productions — the tempo I work in, the energy level, the harmonic mood — where would a track like mine actually land? The slider panel answers this directly and honestly. He can input values that reflect his own production style, overlay them on the genre radar to see which genre profile his sound most resembles, and read off a realistic popularity average for tracks with a similar profile. The framing as a population statistic rather than a prediction respects his stated scepticism about overclaiming causation, while still giving him a concrete and actionable reference point that no static chart in the product can provide alone.
+
 ### Narrative and Annotation
 
 Each section starts with a short plain-language question. Key findings are annotated directly in charts, for example with a mean marker in the popularity histogram or a label for the strongest correlation in the heatmap. Short transitions connect the sections into one coherent story. Technical terms such as valence and acousticness are explained on first use.
@@ -156,6 +182,9 @@ The Quarto narrative gives context before each chart. Annotations and simple def
 
 **Experiential and aesthetic value:**  
 The visual style is clear and engaging. The genre filter increases personal relevance and keeps users involved throughout the story.
+
+**Key differentiator — added value beyond a static analysis:**  
+The "What would your song score?" slider panel elevates the product from a data report into a participatory experience. For Lena, it creates a moment of personal relevance that motivates continued engagement. For Jonas, it closes the gap between reading about the data and actually using it to evaluate his own creative decisions. Because this functionality depends on live JavaScript callbacks and a pre-computed lookup table served through a static HTML file, it is structurally impossible to replicate in a Jupyter notebook export — making the webpage format not merely a stylistic choice but a functional requirement.
 
 
 ## Project Plan

@@ -2,15 +2,80 @@
 
 An interactive data story exploring what makes Spotify tracks popular — built as a scrollable webpage with charts, plain-language insights, and no maths degree required.
 
+**Live site:** [podsv-fs26-ad24.github.io/ad24-1-fancyproject](https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/)
+
+---
+
+## Quickstart — Run it from scratch
+
+Everything you need to go from a fresh clone to a running local website.
+
+### Prerequisites
+
+Install these once before you start:
+
+| Tool | Install |
+|------|---------|
+| Git | [git-scm.com](https://git-scm.com) |
+| uv (Python package manager) | [docs.astral.sh/uv](https://docs.astral.sh/uv/getting-started/installation/) |
+| Quarto | [quarto.org/docs/get-started](https://quarto.org/docs/get-started/) |
+
+> Python 3.12 is installed automatically by `uv sync` — you do **not** need to install it separately.
+
+### Steps
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/podsv-fs26-ad24/ad24-1-fancyproject.git
+cd ad24-1-fancyproject
+```
+
+**2. Set up the Python environment**
+```bash
+uv sync
+```
+This installs Python 3.12 and all required packages (bokeh, pandas, matplotlib, seaborn, jupyter, ydata-profiling, etc.) into a local `.venv` folder.
+
+**3. Download the dataset**
+```bash
+curl -L -o data/dataset.csv "https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download"
+```
+Or download manually — see the [Dataset](#dataset) section below.
+
+**4. Create your `.env` file**
+```bash
+# macOS / Linux
+cp .env.template .env
+
+# Windows (PowerShell)
+Copy-Item .env.template .env
+```
+
+**5. Preview the documentation website**
+```bash
+cd docs
+uv run quarto preview
+```
+This opens the site in your browser at a local URL (e.g. `http://localhost:4396`).
+
+To build a static version instead: run `uv run quarto render` from the `docs` folder. The output goes to `docs/build/`.
+
+---
+
 ## Dataset
 
 The project uses the [Spotify Tracks Dataset](https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset) from Kaggle (~114,000 songs, each with a popularity score and 9 audio features).
 
+The dataset is hosted on SwitchDrive so no Kaggle account is required.
+
 **To download the dataset:**
-1. Create a free account at [kaggle.com](https://www.kaggle.com) if you don't have one.
-2. Go to the dataset page: https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset
-3. Click **Download** (you may need to accept the dataset terms).
-4. Unzip the downloaded file and place `dataset.csv` in the `data/` folder at the project root.
+1. Download `dataset.csv` directly: [https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download](https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download)
+2. Place the file in the `data/` folder: `data/dataset.csv`.
+
+Or from the command line:
+```bash
+curl -L -o data/dataset.csv "https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download"
+```
 
 The `data/` folder is already in `.gitignore` — do **not** commit the raw dataset to GitHub.
 
@@ -27,15 +92,9 @@ Code and configurations used in the different project phases are stored in the c
 | Data Acquisition and Exploration | `eda` | Data Report | data_report.qmd  |
 | Visual Encoding and Design | `encoding-design`  | Visual Encoding and Design | viz_encoding_design.qmd  |
 | Evaluation | `evaluation`  | Evaluation | evaluation.qmd  |
-| Deployment | `deployment` | Deployment | deplyoment.qmd |
+| Deployment | `deployment` | Deployment | deployment.qmd |
 
-
-> To do: Adjust accoding to your specific project needs - ensure consistency with readme, documentation, etc.
-
-> To do: add link to documentation website for convenience.
-
-
-See section `Quarto Setup and Usage` for instructions on how to build and serve the documentation website using Quarto.
+See the [Quarto Setup and Usage](#quarto-setup-and-usage) section for instructions on how to build and serve the documentation website locally.
 
 ## Python Environment Setup and Management with uv
 Make sure to have uv installed: https://docs.astral.sh/uv/getting-started/installation/
