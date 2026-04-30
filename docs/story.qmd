@@ -5,36 +5,62 @@ toc: false
 page-layout: article
 ---
 
-<!-- Story skeleton — Angelina, April 2026 -->
+<!-- Story text — Angelina, April 2026 -->
 <!-- Chart placeholders marked for Cécile. -->
 
 ## Opening
 
-<!-- Hook the reader. Set up the central question: why do some songs reach people and most don't?
-     No data yet — just pull them in. -->
+There are over 100 million songs on Spotify. Every day, tens of thousands more are uploaded. And yet, when you look at the data, the vast majority of them exist in near-total silence. Not because they are bad. Not because no one tried. Simply because the platform is so large that most music never finds its way to a listener.
+
+That raises an obvious question. What separates the small fraction of songs that actually reach people from the ones that never do? Is it something you can hear? Something in the beat, the energy, the production? Or is it something the music itself cannot control?
+
+We took a dataset of 89'741 Spotify tracks, each one described by a popularity score and nine audio features that Spotify calculates automatically for every song on its platform. We wanted to know whether those features could explain popularity. What we found was more interesting than a clean answer.
 
 ---
 
 ## Section 1 — How popular are most songs, really? {#sec-popularity}
 
-<!-- What goes here:
-     - The surprising reality of how skewed popularity is (most songs near zero)
-     - Sets up the "so what separates the rare ones?" question
-     - Should feel like the hook that makes the reader want to keep scrolling -->
+The chart below shows the distribution of popularity scores across all 89'741 tracks in the dataset. The shape of it is striking. Popularity is measured on a scale from 0 to 100, where 0 means Spotify's algorithm registers almost no meaningful streaming activity. The chart shows that most songs pile up at the low end, with the distribution falling off steeply as scores rise.
 
 *[Chart 1 — Popularity distribution]*
+
+In concrete numbers: only 3.5% of tracks in the dataset score above 70, which we consider high popularity. Meanwhile, 10.5% have a score of exactly zero. They are completely unheard. The median score is 33, but that number is pulled upward by the rare tracks at the top. In reality, for every song that reaches a wide audience, there are dozens that never find one.
+
+This is the landscape that every artist releases into. The competition is not just other good songs. It is the sheer volume of everything else. The question is whether the audio characteristics of a track, the things a producer can actually control in the studio, have anything to do with which side of that gap a song ends up on.
 
 ---
 
 ## Section 2 — Which features are linked to popularity? {#sec-correlations}
 
-<!-- What goes here:
-     - Define the 9 audio features in plain language (one sentence each, first use)
-     - The key finding: correlations exist but are all weak — no single feature predicts popularity
-     - Strongest signal: instrumentalness (vocals help), then loudness and danceability
-     - Also: the features predict *each other* more than popularity -->
+Spotify automatically calculates nine audio features for every track on its platform. To understand whether any of them relate to popularity, we calculated the statistical correlation between each feature and the popularity score across all 89'741 songs. A correlation of 1.0 would mean a perfect relationship, 0 would mean no relationship at all.
+
+::: {.callout-note appearance="minimal" collapse="true"}
+## What do these audio features actually mean?
+
+**Danceability** — how well a track works for dancing, based on tempo, rhythm stability, and beat strength; 0 means nearly impossible to dance to, 1.0 means it was made for the floor.
+
+**Energy** — how intense and active a song feels; loud, fast, and dense tracks score high, while soft acoustic pieces score low.
+
+**Valence** — how positive or happy a track sounds; high valence is cheerful and upbeat, low valence is melancholic or dark.
+
+**Acousticness** — how likely a track is to use only acoustic instruments with no electronic production; a score near 1.0 means almost nothing was plugged in.
+
+**Instrumentalness** — how much of a track avoids vocals; scores above 0.5 suggest mostly instrumental music, while anything with regular singing scores near zero.
+
+**Speechiness** — how much of a track sounds like spoken words rather than music; rap and spoken-word tracks score high, most songs score below 0.1.
+
+**Liveness** — how likely a track is to have been recorded in front of a live audience; scores above 0.8 strongly suggest a concert recording.
+
+**Loudness** — the overall volume of a track in decibels (dB); values typically range from −60 dB (near silence) to 0 dB (as loud as a digital recording can go).
+
+**Tempo** — the speed of a track in beats per minute (BPM); a slow ballad sits around 60–80 BPM, a typical pop or dance track around 120–140 BPM.
+:::
 
 *[Chart 2a — Feature-to-popularity correlations]*
+
+The result is clear: none of the nine features strongly predicts popularity. The highest correlation in the entire dataset belongs to instrumentalness, at −0.127. That negative value means that tracks with fewer vocals tend to score lower in popularity, which makes intuitive sense given that most streamed music has singing in it. Loudness and danceability follow, but their correlations are even smaller. Energy, valence, and tempo show virtually no relationship with popularity at all.
+
+What the features do predict, however, is each other. The chart below shows how the nine features relate to one another. The two strongest pairs are energy and loudness (r = +0.759) and energy and acousticness (r = −0.733). In other words, loud tracks tend to feel intense, and intense tracks tend not to be acoustic. Danceability and valence also move together (r = +0.493): songs that sound happier are generally easier to dance to. These are strong, reliable patterns within the data. They just do not transfer to popularity.
 
 *[Chart 2b — Feature correlation matrix]*
 
@@ -42,43 +68,55 @@ page-layout: article
 
 ## Section 3 — How do genres differ from each other? {#sec-genres}
 
-<!-- What goes here:
-     - Show how differently genres "sound" across the 9 features
-     - Classical and metal are at opposite extremes; pop and rock cluster in the middle
-     - Hip-hop leads on danceability; jazz and classical are calmest
-     - Reader can select genres to compare (interactive) -->
+The dataset spans 113 genres, each with approximately 1'000 songs. Rather than look at all of them at once, we selected six that represent a wide range of sounds: Classical, Hip-Hop, Jazz, Metal, Pop, and Rock. The radar chart below shows the average audio profile of each genre across six features. Each axis of the chart represents one feature, and each line represents one genre. The further out a line extends on a given axis, the higher that genre scores on that feature.
 
 *[Chart 3 — Genre radar chart with genre selector]*
+
+The differences are dramatic. Classical sits at one extreme: it has the highest acousticness (0.920) and the lowest energy (0.197) of any focus genre, reflecting its reliance on acoustic instruments and its quieter, more measured character. Metal is the opposite in almost every dimension, with the lowest acousticness (0.036), the highest energy (0.841), and the fastest average tempo at 129 BPM. These two genres barely share a shape on the radar chart.
+
+Hip-Hop leads on danceability, scoring 0.730 on average, and is the least instrumental genre in the group at 0.013, which reflects its vocal-heavy and rhythm-driven character. Jazz and Classical are the calmest of the six. Pop and Rock sit in the middle on most features, scoring moderately on energy, danceability, and valence without standing out strongly in any single direction.
 
 ---
 
 ## Section 4 — What does a hit actually sound like? {#sec-hits}
 
-<!-- What goes here:
-     - Compare top 10% vs bottom 10% in popularity
-     - Hits tend to be louder, more danceable, more energetic, less acoustic, less instrumental
-     - Valence (happy/sad) makes almost no difference — important finding
-     - IMPORTANT: be clear this is a pattern, not a formula. Correlation ≠ causation. -->
+To get a direct comparison, we split all 89'741 tracks into two groups: the top 10% by popularity, which we call hits, and the bottom 10%, which we call non-hits. The hits group contains 9'806 tracks with a popularity score of 60 or above. The non-hits group contains 9'448 tracks with a score of exactly zero. The chart below compares the average audio feature values of both groups side by side.
 
 *[Chart 4 — Hits vs non-hits comparison]*
+
+Several differences are visible. Hits are louder on average, measuring at around −7.8 dB compared to −8.9 dB for non-hits. They score higher on danceability (0.595 versus 0.556) and energy (0.638 versus 0.580). They are less acoustic (0.279 versus 0.388) and less instrumental (0.078 versus 0.126). The pattern points in a consistent direction: hits tend to be produced, vocal-forward, energetic tracks rather than quiet or acoustic ones.
+
+One finding stands out for what it does not show. Valence, the measure of how happy or positive a song sounds, is nearly identical between hits and non-hits: 0.484 against 0.483. Whether a song sounds joyful or melancholic has almost no bearing on whether it becomes popular. It is one of the most counterintuitive findings in the data.
+
+It is important to state clearly that these are patterns, not a formula. A song can share every characteristic of a typical hit and still never find an audience. Correlation does not imply causation, and the differences between groups, while consistent, are modest. Many non-hit songs are louder and more danceable than many hits.
 
 ---
 
 ## Section 5 — Where do genres sit on a happy/energetic map? {#sec-moodmap}
 
-<!-- What goes here:
-     - Map all 113 genres by valence (X: sad↔happy) and energy (Y: calm↔intense)
-     - Key finding: most music is energetic regardless of mood — the calm half is small
-     - Locate the 6 focus genres on the map
-     - This is the wrap-up section — ties everything together -->
+The final chart places all 113 genres on a two-dimensional map. The horizontal axis runs from sad on the left to happy on the right, based on average valence. The vertical axis runs from calm at the bottom to intense at the top, based on average energy. Each dot represents one genre, coloured by broad category. The six focus genres are highlighted.
 
 *[Chart 5 — Genre mood map]*
+
+The map reveals something that is easy to miss when listening: the vast majority of music is energetic. Of the 113 genres, 47 fall in the sad and energetic quadrant and 46 in the happy and energetic quadrant. Together that is 82% of all genres. Only 20 genres sit in the calm half of the map, and they are dominated by styles like Classical, Jazz, Ambient, and Sleep.
+
+Among the six focus genres, Hip-Hop is the only one that sits in the happy and energetic quadrant. Metal sits furthest up the energy axis of any genre in the entire dataset, while remaining on the sadder side emotionally. Jazz and Classical cluster in the calm, lower-valence corner. Pop and Rock land close to each other, moderately energetic and slightly below the valence midpoint. The map makes the mood identity of each genre visible at a glance.
+
+---
+
+## What would your song score? {#sec-slider}
+
+Use the five sliders below to describe a track you have in mind. Set how danceable it feels, how intense the energy is, how happy it sounds, how acoustic it is, and the tempo. As you move the sliders, two things update in real time: your track's dot moves across the mood map above, showing where it sits relative to all 113 genres, and an overlay line appears on the radar chart, showing how your audio profile compares to Classical, Hip-Hop, Jazz, Metal, Pop, and Rock. Below the sliders you will see the average popularity score of actual Spotify tracks with a similar combination of features. This is not a prediction of your song's success, but an honest look at how tracks with that kind of profile have tended to perform on the platform.
+
+*[Jonas slider panel — 5 sliders + live mood map dot + radar overlay + popularity readout]*
 
 ---
 
 ## Closing
 
-<!-- What goes here:
-     - Land the honest conclusion: no audio feature reliably predicts popularity
-     - Acknowledge what the data can't explain (timing, luck, discovery, marketing)
-     - End on something the reader takes with them -->
+The data tells a consistent story, but not the one most people expect. No single audio feature reliably predicts whether a song will be popular. The correlations are real but small. Tracks that are louder, more danceable, and less acoustic do perform slightly better on average, but the overlap between hits and non-hits is enormous. For every quiet acoustic song that never finds an audience, there is one that becomes a cultural moment.
+
+What the data cannot measure is everything that happens outside the recording. Timing, algorithmic discovery, playlist placement, social media momentum, the right song reaching the right person at the right moment. These forces shape popularity more than danceability or acousticness ever could, and none of them appear in a CSV file.
+
+What the data can do is describe the landscape honestly. Most songs exist in silence. A small number reach people. The audio features of a track are one small part of a much larger picture, and understanding that picture starts with knowing what the numbers actually show and what they do not.
+

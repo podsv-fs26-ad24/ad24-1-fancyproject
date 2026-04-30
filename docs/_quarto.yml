@@ -7,8 +7,14 @@ language:
   section-title-appendices: "Appendix"
 
 website:
-  title: "Sample Project"
+  title: "Spotify Data Story"
   search: true
+  navbar:
+    left:
+      - text: "Data Story"
+        href: story.qmd
+      - text: "Documentation"
+        href: project_charta.qmd
   sidebar:
     style: "floating"
     search: true

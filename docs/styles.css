@@ -1,1 +1,316 @@
-/* css styles */
+/* ============================================================
+   Spotify Data Story — Global Styles
+   Palette: Spotify green #1DB954 / near-black #121212 / white #FFFFFF
+   Feel: editorial magazine (Pitchfork / The Pudding), not a lecture slide
+   Font: Figtree — closest free alternative to Spotify's Circular
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --spotify-green:   #1DB954;
+  --spotify-green-h: #1ed760;
+  --spotify-black:   #121212;
+  --text-primary:    #121212;
+  --text-muted:      #6B6B6B;
+  --border:          #E5E5E5;
+  --article-width:   680px;
+  --font:            'Figtree', system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Base ---------- */
+body {
+  font-family: var(--font);
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--text-primary);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Links ---------- */
+a {
+  color: var(--spotify-green);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   LANDING PAGE  (index.qmd — page-layout: full, no sidebar)
+   ============================================================ */
+
+/* Hide the auto-generated title block — we rely on the paragraph text below */
+.page-layout-full .quarto-title-block {
+  display: none;
+}
+
+/* Center everything vertically and horizontally */
+.page-layout-full #quarto-document-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+/* The subtitle paragraph — big, black, readable */
+.page-layout-full main p {
+  font-size: clamp(1.3rem, 3vw, 1.75rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  max-width: 600px;
+  margin: 0 auto 2.5rem auto;
+  line-height: 1.4;
+}
+
+/* Green accent on the Spotify word in the title text */
+.page-layout-full main p strong {
+  color: var(--spotify-green);
+}
+
+/* CTA buttons */
+/* Shared button base — both buttons are identical in size */
+.page-layout-full .btn-primary,
+.page-layout-full .btn-outline-secondary {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.75rem 2.25rem;
+  border-radius: 500px;
+  border: 2px solid transparent;
+  letter-spacing: 0.02em;
+  box-sizing: border-box;
+  min-width: 220px;
+  text-align: center;
+  margin: 0.4rem;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.page-layout-full .btn-primary {
+  background-color: var(--spotify-green);
+  border-color: var(--spotify-green);
+  color: #000;
+}
+.page-layout-full .btn-primary:hover {
+  background-color: var(--spotify-green-h);
+  border-color: var(--spotify-green-h);
+  color: #000;
+  transform: scale(1.03);
+  text-decoration: none;
+}
+
+.page-layout-full .btn-outline-secondary {
+  background-color: transparent;
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+}
+.page-layout-full .btn-outline-secondary:hover {
+  background-color: var(--text-primary);
+  border-color: var(--text-primary);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ============================================================
+   DATA STORY  (story.qmd — page-layout: article, no sidebar)
+   ============================================================ */
+
+/* Constrain article width and center it */
+.page-layout-article #quarto-document-content,
+.page-layout-article main {
+  max-width: var(--article-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Story title */
+.page-layout-article h1.title {
+  font-family: var(--font);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+/* Section headings */
+.page-layout-article h2 {
+  font-family: var(--font);
+  font-size: 1.65rem;
+  font-weight: 800;
+  margin-top: 3.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+  border-left: 4px solid var(--spotify-green);
+  padding-left: 0.75rem;
+}
+
+.page-layout-article h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 2rem;
+}
+
+/* Body copy */
+.page-layout-article p {
+  margin-bottom: 1.4rem;
+  color: var(--text-primary);
+}
+
+/* First paragraph after a section heading — slightly bolder lead-in */
+.page-layout-article h2 + p {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+/* Horizontal rules — thin green dividers */
+.page-layout-article hr {
+  border: none;
+  border-top: 2px solid var(--spotify-green);
+  opacity: 0.2;
+  margin: 3rem 0;
+}
+
+/* Audio term definitions callout — green accent, no distracting icon color */
+.page-layout-article .callout-note {
+  border-left: 4px solid var(--spotify-green);
+  background: #F0FDF4;
+  border-radius: 6px;
+}
+.page-layout-article .callout-note .callout-title {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.page-layout-article .callout-note strong {
+  color: var(--spotify-black);
+}
+
+/* Chart placeholder styling */
+.page-layout-article em {
+  display: block;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+  background: #F7F7F7;
+  border: 1px dashed #D0D0D0;
+  border-radius: 6px;
+  padding: 2rem 1rem;
+  margin: 2rem 0;
+}
+
+/* Tables */
+.page-layout-article table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1.5rem 0;
+}
+.page-layout-article thead th {
+  background: var(--spotify-black);
+  color: #fff;
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.page-layout-article tbody td {
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+.page-layout-article tbody tr:hover td {
+  background: #F0FDF4;
+}
+
+/* ============================================================
+   DOCUMENTATION PAGES  (with sidebar)
+   ============================================================ */
+
+#quarto-sidebar .sidebar-title {
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+#quarto-sidebar .sidebar-item-text {
+  font-size: 0.88rem;
+  font-family: var(--font);
+}
+
+#quarto-sidebar .active > .sidebar-item-text {
+  color: var(--spotify-green);
+  font-weight: 600;
+}
+
+#quarto-document-content h1 {
+  font-family: var(--font);
+  font-weight: 800;
+}
+
+#quarto-document-content h2 {
+  font-family: var(--font);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--border);
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   GLOBAL NAVBAR
+   ============================================================ */
+.navbar {
+  background: var(--spotify-black) !important;
+  border-bottom: 1px solid #333;
+}
+
+.navbar-brand,
+.navbar-brand:hover {
+  color: var(--spotify-green) !important;
+  font-family: var(--font);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.navbar .nav-link {
+  color: #B3B3B3 !important;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: #fff !important;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+  .page-layout-article #quarto-document-content,
+  .page-layout-article main {
+    padding: 0 1rem;
+  }
+  .page-layout-full #quarto-document-content {
+    padding: 3rem 1.25rem;
+  }
+}

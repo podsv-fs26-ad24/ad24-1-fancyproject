@@ -1,1 +1,27 @@
-# Deployment
+---
+title: "Deployment"
+---
+
+## How the website gets published
+
+This project uses GitHub Pages to host the website publicly. GitHub Pages is a free service that turns files in a GitHub repository into a live website anyone can open in a browser, with no server to manage and no hosting costs.
+
+The live URL is: [podsv-fs26-ad24.github.io/ad24-1-fancyproject](https://podsv-fs26-ad24.github.io/ad24-1-fancyproject)
+
+## The automated publish workflow
+
+Every time a team member pushes changes to the `main` branch, a GitHub Actions workflow runs automatically in the background. It checks out the latest code from the repository, renders the Quarto project into a set of HTML files, and publishes those files to the `gh-pages` branch, which GitHub Pages then serves as the live site. This means the live site is always up to date with whatever is on `main`, without any manual upload step. The workflow file is stored at `.github/workflows/publish.yml` in the repository.
+
+## How Python computations are handled
+
+The charts in this project are generated from Python code embedded in Quarto documents. Running Python in a cloud environment on every publish would require installing all dependencies each time and would take several minutes. Instead, the project uses Quarto's freeze feature (`execute: freeze: auto` in `_quarto.yml`).
+
+When a team member renders the site locally with `uv run quarto render`, Quarto executes all Python code and saves the results in a `docs/_freeze/` folder. That folder is committed to the repository alongside the source files. When GitHub Actions runs, it uses the cached results from `_freeze/` rather than re-running Python, so the cloud runner requires no Python installation at all. Whenever a chart is changed or new Python code is added, a local render must be run first and the updated `_freeze/` files must be committed together with the changes.
+
+## Publishing an update
+
+To publish an update, make the relevant changes to any `.qmd` file or Python script, then run `uv run quarto render` from the `docs/` folder to rebuild the site locally and update `_freeze/`. The output can be checked by opening `docs/build/index.html` in a browser. Once the result looks correct, all changed files including the updated `docs/_freeze/` entries are committed and pushed to `main`. The GitHub Actions workflow starts automatically and the live site reflects the changes after roughly one minute.
+
+## Initial setup
+
+The following steps were completed once at the start of the project and do not need to be repeated. The GitHub repository settings were updated to set the Pages source to GitHub Actions, under Settings and then Pages. The workflow file `.github/workflows/publish.yml` was created and pushed to `main`. An initial local render populated `docs/_freeze/` with baseline cached results.

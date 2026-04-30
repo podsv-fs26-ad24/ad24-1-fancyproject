@@ -3,6 +3,7 @@ title: "Spotify Data Story"
 sidebar: false
 toc: false
 page-layout: full
+body-class: landing-page
 ---
 
 What makes a song go viral on Spotify — and why do most tracks never find an audience?
