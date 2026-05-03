@@ -21,18 +21,39 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      # Quarto’s Python engine needs the same env as local dev (nbformat, jupyter, bokeh, …).
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync Python dependencies
+        run: uv sync
+
+      # story.qmd executes Python that reads data/dataset.csv (not committed).
+      - name: Download dataset for render
+        run: |
+          mkdir -p data
+          curl -fsSL -L -o data/dataset.csv "https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download"
+
       - name: Install librsvg
-        run: sudo apt-get install librsvg2-bin
+        run: sudo apt-get install -y librsvg2-bin
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           tinytex: true
 
+      # Composite render@v2 does not reliably inherit job env for Quarto’s kernel; run explicitly.
       - name: Render Quarto project
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          path: docs
+        env:
+          QUARTO_PYTHON: ${{ github.workspace }}/.venv/bin/python
+          QUARTO_PRINT_STACK: "true"
+        run: |
+          set -euo pipefail
+          test -x "${QUARTO_PYTHON}"
+          "${QUARTO_PYTHON}" -c "import nbformat; import bokeh, pandas; print('Python deps OK')"
+          quarto render docs
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
