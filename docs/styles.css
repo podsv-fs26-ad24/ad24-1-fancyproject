@@ -194,18 +194,18 @@ a:hover {
   color: var(--spotify-black);
 }
 
-/* Chart placeholder styling */
-.page-layout-article em {
-  display: block;
-  text-align: center;
-  color: var(--text-muted);
-  font-style: italic;
-  font-size: 0.9rem;
-  background: #F7F7F7;
-  border: 1px dashed #D0D0D0;
+/* Tip callout (figure gallery pointer) */
+.page-layout-article .callout-tip {
+  border-left: 4px solid var(--spotify-green);
+  background: #f8fdf9;
   border-radius: 6px;
-  padding: 2rem 1rem;
-  margin: 2rem 0;
+}
+
+/* Bokeh gallery — wide layouts scroll instead of clipping on small viewports */
+.page-layout-article .cell-output-display .bk-root,
+.page-layout-article .quarto-layout-panel .bk-root {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 /* Tables */
