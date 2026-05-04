@@ -37,9 +37,17 @@ uv sync
 This installs Python 3.12 and all required packages (bokeh, pandas, matplotlib, seaborn, jupyter, ydata-profiling, etc.) into a local `.venv` folder.
 
 **3. Download the dataset**
+
+macOS / Linux:
 ```bash
 curl -L -o data/dataset.csv "https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download"
 ```
+
+Windows (PowerShell):
+```powershell
+Invoke-WebRequest -Uri "https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download" -OutFile "data/dataset.csv"
+```
+
 Or download manually — see the [Dataset](#dataset) section below.
 
 **4. Create your `.env` file**
@@ -73,8 +81,15 @@ The dataset is hosted on SwitchDrive so no Kaggle account is required.
 2. Place the file in the `data/` folder: `data/dataset.csv`.
 
 Or from the command line:
+
+macOS / Linux:
 ```bash
 curl -L -o data/dataset.csv "https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download"
+```
+
+Windows (PowerShell):
+```powershell
+Invoke-WebRequest -Uri "https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download" -OutFile "data/dataset.csv"
 ```
 
 The `data/` folder is already in `.gitignore` — do **not** commit the raw dataset to GitHub.
