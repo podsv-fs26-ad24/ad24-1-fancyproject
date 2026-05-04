@@ -114,11 +114,13 @@ The last block in the gallery is the **interactive panel**: five sliders describ
 #| column: screen
 #| fig-cap: "Sections 1–5 and the slider tool: Bokeh runs in the page with inline resources; sliders and the genre filter use JavaScript callbacks so they stay responsive when the site is hosted on GitHub Pages."
 
-from bokeh.plotting import show
+from bokeh.resources import INLINE
+from bokeh.embed import file_html
+from IPython.display import HTML, display
 
 from bokeh_story import build_story_layout
 
-show(build_story_layout(), notebook_handle=False)
+display(HTML(file_html(build_story_layout(), INLINE)))
 ```
 
 ---
