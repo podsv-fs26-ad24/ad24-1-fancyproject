@@ -6,6 +6,17 @@ An interactive data story exploring what makes Spotify tracks popular — built 
 
 ---
 
+## Submission
+- Visualization Product (link to GitHub pages)
+- Code & Documentation (link to GitHub repo)
+- Presentation slides
+
+Submission via Moodle **All group members must confirm the submission** 01.06.2026
+
+Presentation on 8.06.2026 10min + 5min discussion
+
+---
+
 ## Quickstart — Run it from scratch
 
 Everything you need to go from a fresh clone to a running local website.
