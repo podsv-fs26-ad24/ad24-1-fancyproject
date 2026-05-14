@@ -777,6 +777,8 @@ for (let i = 0; i < ang2.length; i++) {
 }
 jonas_radar.data = {x: xs, y: ys};
 jonas_mood.data = {x: [v], y: [e]};
+jonas_radar.change.emit();
+jonas_mood.change.emit();
 if (pop === undefined) {
   readout.text = '<div style="font-size:13px;max-width:780px"><b>Matching-bin average popularity:</b> <i>no tracks in this exact bin combo</i> — nudge a slider.</div>';
 } else {
