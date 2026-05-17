@@ -3,66 +3,47 @@ title: "Spotify Data Story"
 sidebar: false
 toc: false
 page-layout: full
-body-class: landing-page
+format:
+  html:
+    body-class: landing-page
 ---
 
 ```{=html}
 <div class="landing-stage">
   <div class="landing-glow landing-glow--green" aria-hidden="true"></div>
   <div class="landing-glow landing-glow--purple" aria-hidden="true"></div>
+  <div class="landing-ring" aria-hidden="true"></div>
+
+  <div class="landing-visual" aria-hidden="true">
+    <div class="landing-eq">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span>
+    </div>
+  </div>
 
   <div class="landing-card">
-    <div class="landing-top-row">
-      <span class="landing-badge">Interactive data story</span>
-      <span class="landing-course">PODSV FS26 · ZHAW</span>
+    <img src="presentation-media/from-pptx/spotify-notes.svg" class="landing-logo" alt="" width="72" height="72" />
+    <p class="landing-eyebrow">Spotify data story</p>
+    <h1 class="landing-headline">Why do songs <span class="landing-accent">blow up</span>?</h1>
+
+    <div class="landing-pills">
+      <span>89,741 tracks</span>
+      <span class="landing-pill-dot" aria-hidden="true"></span>
+      <span>113 genres</span>
+      <span class="landing-pill-dot" aria-hidden="true"></span>
+      <span>~8 min</span>
     </div>
 
-    <div class="landing-brand">
-      <img src="presentation-media/from-pptx/spotify-notes.svg" class="landing-logo" alt="" width="48" height="48" />
-      <span class="landing-product">Spotify Data Story</span>
+    <div class="landing-actions">
+      <a href="story.html" class="landing-btn landing-btn-primary">
+        Explore the story <span class="landing-btn-arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="project_charta.html" class="landing-btn landing-btn-ghost">Docs</a>
     </div>
-
-    <h1 class="landing-headline">
-      Why do some songs <span class="landing-accent">blow up</span> on Spotify,<br />
-      while most tracks are <span class="landing-accent-alt">never heard</span>?
-    </h1>
-
-    <p class="landing-lead">
-      We explored 89,741 tracks to see what separates viral hits from the long tail: patterns, not a hit formula.
-    </p>
-
-    <div class="landing-stats">
-      <div class="landing-stat">
-        <span class="landing-stat-num">89,741</span>
-        <span class="landing-stat-label">tracks</span>
-      </div>
-      <div class="landing-stat">
-        <span class="landing-stat-num">113</span>
-        <span class="landing-stat-label">genres</span>
-      </div>
-      <div class="landing-stat">
-        <span class="landing-stat-num">~8 min</span>
-        <span class="landing-stat-label">scroll read</span>
-      </div>
-    </div>
-
-    <p class="landing-tagline">
-      Scroll through interactive charts: danceability, energy, genre profiles, and a popularity explorer.
-    </p>
-
-    <img src="presentation-media/wave-accent.svg" class="landing-wave" alt="" width="400" height="80" />
   </div>
 
-  <div class="landing-actions">
-    <a href="story.html" class="landing-btn landing-btn-primary">
-      Read the data story
-      <span class="landing-btn-arrow" aria-hidden="true">→</span>
-    </a>
-    <a href="project_charta.html" class="landing-btn landing-btn-secondary">
-      Project documentation
-    </a>
-  </div>
-
-  <p class="landing-team">Cécile Sulzer · Charlotte Windlin · Angelina Zambroni</p>
+  <img src="presentation-media/wave-accent.svg" class="landing-wave" alt="" width="320" height="64" />
+  <p class="landing-credit">Cécile Sulzer · Charlotte Windlin · Angelina Zambroni</p>
 </div>
 ```
