@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" fill="none" aria-hidden="true">
+  <path d="M0 40 Q25 10 50 40 T100 40 T150 40 T200 40 T250 40 T300 40 T350 40 T400 40" stroke="#1DB954" stroke-width="2" stroke-opacity="0.35"/>
+  <path d="M0 48 Q30 68 60 48 T120 48 T180 48 T240 48 T300 48 T360 48 T400 48" stroke="#9B5DE5" stroke-width="1.5" stroke-opacity="0.28"/>
+  <path d="M0 32 Q20 18 40 32 T80 32 T120 32 T160 32 T200 32 T240 32 T280 32 T320 32 T360 32 T400 32" stroke="#56CFE1" stroke-width="1" stroke-opacity="0.22"/>
+</svg>

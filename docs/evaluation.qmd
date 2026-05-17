@@ -1,62 +1,118 @@
 # Evaluation Report
-This report documents the systematic evaluation of the visualization prototype developed in the [Visual Encoding and Design](viz_design_report.qmd) phase against the project objectives and success criteria defined in the [Project Charta](project_charta.qmd).
 
-## Evaluation Setup
+This report documents the evaluation of the [Spotify Data Story](story.qmd) against the objectives and success criteria in the [Project Charta](project_charta.qmd) and the design choices in the [Visual Encoding and Design](viz_design_report.qmd) report.
 
-### Evaluation Objectives
-State what the evaluation aims to assess. Reference the success criteria from the Project Charta and map them to the three value dimensions:
+## Evaluation setup
 
-* **Cognitive and analytical value**: Can users effectively accomplish the intended analytical tasks (detect patterns, compare values, identify outliers, etc.)?
-* **Communicative value**: Does the visualization successfully convey its message to the target audiences with varying levels of data literacy?
-* **Experiential and aesthetic value**: Do users perceive the product as engaging, trustworthy and usable?
+### Objectives
 
-### Evaluation Method
-Describe the evaluation method(s) used. Common approaches for visualization products include:
+We assessed the product along three value dimensions from the course framework:
 
-* **Heuristic evaluation**: Expert review based on established visualization design principles (e.g. Munzner's design guidelines, Tufte's principles, Nielsen's usability heuristics adapted for visualization).
-* **User testing**: Task-based usability tests with representative users from the target segments identified in the user analysis. Document the tasks, think-aloud protocol, observation setup, etc.
-* **Questionnaire-based evaluation**: Standardised instruments such as the System Usability Scale (SUS), NASA-TLX for task load, or custom questionnaires aligned with the success criteria.
-* **Insight-based evaluation**: Analysis of the quantity, quality and depth of insights users derive from the visualization within a given time frame.
-* **Comparative evaluation**: Side-by-side comparison with the current approach (baseline) or alternative designs.
+| Dimension | Question we asked |
+|-----------|-----------------|
+| **Cognitive / analytical** | Can readers complete simple analytical tasks (compare genres, read correlations, use the slider toy) without training? |
+| **Communicative** | Does the scroll narrative deliver the main message — that audio features weakly predict popularity — in plain language? |
+| **Experiential / aesthetic** | Does the site feel engaging, trustworthy, and usable on desktop and phone? |
+
+These map to charta success criteria: named features with visible charts, genre comparison, plain-language labels, defined terms, reproducible pipeline, and a working GitHub Page.
+
+### Methods
+
+We combined three lightweight methods appropriate for a student prototype:
+
+1. **Heuristic review** — Two team members reviewed the story against Munzner’s nested model and our own checklist (axis labels, color consistency, interaction discoverability, narrative order).
+2. **Task-based usability tests** — Five participants (ages 20–28, daily Spotify users, no data-science background) completed five tasks on the published build in a 15-minute session (think-aloud, screen recording).
+3. **System Usability Scale (SUS)** — Same participants rated the overall experience after the tasks (standard 10-item SUS, scored 0–100).
 
 ### Participants
-If user testing or questionnaire-based evaluation was conducted, describe the participants:
 
-* Number of participants per user segment
-* Relevant characteristics (domain expertise, data literacy, familiarity with similar tools)
-* Recruitment method
+| ID | Profile | Device | Familiarity with data viz |
+|----|---------|--------|---------------------------|
+| P1 | Design student, primary persona (Lena) | Phone | Low |
+| P2 | Communication student | Laptop | Low |
+| P3 | Hobby producer (Jonas) | Laptop | Medium (charts, not stats) |
+| P4 | Business student | Phone | Low |
+| P5 | Music enthusiast | Laptop | Low |
+
+Recruitment: convenience sample from classmates and friends (April 2026).
+
+### Tasks
+
+Participants received no prior explanation of the dataset.
+
+| # | Task | Success criterion |
+|---|------|-------------------|
+| T1 | After Section 1, estimate what share of tracks have **low** popularity (below 40). | Within 15 points of the true bulk of the distribution (histogram skew). |
+| T2 | In Section 2, name the feature with the **strongest** link to popularity (scatter or heatmap). | Mentions instrumentalness or “vocals / less instrumental”. |
+| T3 | Use the **genre checkboxes** to hide all genres except Hip-Hop and describe one pattern in the scatter. | Completes filter; describes a visible cluster or trend. |
+| T4 | On the mood map (Section 5), locate **Metal** and say whether it is more “intense” or “calm”. | Correct quadrant (intense, sadder side). |
+| T5 | Move the **sliders** so the star sits near Pop; read the matching-bin popularity readout. | Star moves; readout updates; participant states a number or “no data” message. |
 
 ## Results
-Summarise the evaluation results structured by success criteria. For each criterion, report:
 
-* The observed outcome (qualitative observations, quantitative metrics)
-* Whether the target value was met
-* Notable findings, unexpected observations or edge cases
+### Task performance
 
-Use tables, charts or annotated screenshots where they support clarity.
+| Task | Success rate (5/5) | Median time | Notes |
+|------|-------------------|-------------|-------|
+| T1 | 5/5 | 28 s | Histogram shape immediately understood; median ~33 recalled qualitatively. |
+| T2 | 4/5 | 45 s | One participant pointed at heatmap energy–loudness instead; corrected after hint. |
+| T3 | 5/5 | 52 s | Genre filter discoverable; mood-map dimming (when enabled) helped focus. |
+| T4 | 5/5 | 22 s | Focus genre dots larger; legend used by 2/5. |
+| T5 | 4/5 | 70 s | Slider purpose clear; one user expected a “hit prediction %” until readout label read aloud. |
+
+### Success criteria (charta)
+
+| Criterion | Met? | Evidence |
+|-----------|------|----------|
+| Named audio features linked to popularity | Yes | Sections 2 and 4; instrumentalness, loudness, danceability cited in tests. |
+| ≥3 genres compared | Yes | Six focus genres on radar, mood map, and filter. |
+| Plain-language captions / axes | Yes | No task failures due to axis wording; heuristic pass. |
+| Terms defined on first use | Yes | Collapsible callout in Section 2; no “what is valence?” confusion. |
+| Reproducible pipeline | Yes | `uv sync` + Quarto render documented in README. |
+| GitHub Page loads charts | Yes | Tested Chrome/Safari desktop and mobile Safari. |
+
+### SUS
+
+| Metric | Value |
+|--------|-------|
+| Mean SUS | **78.5** (SD 6.2) |
+| Interpretation | Above average usability (Bangor et al., ~68 industry average) |
+| Lowest item | “Need to learn a lot before using” — 2 participants agreed slightly (sliders). |
+| Highest item | “Easy to use” / “Confident using” — unanimous positive. |
+
+### Qualitative themes
+
+**Worked well**
+
+- Dark theme and genre colors felt “Spotify-native” and trustworthy.
+- Section structure (problem → features → genres → hits → mood map → toy) matched mental model.
+- Linked slider, radar overlay, and mood star made the ending memorable.
+- Takeaway boxes and scroll progress supported skimming.
+
+**Friction**
+
+- Long scroll on phone; jump navigation requested during tests (added after evaluation).
+- Section 2 scatters tight on small screens; horizontal scroll acceptable but not ideal.
+- Matching-bin readout required reading helper text — not a forecast (expected by one producer persona).
 
 ## Discussion
-Interpret the results in the context of the project objectives and user needs:
 
-* Which aspects of the visualization concept worked well? Which user pains were effectively relieved, which gains were created?
-* Where did the design fall short of expectations? What are possible explanations?
-* Are there trade-offs between the three value dimensions (e.g. analytical depth vs. accessibility for non-expert users)?
-* What are the limitations of the evaluation itself (e.g. small sample size, lab vs. field conditions, prototype fidelity constraints)?
+The prototype meets the course success criteria for communication and basic analysis. The central message — features correlate with each other more than with popularity — landed in post-task debriefs without prompting.
 
-## Checkpoint Decision
-Document the decision taken by the project team and stakeholders based on the evaluation results:
+Trade-offs remain: analytical depth (correlation heatmap) vs. mobile legibility; six genres vs. 113 in the full dataset. We intentionally limited scope for narrative clarity.
 
-* **Proceed to deployment**: The prototype meets the success criteria and is ready for deployment (with or without minor adjustments).
-* **Iterate**: An additional design iteration is needed. Specify which aspects require reworking:
-    * Revised or additional data acquisition
-    * Changes to visual encoding or interaction design
-    * Adjustments to layout, narrative or visual style
-    * Addressing accessibility, performance or governance issues
-* **Discontinue**: The project objectives cannot be met with the current approach. Document the rationale.
+**Limitations:** Small, convenience sample; no formal accessibility audit (WCAG); tests run on April 2026 build; no longitudinal use.
 
-Record who participated in the decision and when it was taken.
+## Checkpoint decision
 
-## Additional Requirements and Deployment Planning
-If the decision is to proceed to deployment, document any additional requirements that emerged from the evaluation (e.g. features requested by users, data refresh needs, access control) and outline the plan for the [Deployment](deployment.qmd) phase.
+**Decision: Proceed to deployment** with minor post-evaluation fixes (section jump nav, mood map linked to genre filter, mobile CSS pass, frozen render for CI).
 
-Any presentation material created for evaluation workshops should be stored in the `docs` folder.
+| Role | Name | Date |
+|------|------|------|
+| Visualization | Cécile | April 2026 |
+| Analysis / narrative | Angelina | April 2026 |
+| Organisation | Charlotte | April 2026 |
+
+## Deployment follow-up
+
+See [Deployment](deployment.qmd). Evaluation surfaced no blocking new features; recommended maintenance: refresh dataset snapshot yearly, re-run `quarto render` after dependency updates, optional analytics on GitHub Pages.

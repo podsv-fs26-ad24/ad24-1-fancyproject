@@ -1,0 +1,1315 @@
+/* Reveal.js — Spotify Data Story (matches story + landing visual language) */
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --spotify-green: #1db954;
+  --spotify-green-h: #1ed760;
+  --accent-purple: #9b5de5;
+  --accent-cyan: #56cfe1;
+  --bg: #0e0e16;
+  --bg-elevated: #1c1c28;
+  --bg-card: rgba(28, 28, 40, 0.82);
+  --text: #f4f4f8;
+  --text-muted: #9ca3b8;
+  --border: #2e2e42;
+  --glow-green: rgba(29, 185, 84, 0.45);
+  --glow-purple: rgba(155, 93, 229, 0.35);
+}
+
+.reveal-viewport {
+  background: var(--bg);
+}
+
+.reveal {
+  font-family: 'Figtree', system-ui, sans-serif;
+  font-size: 34px;
+  color: var(--text);
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+/* Ambient gradient on every slide */
+.reveal .slides section {
+  padding: 0.5em 1.35em;
+  box-sizing: border-box;
+}
+
+.reveal .slides section:not(.title-slide)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 70% 55% at 8% 0%, rgba(29, 185, 84, 0.14), transparent 52%),
+    radial-gradient(ellipse 60% 50% at 95% 8%, rgba(155, 93, 229, 0.12), transparent 48%),
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(86, 207, 225, 0.08), transparent 45%);
+  pointer-events: none;
+}
+
+.reveal .slides section .slide-inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0.25em 0.35em;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+/* Dense slides: stay readable without clipping the top */
+.reveal .slides section.slide-dense .slide-inner {
+  justify-content: flex-start;
+  padding-top: 0.75em;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  font-family: 'Figtree', system-ui, sans-serif;
+  font-weight: 800;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: -0.025em;
+}
+
+.reveal h1 {
+  font-size: 1.75em;
+  line-height: 1.1;
+}
+
+.reveal h2 {
+  font-size: 1.35em;
+  margin: 0 0 0.65em;
+  padding: 0;
+  border: none;
+}
+
+.reveal h2.slide-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.reveal h2.slide-heading .slide-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.65em;
+  height: 1.65em;
+  padding: 0 0.35em;
+  font-size: 0.62em;
+  font-weight: 800;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--spotify-green), #12a045);
+  border-radius: 10px;
+  box-shadow: 0 4px 18px var(--glow-green);
+}
+
+.reveal h2::after {
+  display: none;
+}
+
+.reveal h3 {
+  font-size: 0.88em;
+  font-weight: 700;
+  color: var(--spotify-green-h);
+  margin: 0.4em 0 0.2em;
+}
+
+.reveal p,
+.reveal li {
+  color: var(--text);
+  line-height: 1.42;
+}
+
+.reveal strong {
+  color: var(--spotify-green-h);
+  font-weight: 700;
+}
+
+.reveal a {
+  color: var(--spotify-green-h);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(30, 215, 96, 0.35);
+}
+
+.reveal a:hover {
+  color: #fff;
+  border-bottom-color: var(--spotify-green-h);
+}
+
+/* ---------- Title slide ---------- */
+.reveal .slides section.title-slide {
+  text-align: center;
+}
+
+.reveal .slides section.title-slide::before {
+  background:
+    radial-gradient(ellipse 90% 70% at 0% 0%, rgba(29, 185, 84, 0.32), transparent 58%),
+    radial-gradient(ellipse 80% 60% at 100% 10%, rgba(155, 93, 229, 0.26), transparent 52%),
+    radial-gradient(ellipse 70% 50% at 55% 100%, rgba(86, 207, 225, 0.18), transparent 50%),
+    var(--bg);
+}
+
+.reveal .slides section.title-slide::after {
+  content: '';
+  position: absolute;
+  right: -8%;
+  top: 18%;
+  width: 42%;
+  height: 55%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(29, 185, 84, 0.12), transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.reveal .title-slide-inner {
+  position: relative;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2em 0.75em 0;
+  max-width: 56em;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.reveal .title-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65em;
+  flex-wrap: wrap;
+  margin-bottom: 0.85em;
+}
+
+.reveal .title-badge {
+  display: inline-block;
+  padding: 0.28em 0.65em;
+  border-radius: 999px;
+  font-size: 0.42em;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0e0e16;
+  background: linear-gradient(135deg, var(--spotify-green-h), var(--spotify-green));
+  box-shadow: 0 4px 20px var(--glow-green);
+}
+
+.reveal .title-course {
+  font-size: 0.44em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.reveal .title-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+  margin-bottom: 0.55em;
+}
+
+.reveal .title-logo {
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  filter: drop-shadow(0 4px 16px var(--glow-green));
+}
+
+.reveal .title-product {
+  font-size: 0.52em;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--spotify-green-h);
+}
+
+.reveal .title-headline {
+  margin: 0 0 0.35em;
+  max-width: none;
+  font-size: 2em;
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+
+.reveal .title-accent {
+  background: linear-gradient(135deg, var(--spotify-green-h), var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.reveal .title-accent-alt {
+  color: var(--accent-purple);
+}
+
+.reveal .title-lead {
+  margin: 0 auto 0.75em;
+  max-width: 42ch;
+  font-size: 0.65em;
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.reveal .title-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5em;
+  width: min(32em, 100%);
+  margin: 0 auto 0.75em;
+}
+
+.reveal .title-stat {
+  padding: 0.55em 0.5em;
+  border-radius: 14px;
+  border: 1px solid rgba(29, 185, 84, 0.35);
+  background: #1a1a26;
+  text-align: center;
+}
+
+.reveal .title-stat-num {
+  display: block;
+  font-size: 0.85em;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--spotify-green-h);
+}
+
+.reveal .title-stat-label {
+  display: block;
+  margin-top: 0.15em;
+  font-size: 0.44em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.reveal .title-footer {
+  border-top: 1px solid rgba(46, 46, 66, 0.7);
+  padding-top: 0.55em;
+  width: min(44em, 100%);
+  margin: 0 auto;
+}
+
+.reveal .title-team {
+  margin: 0;
+  font-size: 0.58em;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.reveal .title-dates {
+  margin: 0.25em 0 0;
+  font-size: 0.5em;
+  color: var(--text-muted);
+}
+
+.reveal .wave-deco.title-wave {
+  width: 100%;
+  max-width: none;
+  margin: 0.35em 0 0;
+  opacity: 0.85;
+}
+
+/* Legacy hero card (closing slide) */
+.reveal .hero-card {
+  max-width: 52em;
+  margin: 0 auto;
+  padding: 1.35em 1.5em 1.15em;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(ellipse 85% 65% at 15% 0%, rgba(29, 185, 84, 0.2), transparent 55%),
+    radial-gradient(ellipse 75% 55% at 90% 15%, rgba(155, 93, 229, 0.16), transparent 50%),
+    #1c1c28;
+  box-shadow:
+    0 28px 64px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+.reveal .title-eyebrow {
+  margin: 0 0 0.7em;
+  font-size: 0.5em;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--spotify-green);
+}
+
+.reveal .hero-card h1 {
+  margin: 0 auto 0.35em;
+  max-width: 16ch;
+  font-size: 1.45em;
+  font-weight: 900;
+}
+
+.reveal .hero-sub {
+  margin: 0 auto 1em;
+  max-width: 36ch;
+  font-size: 0.58em;
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.reveal .wave-deco {
+  width: min(320px, 70%);
+  margin: 0.5em auto 1em;
+  opacity: 0.9;
+}
+
+.reveal .stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65em;
+  margin: 0.85em 0 1em;
+  font-size: 0.48em;
+}
+
+.reveal .stat-pill {
+  padding: 0.65em 0.5em;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(14, 14, 22, 0.55);
+  backdrop-filter: blur(8px);
+}
+
+.reveal .stat-pill .num {
+  display: block;
+  font-size: 1.55em;
+  font-weight: 900;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--spotify-green-h), var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.reveal .stat-pill .lbl {
+  display: block;
+  margin-top: 0.2em;
+  color: var(--text-muted);
+  font-size: 0.88em;
+  font-weight: 500;
+}
+
+.reveal .team-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45em;
+  margin-top: 0.5em;
+  font-size: 0.44em;
+}
+
+.reveal .team-chip {
+  padding: 0.35em 0.75em;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(20, 20, 31, 0.7);
+  color: var(--text-muted);
+}
+
+.reveal .team-chip strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ---------- Agenda ---------- */
+.reveal .agenda-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55em;
+  margin-top: 0.35em;
+  font-size: 0.72em;
+  width: 100%;
+}
+
+.reveal .agenda-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65em;
+  padding: 0.7em 0.85em;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #1c1c28;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.reveal .agenda-item.highlight {
+  grid-column: 1 / -1;
+  border-color: rgba(29, 185, 84, 0.55);
+  background: linear-gradient(135deg, rgba(29, 185, 84, 0.14), rgba(155, 93, 229, 0.08));
+  box-shadow: 0 8px 32px rgba(29, 185, 84, 0.12);
+}
+
+.reveal .agenda-num {
+  flex-shrink: 0;
+  width: 1.75em;
+  height: 1.75em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95em;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--spotify-green), #159947);
+  border-radius: 10px;
+}
+
+.reveal .agenda-item.highlight .agenda-num {
+  background: linear-gradient(135deg, var(--accent-purple), var(--spotify-green));
+}
+
+.reveal .agenda-text strong {
+  display: block;
+  color: var(--text);
+  font-size: 1.05em;
+  margin-bottom: 0.15em;
+}
+
+.reveal .agenda-text span {
+  color: var(--text-muted);
+  font-size: 0.92em;
+  line-height: 1.35;
+}
+
+.reveal .slide-footer-note {
+  margin-top: 0.65em;
+  font-size: 0.5em;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ---------- Pull quote / takeaway ---------- */
+.reveal .pull-quote {
+  margin: 0.65em 0 0;
+  padding: 0.85em 1em 0.85em 0.95em;
+  border-left: 4px solid var(--spotify-green);
+  border-radius: 0 14px 14px 0;
+  background: linear-gradient(90deg, rgba(29, 185, 84, 0.14), rgba(14, 14, 22, 0.2));
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.28);
+  font-size: 0.82em;
+  line-height: 1.45;
+}
+
+.reveal .pull-quote p {
+  margin: 0;
+}
+
+.reveal .topic-body {
+  font-size: 0.68em;
+  color: var(--text-muted);
+  margin: 0.35em 0 0;
+  max-width: 52ch;
+}
+
+.reveal .topic-body strong {
+  color: var(--text);
+}
+
+/* ---------- Persona cards ---------- */
+.reveal .persona-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75em;
+  margin-top: 0.25em;
+  font-size: 0.58em;
+}
+
+.reveal .persona-card {
+  padding: 0.85em 0.95em;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: #1c1c28;
+  position: relative;
+  overflow: visible;
+}
+
+.reveal .persona-card.persona-card--flat {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  background: transparent;
+}
+
+.reveal .persona-card--flat .persona-name,
+.reveal .persona-card--flat .persona-role,
+.reveal .persona-card--flat .bullet-list,
+.reveal .persona-card--flat .bullet-list li {
+  color: #e2e6f0;
+}
+
+.reveal .persona-card.primary {
+  border-color: rgba(29, 185, 84, 0.45);
+  box-shadow: 0 12px 40px rgba(29, 185, 84, 0.1);
+}
+
+.reveal .persona-card.primary::after {
+  content: 'Primary';
+  position: absolute;
+  top: 0.65em;
+  right: 0.65em;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--spotify-green);
+  padding: 0.2em 0.5em;
+  border-radius: 6px;
+  background: rgba(29, 185, 84, 0.15);
+}
+
+.reveal .persona-head {
+  display: flex;
+  align-items: center;
+  gap: 0.65em;
+  margin-bottom: 0.55em;
+}
+
+.reveal .avatar {
+  width: 2.6em;
+  height: 2.6em;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.1em;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.reveal .avatar.lena {
+  background: linear-gradient(135deg, var(--accent-purple), #6d28d9);
+  box-shadow: 0 4px 16px var(--glow-purple);
+}
+
+.reveal .avatar.jonas {
+  background: linear-gradient(135deg, var(--accent-cyan), #0891b2);
+  box-shadow: 0 4px 16px rgba(86, 207, 225, 0.35);
+}
+
+.reveal .persona-name {
+  font-size: 1.15em;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.reveal .persona-role {
+  font-size: 0.88em;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.reveal .persona-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35em;
+  margin-bottom: 0.5em;
+}
+
+.reveal .tag {
+  font-size: 0.82em;
+  padding: 0.2em 0.55em;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.reveal .persona-q {
+  margin: 0;
+  font-size: 0.95em;
+  color: var(--text);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.reveal .tertiary-note {
+  margin-top: 0.55em;
+  font-size: 0.52em;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ---------- Narrative arc ---------- */
+.reveal .arc-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25em;
+  margin: 0.5em 0 0.65em;
+  font-size: 0.5em;
+}
+
+.reveal .arc-step {
+  flex: 1;
+  text-align: center;
+  padding: 0.5em 0.35em;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(20, 20, 31, 0.6);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.reveal .arc-step span {
+  display: block;
+  font-size: 1.35em;
+  margin-bottom: 0.15em;
+}
+
+.reveal .arc-arrow {
+  color: var(--border);
+  font-size: 0.9em;
+  flex-shrink: 0;
+}
+
+.reveal .story-spine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35em;
+  margin: 0.45em 0 0.55em;
+  font-size: 0.56em;
+}
+
+.reveal .story-spine span {
+  padding: 0.32em 0.7em;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(20, 20, 31, 0.75);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.reveal .story-spine span.active {
+  border-color: var(--spotify-green);
+  color: var(--spotify-green-h);
+  background: rgba(29, 185, 84, 0.12);
+  box-shadow: 0 0 20px rgba(29, 185, 84, 0.15);
+}
+
+.reveal .narrative-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.45em;
+  font-size: 0.52em;
+}
+
+.reveal .narrative-cell {
+  padding: 0.55em 0.65em;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.reveal .narrative-cell strong {
+  display: block;
+  font-size: 1.05em;
+  margin-bottom: 0.2em;
+  color: var(--spotify-green-h);
+}
+
+/* ---------- Feedback ---------- */
+.reveal .feedback-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.45em;
+  font-size: 0.64em;
+}
+
+.reveal .feedback-item {
+  display: flex;
+  gap: 0.5em;
+  align-items: flex-start;
+  padding: 0.55em 0.65em;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.reveal .feedback-item::before {
+  content: '?';
+  flex-shrink: 0;
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.85em;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--accent-purple), var(--spotify-green));
+  border-radius: 8px;
+}
+
+/* ---------- Demo slide ---------- */
+.reveal .slides section.demo-slide::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(29, 185, 84, 0.2), transparent 55%),
+    var(--bg);
+}
+
+.reveal .demo-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 1em;
+  align-items: center;
+  font-size: 0.74em;
+}
+
+.reveal .slide-note {
+  font-size: 0.72em;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.reveal .demo-mock {
+  padding: 1em;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(ellipse 85% 65% at 15% 0%, rgba(29, 185, 84, 0.18), transparent 55%),
+    radial-gradient(ellipse 75% 55% at 90% 15%, rgba(155, 93, 229, 0.14), transparent 50%),
+    var(--bg-elevated);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+  text-align: center;
+}
+
+.reveal .demo-mock .mock-eyebrow {
+  font-size: 0.75em;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--spotify-green);
+  margin-bottom: 0.5em;
+}
+
+.reveal .demo-mock .mock-title {
+  font-size: 1.15em;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 0.35em;
+}
+
+.reveal .demo-mock .mock-meta {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  margin-bottom: 0.75em;
+}
+
+.reveal .demo-mock .mock-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  height: 48px;
+  margin-bottom: 0.5em;
+}
+
+.reveal .demo-mock .mock-bar {
+  width: 8px;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--spotify-green-h), rgba(29, 185, 84, 0.35));
+}
+
+.reveal .btn-cta {
+  display: inline-block;
+  margin-top: 0.5em;
+  padding: 0.55em 1.1em;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95em;
+  color: #0e0e16 !important;
+  border: none !important;
+  background: linear-gradient(135deg, var(--spotify-green-h), var(--spotify-green));
+  box-shadow: 0 8px 28px var(--glow-green);
+}
+
+.reveal .demo-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0.35em 0 0;
+}
+
+.reveal .demo-steps li {
+  position: relative;
+  padding-left: 1.6em;
+  margin-bottom: 0.4em;
+  color: var(--text-muted);
+  font-size: 0.95em;
+}
+
+.reveal .demo-steps li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 0.55em;
+  height: 0.55em;
+  border-radius: 50%;
+  background: var(--spotify-green);
+  box-shadow: 0 0 10px var(--glow-green);
+}
+
+/* ---------- Thank you ---------- */
+.reveal .slides section.thanks-slide {
+  text-align: center;
+}
+
+.reveal .thanks-slide h2 {
+  font-size: 1.65em;
+  justify-content: center;
+}
+
+.reveal .thanks-slide .thanks-sub {
+  font-size: 0.65em;
+  color: var(--text-muted);
+  margin-top: 0.5em;
+}
+
+.reveal .thanks-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4em;
+  margin-top: 1em;
+  font-size: 0.48em;
+}
+
+.reveal .thanks-tags span {
+  padding: 0.35em 0.7em;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.reveal ul {
+  margin-left: 0;
+}
+
+.reveal ul li::marker {
+  color: var(--spotify-green);
+}
+
+.reveal .muted {
+  color: var(--text-muted);
+  font-size: 0.72em;
+}
+
+.reveal .progress span {
+  background: linear-gradient(90deg, var(--spotify-green), var(--accent-purple));
+  box-shadow: 0 0 12px var(--glow-green);
+}
+
+.reveal .slide-number,
+.reveal .footer {
+  color: var(--text-muted);
+  font-family: 'Figtree', sans-serif;
+  font-size: 13px;
+}
+
+.reveal .controls button {
+  color: var(--spotify-green);
+}
+
+/* ---------- Spotify icon (from Angelina's pptx) ---------- */
+.reveal .spotify-logo {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 0.65em;
+  display: block;
+  filter: drop-shadow(0 6px 20px var(--glow-green));
+}
+
+/* ---------- Persona with photo (pptx slides 3–4) ---------- */
+.reveal .persona-slide-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 1em;
+  align-items: center;
+  font-size: 0.7em;
+  width: 100%;
+}
+
+.reveal .persona-photo {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.reveal .bullet-list {
+  margin: 0.4em 0 0;
+  padding-left: 1.1em;
+  font-size: 0.95em;
+  color: #e2e6f0;
+  list-style: disc;
+}
+
+.reveal .bullet-list li {
+  margin-bottom: 0.35em;
+}
+
+/* ---------- Topic goals list ---------- */
+.reveal .goal-list {
+  font-size: 0.74em;
+  margin: 0.35em 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal .goal-list li {
+  position: relative;
+  padding: 0.45em 0 0.45em 1.5em;
+  border-bottom: 1px solid rgba(46, 46, 66, 0.6);
+  color: var(--text-muted);
+}
+
+.reveal .goal-list li::before {
+  content: '♪';
+  position: absolute;
+  left: 0;
+  color: var(--spotify-green);
+  font-weight: 700;
+}
+
+.reveal .insights-list {
+  font-size: 0.7em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reveal .insights-list li {
+  padding: 0.5em 0;
+  border-bottom: 1px solid rgba(46, 46, 66, 0.55);
+  line-height: 1.4;
+}
+
+.reveal .insights-list li:last-child {
+  border-bottom: none;
+}
+
+.reveal .insights-list li strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 0.2em;
+}
+
+.reveal .insights-list .insight-detail {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.95em;
+}
+
+.reveal .central-q {
+  margin-top: 0.65em;
+  padding: 0.65em 0.85em;
+  border-radius: 12px;
+  background: rgba(29, 185, 84, 0.1);
+  border: 1px solid rgba(29, 185, 84, 0.35);
+  font-size: 0.78em;
+  text-align: center;
+}
+
+/* ---------- Narrative (Martini glass etc.) ---------- */
+.reveal .narrative-table {
+  width: 100%;
+  font-size: 0.64em;
+  border-collapse: separate;
+  border-spacing: 0 0.35em;
+}
+
+.reveal .narrative-table td {
+  padding: 0.5em 0.65em;
+  border: none;
+  background: var(--bg-card);
+  border-radius: 10px;
+  vertical-align: top;
+}
+
+.reveal .narrative-table td:first-child {
+  width: 28%;
+  font-weight: 700;
+  color: var(--spotify-green-h);
+  background: rgba(29, 185, 84, 0.08);
+}
+
+/* ---------- Dataset slide ---------- */
+.reveal .dataset-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55em;
+  font-size: 0.64em;
+}
+
+.reveal .dataset-box {
+  padding: 0.6em 0.75em;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.reveal .dataset-box strong {
+  display: block;
+  color: var(--spotify-green-h);
+  margin-bottom: 0.25em;
+}
+
+.reveal .feature-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  margin-top: 0.35em;
+}
+
+.reveal .feature-chips span {
+  font-size: 0.88em;
+  padding: 0.2em 0.5em;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+/* ---------- Section divider ---------- */
+.reveal .slides section.section-divider {
+  text-align: center;
+}
+
+.reveal .section-divider h2 {
+  font-size: 2em;
+  border: none;
+  background: linear-gradient(135deg, var(--spotify-green-h), var(--accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.reveal .section-divider p {
+  font-size: 0.65em;
+  color: var(--text-muted);
+  margin-top: 0.5em;
+}
+
+/* ---------- Finding slides ---------- */
+.reveal .finding-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85em;
+  align-items: center;
+  font-size: 0.58em;
+}
+
+.reveal .finding-num {
+  font-size: 0.75em;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--spotify-green);
+  margin-bottom: 0.25em;
+}
+
+.reveal .finding-title {
+  font-size: 1.35em;
+  font-weight: 900;
+  line-height: 1.15;
+  margin: 0 0 0.45em;
+}
+
+.reveal .finding-stat {
+  font-size: 2.2em;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--spotify-green-h), var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.reveal .chart-mock {
+  padding: 0.85em;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.reveal .chart-mock-label {
+  font-size: 0.82em;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 0.5em;
+}
+
+.reveal .finding-chart {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+}
+
+.reveal .finding-chart-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.reveal .chart-skew .mock-bars {
+  align-items: flex-end;
+  height: 120px;
+}
+
+.reveal .chart-weak .corr-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.35em;
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
+
+.reveal .chart-weak .corr-bar .bar {
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--spotify-green), rgba(29, 185, 84, 0.3));
+}
+
+/* ---------- Tech stack ---------- */
+.reveal .tech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45em;
+  font-size: 0.62em;
+}
+
+.reveal .tech-cell {
+  padding: 0.6em;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.reveal .tech-cell strong {
+  display: block;
+  color: var(--spotify-green-h);
+  margin-bottom: 0.3em;
+  font-size: 1.05em;
+}
+
+/* Hide Quarto’s auto h2 (we use .slide-heading inside .slide-inner) */
+.reveal .slides section.slide > h2 {
+  display: none;
+}
+
+/* ---------- Closing slide ---------- */
+.reveal .slides section.closing-slide {
+  text-align: center;
+}
+
+.reveal .slides section.closing-slide > h2 {
+  display: none;
+}
+
+.reveal .slides section.closing-slide .slide-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+.reveal .closing-card {
+  max-width: 36em;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.reveal .closing-card .spotify-logo {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 0.5em;
+}
+
+.reveal .closing-card .title-eyebrow {
+  margin-bottom: 0.85em;
+}
+
+.reveal .closing-quote {
+  font-size: 1.2em;
+  font-weight: 800;
+  line-height: 1.4;
+  max-width: 24ch;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--text);
+}
+
+.reveal .closing-quote em {
+  font-style: normal;
+  color: var(--spotify-green-h);
+}
+
+.reveal .closing-card .thanks-sub {
+  margin: 1.25em 0 0;
+  font-size: 0.58em;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.reveal .closing-card .btn-cta {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* ---------- Findings — one slide, fragments ---------- */
+.reveal .slides section.findings-one-slide > h2 {
+  display: none;
+}
+
+.reveal .slides section.findings-one-slide .slide-inner {
+  padding-top: 0.2em;
+}
+
+.reveal .slides section.findings-one-slide .finding-layout {
+  margin-top: 0.35em;
+  font-size: 0.88em;
+}
+
+.reveal .slides section.findings-one-slide .finding-layout.fragment {
+  margin-bottom: 0;
+}
+
+.reveal .slides section.findings-one-slide .finding-chart {
+  max-height: 280px;
+}
+
+.reveal .slides section.findings-one-slide h2.slide-heading {
+  margin-bottom: 0.25em;
+}

@@ -804,7 +804,16 @@ else:
         f"{_pop0:.1f} / 100</div>"
     )
 
-full = column(p1, sec2_block, p3, p3b, p4, p5, panel)
+global _STORY_SECTIONS
+_STORY_SECTIONS = {
+    "sec1": p1,
+    "sec2": sec2_block,
+    "sec3": column(p3, p3b),
+    "sec4": p4,
+    "sec5": p5,
+    "slider": panel,
+}
+full = column(*_STORY_SECTIONS.values())
 show(full)
 '''
 
@@ -840,12 +849,52 @@ def _code_main_for_quarto_site() -> str:
 
 
 _story_body = textwrap.indent(CODE_SETUP + "\n\n" + _code_main_for_quarto_site(), "    ")
+_embed_helpers = '''
+_STORY_SECTIONS = None
+_EMBED_CACHE = None
+_STORY_SECTION_ORDER = ("sec1", "sec2", "sec3", "sec4", "sec5", "slider")
+
+
+def _ensure_embed_cache() -> None:
+    global _EMBED_CACHE
+    if _STORY_SECTIONS is None:
+        build_story_layout()
+    if _EMBED_CACHE is not None:
+        return
+    from bokeh.embed import components
+
+    roots = [_STORY_SECTIONS[sid] for sid in _STORY_SECTION_ORDER]
+    script, divs = components(roots)
+    _EMBED_CACHE = (script, divs)
+
+
+def story_figure_html(section_id: str, *, centered: bool = False) -> str:
+    """Return the embeddable HTML div for one story section (shared Bokeh document)."""
+    _ensure_embed_cache()
+    idx = _STORY_SECTION_ORDER.index(section_id)
+    html = _EMBED_CACHE[1][idx]
+    if not centered:
+        return html
+    return f'<div class="story-figure-center">{html}</div>'
+
+
+def story_scripts_html() -> str:
+    """Bokeh JS library + embed script (call once, after all section divs)."""
+    from bokeh.resources import INLINE
+
+    _ensure_embed_cache()
+    return INLINE.render_css() + INLINE.render_js() + _EMBED_CACHE[0]
+'''
 STORY_BOKEH_PATH.write_text(
     '"""Bokeh layout for the Quarto data story (auto-generated).\n\n'
     "Regenerate from project root: ``uv run python docs/viz/generate_phase2_notebook.py``\n"
     '"""\n\n'
+    "_STORY_SECTIONS = None\n"
+    "_EMBED_CACHE = None\n"
+    '_STORY_SECTION_ORDER = ("sec1", "sec2", "sec3", "sec4", "sec5", "slider")\n\n'
     "def build_story_layout():\n"
-    + _story_body,
+    + _story_body
+    + _embed_helpers,
     encoding="utf-8",
 )
 print("Wrote", STORY_BOKEH_PATH)

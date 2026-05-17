@@ -6,6 +6,14 @@ page-layout: full
 body-class: landing-page
 ---
 
+::: {.landing-hero}
+<div class="landing-preview" aria-hidden="true">
+  <p class="landing-preview-eyebrow">Spotify Data Story</p>
+  <p class="landing-preview-title">Why do some songs blow up?</p>
+  <p class="landing-preview-meta">89,741 tracks · interactive charts · ~8 min read</p>
+</div>
+:::
+
 What makes a song go viral on Spotify — and why do most tracks never find an audience?
 We dug into the data to find out.
 
