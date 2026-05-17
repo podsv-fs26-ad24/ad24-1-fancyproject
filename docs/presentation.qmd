@@ -238,14 +238,14 @@ format:
     <div>
       <p class="slide-note" style="margin:0 0 0.65em">Open the visualization product in a second tab (fullscreen).</p>
       <ul class="demo-steps">
-        <li><strong>Hook:</strong> popularity histogram (Section 1)</li>
-        <li><strong>Highlight:</strong> feature correlations + genre filter (Section 2)</li>
-        <li><strong>Finale:</strong> “What would your song score?” slider (Section 6)</li>
+        <li><strong>Hook:</strong> <a href="https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/story.html#sec-popularity">popularity chart</a></li>
+        <li><strong>Highlight:</strong> <a href="https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/story.html#sec-correlations">features + genre filter</a></li>
+        <li><strong>Finale:</strong> <a href="https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/story.html#sec-slider">“What would your song score?”</a></li>
       </ul>
       <p style="margin-top:0.85em">
-        <a href="https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/story.html" class="btn-cta">Open story.html →</a>
+        <a href="https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/story.html#sec-popularity" class="btn-cta">Open data story →</a>
       </p>
-      <p class="slide-note" style="margin-top:0.45em;word-break:break-all">Visualization product (for reviewers):<br/>https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/story.html</p>
+      <p class="slide-note" style="margin-top:0.45em;word-break:break-all">Live site:<br/>https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/</p>
     </div>
     <div class="demo-mock">
       <p class="mock-eyebrow">Tool demo</p>

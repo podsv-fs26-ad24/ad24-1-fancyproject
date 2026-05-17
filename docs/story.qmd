@@ -1,16 +1,18 @@
 ---
 title: "Why Do Some Songs Blow Up on Spotify While Most Are Never Heard?"
 subtitle: "An interactive data story on 89,741 Spotify tracks — popularity, audio features, and genre"
+number-sections: false
 sidebar: false
 toc: false
 page-layout: article
 format:
   html:
+    theme: darkly
     body-classes: story-page
     resources:
       - story-extras.js
 execute:
-  freeze: true
+  freeze: auto
 ---
 
 <!-- Story text — Angelina, April 2026 -->
