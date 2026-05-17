@@ -281,44 +281,306 @@ a:hover {
   text-decoration: none;
 }
 
-body.landing-page .landing-hero {
-  width: min(520px, 92vw);
-  margin: 0 auto 2rem auto;
+body.landing-page .quarto-navbar {
+  background: rgba(20, 20, 31, 0.72) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(46, 46, 66, 0.6);
 }
 
-body.landing-page .landing-preview {
-  padding: clamp(1.75rem, 4vw, 2.5rem) clamp(1.25rem, 3vw, 2rem);
-  border-radius: 18px;
-  border: 1px solid var(--border);
+body.landing-page .page-layout-full #quarto-document-content {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 3.5rem);
+  padding: clamp(2rem, 5vh, 3.5rem) clamp(1rem, 4vw, 2rem);
   background:
-    radial-gradient(ellipse 85% 65% at 15% 0%, rgba(29, 185, 84, 0.22), transparent 55%),
-    radial-gradient(ellipse 75% 55% at 90% 15%, rgba(155, 93, 229, 0.18), transparent 50%),
-    var(--bg-elevated);
-  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.48);
+    radial-gradient(ellipse 90% 70% at 0% 0%, rgba(29, 185, 84, 0.28), transparent 58%),
+    radial-gradient(ellipse 80% 60% at 100% 8%, rgba(155, 93, 229, 0.22), transparent 52%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(86, 207, 225, 0.14), transparent 50%),
+    var(--bg) !important;
+}
+
+body.landing-page .landing-stage {
+  position: relative;
+  z-index: 1;
+  width: min(44rem, 100%);
+  margin: 0 auto;
   text-align: center;
+  animation: landing-fade-in 0.7s ease-out both;
 }
 
-body.landing-page .landing-preview-eyebrow {
-  margin: 0 0 0.65rem 0;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+@keyframes landing-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.landing-page .landing-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(72px);
+  opacity: 0.55;
+  animation: landing-glow-pulse 8s ease-in-out infinite alternate;
+}
+
+body.landing-page .landing-glow--green {
+  width: min(420px, 70vw);
+  height: min(420px, 70vw);
+  left: -18%;
+  top: -8%;
+  background: rgba(29, 185, 84, 0.35);
+}
+
+body.landing-page .landing-glow--purple {
+  width: min(360px, 60vw);
+  height: min(360px, 60vw);
+  right: -14%;
+  bottom: 12%;
+  background: rgba(155, 93, 229, 0.28);
+  animation-delay: -3s;
+}
+
+@keyframes landing-glow-pulse {
+  from { opacity: 0.4; transform: scale(0.95); }
+  to   { opacity: 0.65; transform: scale(1.05); }
+}
+
+body.landing-page .landing-card {
+  position: relative;
+  padding: clamp(1.75rem, 4vw, 2.75rem) clamp(1.25rem, 3vw, 2rem) clamp(1.5rem, 3vw, 2rem);
+  border-radius: 22px;
+  border: 1px solid rgba(46, 46, 66, 0.85);
+  background:
+    radial-gradient(ellipse 85% 65% at 15% 0%, rgba(29, 185, 84, 0.2), transparent 55%),
+    radial-gradient(ellipse 75% 55% at 90% 15%, rgba(155, 93, 229, 0.16), transparent 50%),
+    linear-gradient(165deg, rgba(28, 28, 40, 0.98), rgba(20, 20, 31, 0.92));
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.52),
+    0 0 0 1px rgba(29, 185, 84, 0.08) inset;
+}
+
+body.landing-page .landing-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.1rem;
+}
+
+body.landing-page .landing-badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--spotify-green);
+  color: #0e0e16;
+  background: linear-gradient(135deg, var(--spotify-green-h), var(--spotify-green));
+  box-shadow: 0 4px 20px rgba(29, 185, 84, 0.35);
 }
 
-body.landing-page .landing-preview-title {
-  margin: 0 0 0.5rem 0;
-  font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+body.landing-page .landing-course {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+body.landing-page .landing-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+body.landing-page .landing-logo {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 4px 16px rgba(29, 185, 84, 0.45));
+}
+
+body.landing-page .landing-product {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--spotify-green-h);
+}
+
+body.landing-page .landing-headline {
+  margin: 0 0 0.85rem;
+  font-size: clamp(1.45rem, 4.2vw, 2.05rem);
   font-weight: 900;
-  line-height: 1.15;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
   color: var(--text-primary);
 }
 
-body.landing-page .landing-preview-meta {
-  margin: 0;
-  font-size: 0.92rem;
+body.landing-page .landing-accent {
+  background: linear-gradient(135deg, var(--spotify-green-h), #56cfe1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.landing-page .landing-accent-alt {
+  color: #9b5de5;
+}
+
+body.landing-page .landing-lead {
+  margin: 0 auto 1.25rem;
+  max-width: 38ch;
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.5;
   color: var(--text-muted);
+}
+
+body.landing-page .landing-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0 auto 1.15rem;
+  max-width: 28rem;
+}
+
+body.landing-page .landing-stat {
+  padding: 0.7rem 0.5rem;
+  border-radius: 14px;
+  border: 1px solid rgba(29, 185, 84, 0.35);
+  background: var(--bg-callout);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+body.landing-page .landing-stat:hover {
+  border-color: rgba(29, 185, 84, 0.6);
+  transform: translateY(-2px);
+}
+
+body.landing-page .landing-stat-num {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--spotify-green-h);
+}
+
+body.landing-page .landing-stat-label {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+body.landing-page .landing-tagline {
+  margin: 0 0 0.5rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+body.landing-page .landing-wave {
+  display: block;
+  width: min(100%, 22rem);
+  height: auto;
+  margin: 0.25rem auto 0;
+  opacity: 0.9;
+}
+
+body.landing-page .landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+body.landing-page .landing-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 200px;
+  padding: 0.8rem 1.75rem;
+  border-radius: 500px;
+  border: 2px solid transparent;
+  font-family: var(--font);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+}
+
+body.landing-page .landing-btn-primary {
+  background: var(--spotify-green);
+  border-color: var(--spotify-green);
+  color: #000;
+  box-shadow: 0 8px 28px rgba(29, 185, 84, 0.35);
+}
+
+body.landing-page .landing-btn-primary:hover {
+  background: var(--spotify-green-h);
+  border-color: var(--spotify-green-h);
+  color: #000;
+  transform: scale(1.03);
+  box-shadow: 0 10px 32px rgba(29, 185, 84, 0.45);
+  text-decoration: none;
+}
+
+body.landing-page .landing-btn-secondary {
+  background: transparent;
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+}
+
+body.landing-page .landing-btn-secondary:hover {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: var(--bg);
+  text-decoration: none;
+}
+
+body.landing-page .landing-btn-arrow {
+  display: inline-block;
+  transition: transform 0.15s;
+}
+
+body.landing-page .landing-btn-primary:hover .landing-btn-arrow {
+  transform: translateX(3px);
+}
+
+body.landing-page .landing-team {
+  margin: 1.35rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 520px) {
+  body.landing-page .landing-stats {
+    grid-template-columns: 1fr;
+    max-width: 14rem;
+  }
+
+  body.landing-page .landing-btn {
+    width: 100%;
+    max-width: 18rem;
+  }
 }
 
 /* ============================================================

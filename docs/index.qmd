@@ -6,16 +6,63 @@ page-layout: full
 body-class: landing-page
 ---
 
-::: {.landing-hero}
-<div class="landing-preview" aria-hidden="true">
-  <p class="landing-preview-eyebrow">Spotify Data Story</p>
-  <p class="landing-preview-title">Why do some songs blow up?</p>
-  <p class="landing-preview-meta">89,741 tracks · interactive charts · ~8 min read</p>
+```{=html}
+<div class="landing-stage">
+  <div class="landing-glow landing-glow--green" aria-hidden="true"></div>
+  <div class="landing-glow landing-glow--purple" aria-hidden="true"></div>
+
+  <div class="landing-card">
+    <div class="landing-top-row">
+      <span class="landing-badge">Interactive data story</span>
+      <span class="landing-course">PODSV FS26 · ZHAW</span>
+    </div>
+
+    <div class="landing-brand">
+      <img src="presentation-media/from-pptx/spotify-notes.svg" class="landing-logo" alt="" width="48" height="48" />
+      <span class="landing-product">Spotify Data Story</span>
+    </div>
+
+    <h1 class="landing-headline">
+      Why do some songs <span class="landing-accent">blow up</span> on Spotify,<br />
+      while most tracks are <span class="landing-accent-alt">never heard</span>?
+    </h1>
+
+    <p class="landing-lead">
+      We explored 89,741 tracks to see what separates viral hits from the long tail: patterns, not a hit formula.
+    </p>
+
+    <div class="landing-stats">
+      <div class="landing-stat">
+        <span class="landing-stat-num">89,741</span>
+        <span class="landing-stat-label">tracks</span>
+      </div>
+      <div class="landing-stat">
+        <span class="landing-stat-num">113</span>
+        <span class="landing-stat-label">genres</span>
+      </div>
+      <div class="landing-stat">
+        <span class="landing-stat-num">~8 min</span>
+        <span class="landing-stat-label">scroll read</span>
+      </div>
+    </div>
+
+    <p class="landing-tagline">
+      Scroll through interactive charts: danceability, energy, genre profiles, and a popularity explorer.
+    </p>
+
+    <img src="presentation-media/wave-accent.svg" class="landing-wave" alt="" width="400" height="80" />
+  </div>
+
+  <div class="landing-actions">
+    <a href="story.html" class="landing-btn landing-btn-primary">
+      Read the data story
+      <span class="landing-btn-arrow" aria-hidden="true">→</span>
+    </a>
+    <a href="project_charta.html" class="landing-btn landing-btn-secondary">
+      Project documentation
+    </a>
+  </div>
+
+  <p class="landing-team">Cécile Sulzer · Charlotte Windlin · Angelina Zambroni</p>
 </div>
-:::
-
-What makes a song go viral on Spotify — and why do most tracks never find an audience?
-We dug into the data to find out.
-
-[Read the data story](story.qmd){.btn .btn-primary role="button"}
-[Read the documentation](project_charta.qmd){.btn .btn-outline-secondary role="button"}
+```
