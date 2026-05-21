@@ -11,7 +11,7 @@ We assessed the product along three value dimensions from the course framework:
 | Dimension | Question we asked |
 |-----------|-----------------|
 | **Cognitive / analytical** | Can readers complete simple analytical tasks (compare genres, read correlations, use the slider toy) without training? |
-| **Communicative** | Does the scroll narrative deliver the main message — that audio features weakly predict popularity — in plain language? |
+| **Communicative** | Does the scroll narrative deliver the main message, that audio features weakly predict popularity, in plain language? |
 | **Experiential / aesthetic** | Does the site feel engaging, trustworthy, and usable on desktop and phone? |
 
 These map to charta success criteria: named features with visible charts, genre comparison, plain-language labels, defined terms, reproducible pipeline, and a working GitHub Page.
@@ -20,9 +20,9 @@ These map to charta success criteria: named features with visible charts, genre 
 
 We combined three lightweight methods appropriate for a student prototype:
 
-1. **Heuristic review** — Two team members reviewed the story against Munzner’s nested model and our own checklist (axis labels, color consistency, interaction discoverability, narrative order).
-2. **Task-based usability tests** — Five participants (ages 20–28, daily Spotify users, no data-science background) completed five tasks on the published build in a 15-minute session (think-aloud, screen recording).
-3. **System Usability Scale (SUS)** — Same participants rated the overall experience after the tasks (standard 10-item SUS, scored 0–100).
+1. **Heuristic review**: Two team members reviewed the story against Munzner’s nested model and our own checklist (axis labels, color consistency, interaction discoverability, narrative order).
+2. **Task-based usability tests**: Five participants (ages 20–28, daily Spotify users, no data-science background) completed five tasks on the published build in a 15-minute session (think-aloud, screen recording).
+3. **System Usability Scale (SUS)**: Same participants rated the overall experience after the tasks (standard 10-item SUS, scored 0–100).
 
 ### Participants
 
@@ -77,8 +77,8 @@ Participants received no prior explanation of the dataset.
 |--------|-------|
 | Mean SUS | **78.5** (SD 6.2) |
 | Interpretation | Above average usability (Bangor et al., ~68 industry average) |
-| Lowest item | “Need to learn a lot before using” — 2 participants agreed slightly (sliders). |
-| Highest item | “Easy to use” / “Confident using” — unanimous positive. |
+| Lowest item | “Need to learn a lot before using”, 2 participants agreed slightly (sliders). |
+| Highest item | “Easy to use” / “Confident using”, unanimous positive. |
 
 ### Qualitative themes
 
@@ -93,11 +93,11 @@ Participants received no prior explanation of the dataset.
 
 - Long scroll on phone; jump navigation requested during tests (added after evaluation).
 - Section 2 scatters tight on small screens; horizontal scroll acceptable but not ideal.
-- Matching-bin readout required reading helper text — not a forecast (expected by one producer persona).
+- Matching-bin readout required reading helper text, not a forecast (expected by one producer persona).
 
 ## Discussion
 
-The prototype meets the course success criteria for communication and basic analysis. The central message — features correlate with each other more than with popularity — landed in post-task debriefs without prompting.
+The prototype meets the course success criteria for communication and basic analysis. The central message, features correlate with each other more than with popularity, landed in post-task debriefs without prompting.
 
 Trade-offs remain: analytical depth (correlation heatmap) vs. mobile legibility; six genres vs. 113 in the full dataset. We intentionally limited scope for narrative clarity.
 

@@ -25,7 +25,7 @@ The expected benefits of the project include:
 - An evidence-based window into the mechanics of hit songs for general audiences and music enthusiasts.
 - A demonstration of best practices in exploratory data analysis, visual encoding, and data storytelling using a rich, real-world dataset.
 - A visualization product published as a GitHub Page, accessible online to lecturers and the public.
-- A fully reproducible codebase — all data processing steps and visualizations are documented and re-runnable from the team's GitHub repository.
+- A fully reproducible codebase, all data processing steps and visualizations are documented and re-runnable from the team's GitHub repository.
 
 ## Project Objectives and Success Criteria
 
@@ -59,31 +59,31 @@ The project team consists of three students, Angelina, Cécile, and Charlotte, e
 
 The course lecturers, Manuel Dömer and Wibke Weber, act as the primary clients and assessors of the project. They define the requirements, provide feedback during coaching sessions, and ultimately grade the deliverables. Their expectations shape all major decisions in the project, from the choice of visualisation forms to the structure of the documentation and the reproducibility of the code. They are the most influential stakeholders in terms of the project's direction and evaluation.
 
-The primary audience of the published product is music fans without a data background — people like Lena Bachmann (see Section 1.4), for whom music is a meaningful part of daily life and who are curious about what makes certain songs resonate. All visual and narrative design decisions are oriented toward this group. A secondary audience consists of aspiring or independent musicians like Jonas Müller (see Section 1.4), who encounter the product through music-adjacent online communities and bring a more specific question: does the data confirm their instincts about what makes tracks perform well? Their needs reinforce the same visualizations Lena requires but add a layer of practical relevance to the hit-versus-non-hit analysis. Fellow students in the course form a tertiary audience encountered during the oral presentation; they inform technical and documentation quality but not visual design choices.
+The primary audience of the published product is music fans without a data background, people like Lena Bachmann (see Section 1.4), for whom music is a meaningful part of daily life and who are curious about what makes certain songs resonate. All visual and narrative design decisions are oriented toward this group. A secondary audience consists of aspiring or independent musicians like Jonas Müller (see Section 1.4), who encounter the product through music-adjacent online communities and bring a more specific question: does the data confirm their instincts about what makes tracks perform well? Their needs reinforce the same visualizations Lena requires but add a layer of practical relevance to the hit-versus-non-hit analysis. Fellow students in the course form a tertiary audience encountered during the oral presentation; they inform technical and documentation quality but not visual design choices.
 
 ## User Analysis
 
 The visualization product targets two main user groups: casual music fans who are daily Spotify listeners, and independent musicians who produce and release their own music. Two personas are developed to represent these groups. Lena Bachmann is the primary persona and drives all design and narrative decisions. Jonas Müller is the secondary persona whose needs reinforce and sharpen the same choices.
 
-### Persona 1 — Lena Bachmann (Primary Audience)
+### Persona 1: Lena Bachmann (Primary Audience)
 
-Lena is 23 years old, studies communication design at ZHdK in Zürich, and commutes 40 minutes by S-Bahn every day with Spotify in her ears — mostly indie pop, some hyperpop, whatever the algorithm serves her. She follows music accounts on Instagram, occasionally reads articles on Pitchfork when a headline catches her eye, and has strong opinions about which songs deserve the attention they get. She has no coding or data science background and has never encountered "valence" or "acousticness" as technical terms. She discovers the product through a link shared in a group chat and opens it on her phone during her commute, giving it roughly 90 seconds before deciding whether to keep reading.
+Lena is 23 years old, studies communication design at ZHdK in Zürich, and commutes 40 minutes by S-Bahn every day with Spotify in her ears, mostly indie pop, some hyperpop, whatever the algorithm serves her. She follows music accounts on Instagram, occasionally reads articles on Pitchfork when a headline catches her eye, and has strong opinions about which songs deserve the attention they get. She has no coding or data science background and has never encountered "valence" or "acousticness" as technical terms. She discovers the product through a link shared in a group chat and opens it on her phone during her commute, giving it roughly 90 seconds before deciding whether to keep reading.
 
-**User tasks:** Lena wants to understand why some songs blow up and others disappear — but in a way that feels connected to her own listening experience, not like a university assignment. If something surprises her, she will share it with friends or bring it up in conversation. She is not looking for statistics; she wants the data to confirm, challenge, or reframe something she already feels about music.
+**User tasks:** Lena wants to understand why some songs blow up and others disappear, but in a way that feels connected to her own listening experience, not like a university assignment. If something surprises her, she will share it with friends or bring it up in conversation. She is not looking for statistics; she wants the data to confirm, challenge, or reframe something she already feels about music.
 
 **Pains:** Lena disengages immediately if the first screen feels academic, dry, or full of unexplained terms. If there is no clear hook within the first scroll, she closes the tab. She is also impatient with charts that require reading a legend before understanding what is being shown.
 
-**Gains:** A counterintuitive finding — for example, that the most danceable songs are not the most popular, or that a specific genre dominates a feature she associates with something else entirely — makes the experience worthwhile. She leaves satisfied if the product felt like a well-told story and gave her a new way to think about the music she already knows. The ideal emotional arc is: curiosity → surprise → insight.
+**Gains:** A counterintuitive finding, for example, that the most danceable songs are not the most popular, or that a specific genre dominates a feature she associates with something else entirely, makes the experience worthwhile. She leaves satisfied if the product felt like a well-told story and gave her a new way to think about the music she already knows. The ideal emotional arc is: curiosity → surprise → insight.
 
-### Persona 2 — Jonas Müller (Secondary Audience)
+### Persona 2: Jonas Müller (Secondary Audience)
 
 Jonas is 26 years old, lives in Basel, and produces electronic music in his bedroom studio under a project name he releases on SoundCloud and occasionally Spotify. He has a working knowledge of music theory and DAW software but no background in data science or statistics. He discovers the project through a Spotify-related thread on Reddit or a music production forum, clicks through wondering whether the data confirms or challenges his instincts about what makes tracks perform well on the platform. He accesses the product on a laptop, probably late at night after a production session.
 
-**User tasks:** Jonas wants to know whether the audio choices he makes — tempo, energy level, how much space he leaves in a track — are aligned with what actually gets traction. He is specifically drawn to any comparison between popular and non-popular tracks. He is not looking for a formula, but for evidence that either validates or complicates what he already believes about his genre.
+**User tasks:** Jonas wants to know whether the audio choices he makes, tempo, energy level, how much space he leaves in a track, are aligned with what actually gets traction. He is specifically drawn to any comparison between popular and non-popular tracks. He is not looking for a formula, but for evidence that either validates or complicates what he already believes about his genre.
 
-**Pains:** Jonas gets frustrated if the product only shows patterns without any plain-language interpretation. He also disengages if the scope stays too abstract — he wants to zoom into specific genres, not just see a global average. He is aware that correlation is not causation, so he will distrust findings that overstate certainty.
+**Pains:** Jonas gets frustrated if the product only shows patterns without any plain-language interpretation. He also disengages if the scope stays too abstract, he wants to zoom into specific genres, not just see a global average. He is aware that correlation is not causation, so he will distrust findings that overstate certainty.
 
-**Gains:** The hit-versus-non-hit comparison is the most valuable thing the product can show him. If the radar chart lets him compare his genre against others, or if the mood map shows him where his style sits relative to mainstream clusters, he leaves with a concrete new perspective on his own creative decisions. The note that the product describes patterns rather than prescriptions — what a hit sounds like, not how to make one — is important to establish from the beginning.
+**Gains:** The hit-versus-non-hit comparison is the most valuable thing the product can show him. If the radar chart lets him compare his genre against others, or if the mood map shows him where his style sits relative to mainstream clusters, he leaves with a concrete new perspective on his own creative decisions. The note that the product describes patterns rather than prescriptions, what a hit sounds like, not how to make one, is important to establish from the beginning.
 
 
 ## Situation Assessment
@@ -91,7 +91,7 @@ Jonas is 26 years old, lives in Basel, and produces electronic music in his bedr
 
 The project uses the Spotify Tracks Dataset from Kaggle as the main data source. It contains about 114000 tracks across 114 genres. The dataset is public, easy to access, and already sufficient for the planned analysis tasks.
 
-The team has three members with clear roles: organisation, visualisation, and analysis. The technical stack follows course tools only: Python with pandas and seaborn, Bokeh for interactivity, Quarto for structure and publication, and GitHub Pages for deployment. This setup needs no paid software and supports full reproducibility in the repository. Bokeh integration will be validated at the start of the implementation phase with a minimal standalone prototype — a single embedded interactive chart in a Quarto document — before any production chart work begins, to confirm rendering compatibility before the team commits to it.
+The team has three members with clear roles: organisation, visualisation, and analysis. The technical stack follows course tools only: Python with pandas and seaborn, Bokeh for interactivity, Quarto for structure and publication, and GitHub Pages for deployment. This setup needs no paid software and supports full reproducibility in the repository. Bokeh integration will be validated at the start of the implementation phase with a minimal standalone prototype, a single embedded interactive chart in a Quarto document, before any production chart work begins, to confirm rendering compatibility before the team commits to it.
 
 Time is the main constraint. The project runs from early March to June 1st 2026, with a coaching milestone on May 26th. The available work period is about twelve weeks across exploration, design, implementation, and finalisation.
 
@@ -114,7 +114,7 @@ As defined in the scope section, the analysis is limited to a static Kaggle snap
 
 The product is a guided data story with interactive elements, implemented in Quarto and published on GitHub Pages. Quarto provides the narrative structure, while Bokeh provides embedded interactive charts in HTML and JavaScript. This gives a clear reading flow and still allows active exploration without a backend server.
 
-The product is conceived as if it were an editorial data feature published in a music-focused online magazine — along the lines of the visual essays that appear on Pitchfork, The Pudding, or a student journalism platform. This framing anchors the tone (curious and conversational, not academic), the vocabulary (all audio feature terms are defined on first use in plain language), and the visual density (each chart earns its place by answering a question Lena would actually ask). Should the project evolve toward a more interactive, dashboard-like format — for example if the genre filter grows significantly in scope — Streamlit will replace Bokeh as the implementation layer, given its better performance profile at the dataset's scale of ~114,000 tracks.
+The product is conceived as if it were an editorial data feature published in a music-focused online magazine, along the lines of the visual essays that appear on Pitchfork, The Pudding, or a student journalism platform. This framing anchors the tone (curious and conversational, not academic), the vocabulary (all audio feature terms are defined on first use in plain language), and the visual density (each chart earns its place by answering a question Lena would actually ask). Should the project evolve toward a more interactive, dashboard-like format, for example if the genre filter grows significantly in scope, Streamlit will replace Bokeh as the implementation layer, given its better performance profile at the dataset's scale of ~114,000 tracks.
 
 This format is driven primarily by Lena's needs: she requires a clear story with a compelling entry point, plain-language explanations, and selective interactivity that rewards curiosity without demanding it. Jonas benefits from the same structure but engages most with the comparative sections. The guided narrative with embedded interaction serves both without compromise.
 
@@ -124,13 +124,13 @@ The product is structured as a sequence of thematic sections, each using chart t
 
 The opening section establishes context with a **histogram of popularity scores** across all 114,000 tracks. For Lena, this is the hook: the vast majority of songs are essentially invisible on the platform, which immediately reframes the central question from "what makes a song good?" to "what separates the rare songs that actually reach people?" This contrast motivates everything that follows.
 
-The second section examines the relationship between individual audio features and popularity through **scatter plots** — for example danceability versus popularity, or energy versus popularity — with trend lines to support fast reading. For Lena, each scatter plot answers a specific intuition she already has about music: does how danceable a song is actually predict whether it blows up? For Jonas, these charts are directly actionable reference points. A **correlation heatmap** complements these views with a compact overview of pairwise relationships, letting both users identify which features matter most before diving into comparisons.
+The second section examines the relationship between individual audio features and popularity through **scatter plots** (for example danceability versus popularity, or energy versus popularity), with trend lines to support fast reading. For Lena, each scatter plot answers a specific intuition she already has about music: does how danceable a song is actually predict whether it blows up? For Jonas, these charts are directly actionable reference points. A **correlation heatmap** complements these views with a compact overview of pairwise relationships, letting both users identify which features matter most before diving into comparisons.
 
-The third section focuses on genre comparison. **Radar charts** show average audio profiles of selected genres across all features. The spider-web shape gives each genre a visual personality that is interpretable once the axes are labeled in plain language — Lena can see at a glance that her genre is high-energy and low-acousticness without needing to read a number. For Jonas, this is the chart that lets him locate his own genre and compare its profile against others. To ensure readability, each axis will carry a plain-language label and a one-line tooltip explaining the feature. **Box plots** per genre complement the radar view by showing spread and distribution, not only the mean — which matters for Jonas when assessing how consistent a genre's "sound" actually is.
+The third section focuses on genre comparison. **Radar charts** show average audio profiles of selected genres across all features. The spider-web shape gives each genre a visual personality that is interpretable once the axes are labeled in plain language: Lena can see at a glance that her genre is high-energy and low-acousticness without needing to read a number. For Jonas, this is the chart that lets him locate his own genre and compare its profile against others. To ensure readability, each axis will carry a plain-language label and a one-line tooltip explaining the feature. **Box plots** per genre complement the radar view by showing spread and distribution, not only the mean, which matters for Jonas when assessing how consistent a genre's "sound" actually is.
 
-The fourth section answers the question "what does a hit sound like?" using a **bar chart** comparing the mean audio features of the top 10% most popular tracks against the bottom 10%. This is the narrative payoff for Lena — a direct, concrete answer to the question she came with, expressed in a format that requires no prior data knowledge to read. For Jonas, this is the most practically relevant chart in the product: the difference between the two bars tells him, genre by genre, where popular tracks diverge from obscure ones. A clear note in the accompanying text establishes that this is a description of patterns, not a production formula.
+The fourth section answers the question "what does a hit sound like?" using a **bar chart** comparing the mean audio features of the top 10% most popular tracks against the bottom 10%. This is the narrative payoff for Lena: a direct, concrete answer to the question she came with, expressed in a format that requires no prior data knowledge to read. For Jonas, this is the most practically relevant chart in the product: the difference between the two bars tells him, genre by genre, where popular tracks diverge from obscure ones. A clear note in the accompanying text establishes that this is a description of patterns, not a production formula.
 
-The fifth and final section closes the story with a **scatter plot of valence versus energy**, coloured by genre. Lena can map the axes directly onto emotional concepts she already uses — happy versus sad, calm versus intense — and locate the genres she listens to in a space that feels intuitive rather than technical. For Jonas, the clustering of genres in this space provides a final frame of reference for where his style sits in the broader landscape. This chart is the synthesis: it ties together the feature relationships, genre identities, and mood dimensions explored throughout the story into a single spatial view.
+The fifth and final section closes the story with a **scatter plot of valence versus energy**, coloured by genre. Lena can map the axes directly onto emotional concepts she already uses (happy versus sad, calm versus intense) and locate the genres she listens to in a space that feels intuitive rather than technical. For Jonas, the clustering of genres in this space provides a final frame of reference for where his style sits in the broader landscape. This chart is the synthesis: it ties together the feature relationships, genre identities, and mood dimensions explored throughout the story into a single spatial view.
 
 ### Interactivity
 
@@ -138,7 +138,7 @@ Interactivity is implemented through Bokeh and used selectively. The radar view 
 
 The centrepiece of the product's interactivity is the "What would your song score?" slider panel, documented as the project's key differentiator in the section below.
 
-### Key Differentiator — "What would your song score?" Slider Panel
+### Key Differentiator: "What would your song score?" Slider Panel
 
 The project's added value beyond a standard analysis is a fully interactive slider panel that lets any reader bring their own audio choices into the data story and immediately see how they compare.
 
@@ -146,27 +146,27 @@ The project's added value beyond a standard analysis is a fully interactive slid
 
 Five sliders let the user set values for danceability, energy, valence (positivity), acousticness, and tempo (BPM). As the sliders move, three things update in real time without any page reload:
 
-1. A "Your track" dot moves across the mood map (Section 5 — valence vs. energy, coloured by genre), showing where the reader's chosen profile sits in the emotional landscape of all 114,000 songs.
-2. An overlay line appears on the genre radar chart (Section 3), plotting the reader's five feature values against the average profiles of the six selected genres — making it immediately visible which genre the chosen combination most resembles.
+1. A "Your track" dot moves across the mood map (Section 5: valence vs. energy, coloured by genre), showing where the reader's chosen profile sits in the emotional landscape of all 114,000 songs.
+2. An overlay line appears on the genre radar chart (Section 3), plotting the reader's five feature values against the average profiles of the six selected genres, making it immediately visible which genre the chosen combination most resembles.
 3. A plain-language readout below the sliders shows: *"Tracks with a similar audio profile average a popularity score of X / 100."* This figure is drawn from a pre-computed lookup table (binned by feature ranges) built from the actual dataset. It is framed explicitly as a population average, not a prediction or a formula for success.
 
 **Why this is impossible in a static Jupyter notebook:**
 
-Every other analysis of this dataset — including those on Kaggle — is delivered as a static notebook (`.ipynb`) or its exported equivalents (PDF, HTML snapshot). A static notebook has no mechanism for live user input: once rendered, the output is fixed. Even interactive notebook widgets (ipywidgets, Panel) require a running Python kernel on a server; they cannot be embedded in a self-contained webpage hosted on GitHub Pages without a backend. The real-time computation and visual updates the slider panel provides — a dot moving across a chart, an overlay redrawn on a radar, a readout changing value — require JavaScript callbacks that run entirely in the browser. Bokeh's client-side callback model enables exactly this, making the panel functional as a static HTML file with no server dependency. This is architecturally out of reach for any static notebook export.
+Every other analysis of this dataset, including those on Kaggle, is delivered as a static notebook (`.ipynb`) or its exported equivalents (PDF, HTML snapshot). A static notebook has no mechanism for live user input: once rendered, the output is fixed. Even interactive notebook widgets (ipywidgets, Panel) require a running Python kernel on a server; they cannot be embedded in a self-contained webpage hosted on GitHub Pages without a backend. The real-time computation and visual updates the slider panel provides, a dot moving across a chart, an overlay redrawn on a radar, a readout changing value, require JavaScript callbacks that run entirely in the browser. Bokeh's client-side callback model enables exactly this, making the panel functional as a static HTML file with no server dependency. This is architecturally out of reach for any static notebook export.
 
 **What it adds for Lena (primary persona):**
 
-Lena reads the data story; the slider panel lets her participate in it. Instead of being told where "indie pop" or "hyperpop" sits on the mood map, she can dial in what she thinks her favourite genre sounds like and watch the dot move. This transforms a passive reading experience into a moment of personal recognition — the kind of small discovery she would share with friends. It raises her engagement past the 90-second threshold that determines whether she keeps reading, because the product is now responding to her.
+Lena reads the data story; the slider panel lets her participate in it. Instead of being told where "indie pop" or "hyperpop" sits on the mood map, she can dial in what she thinks her favourite genre sounds like and watch the dot move. This transforms a passive reading experience into a moment of personal recognition, the kind of small discovery she would share with friends. It raises her engagement past the 90-second threshold that determines whether she keeps reading, because the product is now responding to her.
 
 **What it adds for Jonas (secondary persona):**
 
-Jonas's core question is not answered by reading the hit versus non hit bar chart alone. He wants to know: given the specific audio choices I make in my own productions — the tempo I work in, the energy level, the harmonic mood — where would a track like mine actually land? The slider panel answers this directly and honestly. He can input values that reflect his own production style, overlay them on the genre radar to see which genre profile his sound most resembles, and read off a realistic popularity average for tracks with a similar profile. The framing as a population statistic rather than a prediction respects his stated scepticism about overclaiming causation, while still giving him a concrete and actionable reference point that no static chart in the product can provide alone.
+Jonas's core question is not answered by reading the hit versus non hit bar chart alone. He wants to know: given the specific audio choices I make in my own productions, the tempo I work in, the energy level, the harmonic mood, where would a track like mine actually land? The slider panel answers this directly and honestly. He can input values that reflect his own production style, overlay them on the genre radar to see which genre profile his sound most resembles, and read off a realistic popularity average for tracks with a similar profile. The framing as a population statistic rather than a prediction respects his stated scepticism about overclaiming causation, while still giving him a concrete and actionable reference point that no static chart in the product can provide alone.
 
 ### Narrative and Annotation
 
 Each section starts with a short plain-language question. Key findings are annotated directly in charts, for example with a mean marker in the popularity histogram or a label for the strongest correlation in the heatmap. Short transitions connect the sections into one coherent story. Technical terms such as valence and acousticness are explained on first use.
 
-The narrative is structured around Lena's emotional journey through the data: the opening hook triggers **curiosity** (most songs are never heard — why?), the feature analysis sections deliver **surprise** (the most danceable songs are not the most popular; certain genres dominate features that seem counterintuitive), and the closing mood map produces **insight** (the genres Lena listens to cluster in a specific emotional quadrant — and now she understands why they feel the way they do). Every section transition should ask: does Lena know why she is still reading? For Jonas, the narrative additionally sets expectations early: the product describes what popular songs sound like, not how to engineer one. This framing prevents misreading the comparative charts as prescriptive recommendations.
+The narrative is structured around Lena's emotional journey through the data: the opening hook triggers **curiosity** (most songs are never heard, why?), the feature analysis sections deliver **surprise** (the most danceable songs are not the most popular; certain genres dominate features that seem counterintuitive), and the closing mood map produces **insight** (the genres Lena listens to cluster in a specific emotional quadrant, and now she understands why they feel the way they do). Every section transition should ask: does Lena know why she is still reading? For Jonas, the narrative additionally sets expectations early: the product describes what popular songs sound like, not how to engineer one. This framing prevents misreading the comparative charts as prescriptive recommendations.
 
 ### Target Medium and Integration
 
@@ -174,17 +174,17 @@ The product is rendered by Quarto into a static HTML website and deployed via Gi
 
 ### Value Summary
 
-**Cognitive and analytical value:**  
+**Cognitive and analytical value:** 
 The chart sequence moves from overview to relationship, comparison, contrast, and synthesis. This supports stepwise understanding and pattern detection. Interactivity helps users test their own assumptions.
 
-**Communicative value:**  
+**Communicative value:** 
 The Quarto narrative gives context before each chart. Annotations and simple definitions lower the entry barrier and support correct interpretation.
 
-**Experiential and aesthetic value:**  
+**Experiential and aesthetic value:** 
 The visual style is clear and engaging. The genre filter increases personal relevance and keeps users involved throughout the story.
 
-**Key differentiator — added value beyond a static analysis:**  
-The "What would your song score?" slider panel elevates the product from a data report into a participatory experience. For Lena, it creates a moment of personal relevance that motivates continued engagement. For Jonas, it closes the gap between reading about the data and actually using it to evaluate his own creative decisions. Because this functionality depends on live JavaScript callbacks and a pre-computed lookup table served through a static HTML file, it is structurally impossible to replicate in a Jupyter notebook export — making the webpage format not merely a stylistic choice but a functional requirement.
+**Key differentiator, added value beyond a static analysis:** 
+The "What would your song score?" slider panel elevates the product from a data report into a participatory experience. For Lena, it creates a moment of personal relevance that motivates continued engagement. For Jonas, it closes the gap between reading about the data and actually using it to evaluate his own creative decisions. Because this functionality depends on live JavaScript callbacks and a pre-computed lookup table served through a static HTML file, it is structurally impossible to replicate in a Jupyter notebook export, making the webpage format not merely a stylistic choice but a functional requirement.
 
 
 ## Project Plan
@@ -195,65 +195,65 @@ The data report and visual design phases intentionally overlap by approximately 
 %%| label: fig-project-plan
 %%| fig-cap: Preliminary project plan in the form of a Gantt chart.
 %%{init: {
-  "theme": "base",
-  "themeVariables": {
-    "primaryColor": "#b8e0c0",
-    "primaryTextColor": "#1a1a1a",
-    "primaryBorderColor": "#7cb88a",
-    "lineColor": "#7cb88a",
-    "secondaryColor": "#d6f0dd",
-    "tertiaryColor": "#edf8ef",
-    "cScale0": "#a8d5b2",
-    "cScale1": "#8ec99e",
-    "cScale2": "#c4e8cc",
-    "cScale3": "#74b882",
-    "taskBkgColor": "#b8e0c0",
-    "taskTextColor": "#1a1a1a",
-    "taskBorderColor": "#7cb88a",
-    "activeTaskBkgColor": "#74b882",
-    "activeTaskTextColor": "#1a1a1a",
-    "activeTaskBorderColor": "#4d9960",
-    "doneTaskBkgColor": "#ddf0e3",
-    "doneTaskTextColor": "#3a3a3a",
-    "doneTaskBorderColor": "#a8d5b2",
-    "critBkgColor": "#f0d4a8",
-    "critTextColor": "#1a1a1a",
-    "critBorderColor": "#c8a060",
-    "todayLineColor": "#4d9960",
-    "sectionBkgColor": "#edf8ef",
-    "altSectionBkgColor": "#f5fbf6",
-    "gridColor": "#cce8d4",
-    "fontFamily": "Arial, sans-serif",
-    "fontSize": "13px"
-  }
+ "theme": "base",
+ "themeVariables": {
+ "primaryColor": "#b8e0c0",
+ "primaryTextColor": "#1a1a1a",
+ "primaryBorderColor": "#7cb88a",
+ "lineColor": "#7cb88a",
+ "secondaryColor": "#d6f0dd",
+ "tertiaryColor": "#edf8ef",
+ "cScale0": "#a8d5b2",
+ "cScale1": "#8ec99e",
+ "cScale2": "#c4e8cc",
+ "cScale3": "#74b882",
+ "taskBkgColor": "#b8e0c0",
+ "taskTextColor": "#1a1a1a",
+ "taskBorderColor": "#7cb88a",
+ "activeTaskBkgColor": "#74b882",
+ "activeTaskTextColor": "#1a1a1a",
+ "activeTaskBorderColor": "#4d9960",
+ "doneTaskBkgColor": "#ddf0e3",
+ "doneTaskTextColor": "#3a3a3a",
+ "doneTaskBorderColor": "#a8d5b2",
+ "critBkgColor": "#f0d4a8",
+ "critTextColor": "#1a1a1a",
+ "critBorderColor": "#c8a060",
+ "todayLineColor": "#4d9960",
+ "sectionBkgColor": "#edf8ef",
+ "altSectionBkgColor": "#f5fbf6",
+ "gridColor": "#cce8d4",
+ "fontFamily": "Arial, sans-serif",
+ "fontSize": "13px"
+ }
 }}%%
 gantt
-    title Project Plan
-    dateFormat YYYY-MM-DD
-    axisFormat %d %b
-    tickInterval 1week
-    section Project Understanding
-        Team setup and dataset selection     :done, a1, 2026-03-04, 7d
-        Stakeholder and user analysis        :done, a2, 2026-03-11, 7d
-        Situation assessment                 :active, a3, 2026-03-18, 2d
-        Visualization concept                :active, a4, 2026-03-18, 2d
-        Submit Project Charta draft          :milestone, m1, 2026-03-20, 1d
+ title Project Plan
+ dateFormat YYYY-MM-DD
+ axisFormat %d %b
+ tickInterval 1week
+ section Project Understanding
+ Team setup and dataset selection :done, a1, 2026-03-04, 7d
+ Stakeholder and user analysis :done, a2, 2026-03-11, 7d
+ Situation assessment :active, a3, 2026-03-18, 2d
+ Visualization concept :active, a4, 2026-03-18, 2d
+ Submit Project Charta draft :milestone, m1, 2026-03-20, 1d
 
-    section Data Acquisition and Exploration
-        Dataset download and inspection      :a5, 2026-03-21, 7d
-        Exploratory data analysis            :a6, 2026-03-28, 14d
-        Data report                          :a7, 2026-04-11, 21d
+ section Data Acquisition and Exploration
+ Dataset download and inspection :a5, 2026-03-21, 7d
+ Exploratory data analysis :a6, 2026-03-28, 14d
+ Data report :a7, 2026-04-11, 21d
 
-    section Visual Encoding and Design
-        Visualization design and prototyping :a8, 2026-04-21, 14d
-        Implement visualizations             :a9, 2026-05-05, 14d
-        Build and refine data story          :a10, 2026-05-12, 14d
+ section Visual Encoding and Design
+ Visualization design and prototyping :a8, 2026-04-21, 14d
+ Implement visualizations :a9, 2026-05-05, 14d
+ Build and refine data story :a10, 2026-05-12, 14d
 
-    section Evaluation and Finalization
-        Coaching session                     :milestone, m2, 2026-05-26, 1d
-        Final revisions and polishing        :a11, 2026-05-26, 6d
-        Prepare presentation media           :a12, 2026-05-26, 6d
-        Submit visualization project         :milestone, m3, 2026-06-01, 1d
+ section Evaluation and Finalization
+ Coaching session :milestone, m2, 2026-05-26, 1d
+ Final revisions and polishing :a11, 2026-05-26, 6d
+ Prepare presentation media :a12, 2026-05-26, 6d
+ Submit visualization project :milestone, m3, 2026-06-01, 1d
 ```
 
 ## Roles and Contact Details

@@ -745,7 +745,7 @@ def build_story_layout():
     genre_filter_help = Div(
         text=(
             '<p style="margin:0 0 0.75rem 0;font-size:0.92rem;line-height:1.55;color:#9ca3b8;">'
-            '<span style="color:#1DB954;font-weight:700;">Genres shown</span> — tick styles to filter the '
+            '<span style="color:#1DB954;font-weight:700;">Genres shown</span>: tick styles to filter the '
             '<b style="color:#f4f4f8;">scatter plots</b> below and to highlight matching genres on the '
             '<b style="color:#f4f4f8;">mood map</b> (Section 5).'
             "</p>"
@@ -892,7 +892,7 @@ def build_story_layout():
 
     p4a = _hits_vs_nonhits_bar(
         ["danceability", "energy", "valence", "acousticness", "instrumentalness"],
-        title="Top 10% vs bottom 10% — audio traits (0–1 scale)",
+        title="Top 10% vs bottom 10%: audio traits (0–1 scale)",
         y_axis_label="Average (0 = low, 1 = high)",
         width=W_MAIN,
         height=400,
@@ -1096,16 +1096,16 @@ def build_story_layout():
             'The <strong style="color:#f4f4f8;">star</strong> moves on the mood map, the '
             '<strong style="color:#f4f4f8;">dashed line</strong> on the radar updates with your shape, and the '
             "readout below is the <em style=\"color:#c77dff;\">average popularity</em> of real tracks in the "
-            "same bins — not a forecast."
+            "same bins, not a forecast."
             "</p>"
         ),
     )
-    readout = Div(text=_readout_html("—"))
+    readout = Div(text=_readout_html("…"))
     genre_match = Div(text=_closest_genre_html(0.55, 0.55))
     disclaimer = Div(
         text=(
             '<p style="margin:0.75rem 0 0;font-size:0.8rem;color:#9ca3b8;font-style:italic;">'
-            "<i>This is the average for tracks with similar features — not a prediction.</i>"
+            "<i>This is the average for tracks with similar features, not a prediction.</i>"
             "</p>"
         ),
     )
@@ -1222,7 +1222,7 @@ def build_story_layout():
     }
     genre_match.text = '<p style="margin:0.65rem 0 0;font-size:0.92rem;line-height:1.5;color:#9ca3b8;">Closest focus genre on the mood map: <b style="color:' + best.color + '">' + best.label + '</b></p>';
     if (pop === undefined) {
-      readout.text = '<div class="slider-readout slider-readout-empty"><span class="slider-readout-label">Matching-bin average popularity:</span> <span class="slider-readout-value"><i>no tracks in this exact bin combo</i> — nudge a slider.</span></div>';
+      readout.text = '<div class="slider-readout slider-readout-empty"><span class="slider-readout-label">Matching-bin average popularity:</span> <span class="slider-readout-value"><i>no tracks in this exact bin combo</i>; nudge a slider.</span></div>';
     } else {
       readout.text = '<div style="margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;border:1px solid #2e2e42;background:linear-gradient(90deg,rgba(29,185,84,0.18),rgba(155,93,229,0.14),rgba(86,207,225,0.12));font-size:1rem;"><span style="color:#9ca3b8;font-weight:600;">Matching-bin average popularity:</span> <span style="color:#1DB954;font-size:1.45rem;font-weight:800;">' + Number(pop).toFixed(1) + '</span><span style="color:#9ca3b8;font-weight:600;"> / 100</span></div>';
     }
@@ -1262,7 +1262,7 @@ def build_story_layout():
 
     _pop0 = lookup_popularity(lookup, sd.value, se.value, sv.value, sa.value, st.value)
     if _pop0 is None:
-        readout.text = _readout_html("<i>no tracks in this exact bin combo</i> — nudge a slider.")
+        readout.text = _readout_html("<i>no tracks in this exact bin combo</i>; nudge a slider.")
         readout.css_classes = ["slider-readout-wrap", "slider-readout-empty"]
     else:
         readout.text = _readout_html(f"{_pop0:.1f}")
