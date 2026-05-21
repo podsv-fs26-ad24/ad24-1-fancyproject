@@ -1,7 +1,7 @@
 # Mac Stuff
 .DS_Store
 
-# Raw Spotify dataset — download manually from Kaggle, do not commit
+# Raw Spotify dataset: download manually from Kaggle, do not commit
 data/dataset.csv
 data/*.csv.zip
 

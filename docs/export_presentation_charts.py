@@ -128,7 +128,7 @@ def export_finding_04() -> None:
     ax.set_xticks(x)
     ax.set_xticklabels(show, rotation=25, ha="right")
     ax.set_ylabel("Mean feature value", fontsize=10)
-    ax.set_title("Hits vs non-hits — small gaps, large overlap", fontsize=11, fontweight="bold", pad=10)
+    ax.set_title("Hits vs non-hits: small gaps, large overlap", fontsize=11, fontweight="bold", pad=10)
     _style_axes(ax)
     leg = ax.legend(frameon=True, fontsize=9)
     leg.get_frame().set_facecolor(CARD)

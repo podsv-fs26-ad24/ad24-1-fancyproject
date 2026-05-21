@@ -89,7 +89,7 @@ nonhits = df[df["popularity"] <= p10]
 print(f"Number of hits:     {len(hits):,}")
 print(f"Number of non-hits: {len(nonhits):,}")
 
-print(f"\nMean feature values — HITS vs NON-HITS:")
+print(f"\nMean feature values: HITS vs NON-HITS:")
 comparison = pd.DataFrame({
     "hits":     hits[FEATURES].mean(),
     "non_hits": nonhits[FEATURES].mean(),
@@ -100,9 +100,9 @@ comparison["direction"]  = comparison["difference"].apply(
 )
 print(comparison.round(3).to_string())
 
-# QUESTION 4b: Mood map — valence + energy by genre
+# QUESTION 4b: Mood map: valence + energy by genre
 print("\n" + "=" * 60)
-print("Q4b: MOOD MAP — VALENCE + ENERGY BY GENRE")
+print("Q4b: MOOD MAP: VALENCE + ENERGY BY GENRE")
 print("=" * 60)
 mood = df.groupby("track_genre")[["valence", "energy"]].mean().round(3)
 mood["mood_quadrant"] = mood.apply(lambda row:

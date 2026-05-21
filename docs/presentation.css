@@ -1,4 +1,4 @@
-/* Reveal.js — Spotify Data Story (matches story + landing visual language) */
+/* Reveal.js: Spotify Data Story (matches story + landing visual language) */
 
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap');
 
@@ -1288,7 +1288,7 @@
   white-space: nowrap;
 }
 
-/* ---------- Findings — one slide, fragments ---------- */
+/* ---------- Findings: one slide, fragments ---------- */
 .reveal .slides section.findings-one-slide > h2 {
   display: none;
 }

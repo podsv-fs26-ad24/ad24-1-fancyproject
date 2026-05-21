@@ -1,5 +1,5 @@
 /* ============================================================
-   Spotify Data Story — Global Styles (dark site)
+   Spotify Data Story: Global Styles (dark site)
    Palette: near-black canvas, Spotify green, purple/blue chart accents
    Font: Figtree
    ============================================================ */
@@ -593,7 +593,7 @@ body:has(.landing-stage) .page-layout-full #quarto-document-content {
   padding: 0 1.5rem;
 }
 
-/* Data story — compact column, everything on one center axis */
+/* Data story: compact column, everything on one center axis */
 body.story-page {
   --prose-width: 560px;
   --figure-width: 720px;
@@ -702,7 +702,7 @@ body.story-page #title-block-header .subtitle {
   margin: 0 auto;
 }
 
-/* Chart rail — grid centering (works with Bokeh display:contents) */
+/* Chart rail: grid centering (works with Bokeh display:contents) */
 body.story-page .story-viz-rail {
   width: min(var(--figure-width), 100%);
   max-width: var(--figure-width);
@@ -763,7 +763,7 @@ body.story-page.page-layout-article .cell-output-display .bk-root {
   box-sizing: border-box;
 }
 
-/* Top scroll bar — hidden when side rail is visible */
+/* Top scroll bar: hidden when side rail is visible */
 body.story-page #story-scroll-progress {
   display: none;
 }
@@ -961,7 +961,7 @@ body.story-page .story-spine-rail {
   }
 }
 
-/* Mobile / tablet — horizontal jump nav in content */
+/* Mobile / tablet: horizontal jump nav in content */
 body.story-page .story-jump-nav--mobile {
   position: sticky;
   top: 3.25rem;
@@ -1069,7 +1069,7 @@ body.story-page .story-jump-nav--mobile a.is-active {
   border-radius: 6px;
 }
 
-/* Bokeh charts — match site canvas; subtle lift */
+/* Bokeh charts: match site canvas; subtle lift */
 .page-layout-article .cell-output-display .bk-root,
 .page-layout-article .quarto-layout-panel .bk-root {
   max-width: 100%;
@@ -1106,7 +1106,7 @@ body.story-page .story-viz-rail .bk-root {
   border: none;
 }
 
-/* Section 2 — genre filter checkboxes */
+/* Section 2: genre filter checkboxes */
 .page-layout-article .story-genre-filter-panel {
   max-width: 100%;
   margin: 0 0 1.5rem auto;
@@ -1223,7 +1223,7 @@ body.story-page .story-viz-rail .bk-root {
   box-shadow: 0 0 12px rgba(255, 107, 157, 0.22);
 }
 
-/* Slider panel — colored controls + card */
+/* Slider panel: colored controls + card */
 .page-layout-article .story-slider-panel {
   max-width: 100%;
   margin: 0 auto 2rem auto;

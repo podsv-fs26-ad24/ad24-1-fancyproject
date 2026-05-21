@@ -1,6 +1,6 @@
 # Spotify Data Story
 
-An interactive data story exploring what makes Spotify tracks popular — built as a scrollable webpage with charts, plain-language insights, and no maths degree required.
+An interactive data story exploring what makes Spotify tracks popular: built as a scrollable webpage with charts, plain-language insights, and no maths degree required.
 
 **Live site:** [podsv-fs26-ad24.github.io/ad24-1-fancyproject](https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/)
 
@@ -17,7 +17,7 @@ Presentation on 8.06.2026 10min + 5min discussion
 
 ---
 
-## Quickstart — Run it from scratch
+## Quickstart: Run it from scratch
 
 Everything you need to go from a fresh clone to a running local website.
 
@@ -31,7 +31,7 @@ Install these once before you start:
 | uv (Python package manager) | [docs.astral.sh/uv](https://docs.astral.sh/uv/getting-started/installation/) |
 | Quarto | [quarto.org/docs/get-started](https://quarto.org/docs/get-started/) |
 
-> Python 3.12 is installed automatically by `uv sync` — you do **not** need to install it separately.
+> Python 3.12 is installed automatically by `uv sync`: you do **not** need to install it separately.
 
 ### Steps
 
@@ -59,7 +59,7 @@ Windows (PowerShell):
 Invoke-WebRequest -Uri "https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download" -OutFile "data/dataset.csv"
 ```
 
-Or download manually — see the [Dataset](#dataset) section below.
+Or download manually: see the [Dataset](#dataset) section below.
 
 **4. Create your `.env` file**
 ```bash
@@ -103,7 +103,7 @@ Windows (PowerShell):
 Invoke-WebRequest -Uri "https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/download" -OutFile "data/dataset.csv"
 ```
 
-The `data/` folder is already in `.gitignore` — do **not** commit the raw dataset to GitHub.
+The `data/` folder is already in `.gitignore`: do **not** commit the raw dataset to GitHub.
 
 ## Project Organisation
 The visualization product development is organised according to the following process model:
@@ -210,7 +210,7 @@ uv run quarto render
 
 The documentation website is deployed to GitHub Pages via a GitHub Actions workflow (`.github/workflows/publish.yml`). Every push to `main` triggers the workflow, which renders the Quarto project and deploys the result.
 
-The setting `execute: freeze: auto` in `_quarto.yml` ensures that Python computations are only executed locally. Results are cached in `docs/_freeze` and checked into the repository, so the GitHub Actions runner does not need Python — it uses the pre-computed results.
+The setting `execute: freeze: auto` in `_quarto.yml` ensures that Python computations are only executed locally. Results are cached in `docs/_freeze` and checked into the repository, so the GitHub Actions runner does not need Python: it uses the pre-computed results.
 
 #### Initial Setup (once)
 

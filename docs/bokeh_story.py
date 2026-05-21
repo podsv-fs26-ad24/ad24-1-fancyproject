@@ -63,7 +63,7 @@ def build_story_layout():
         raise FileNotFoundError(
             "Could not find data/dataset.csv.\n"
             f"  Current working directory: {here}\n"
-            "  (1) Download dataset.csv into <project>/data/ — see README / SwitchDrive.\n"
+            "  (1) Download dataset.csv into <project>/data/: see README / SwitchDrive.\n"
             "  (2) Start Jupyter / VS Code from the project folder that contains `data/`, "
             "or set the kernel cwd there (File → Open Folder → …/Untitled).\n"
             "  (3) If the repo lives inside a parent workspace, keep this notebook inside "
@@ -348,7 +348,7 @@ def build_story_layout():
     W_HEAT = FIG_W
     W_BOX = FIG_W
 
-    # Bokeh 3 widgets use shadow DOM — page CSS cannot reach them; use InlineStyleSheet.
+    # Bokeh 3 widgets use shadow DOM: page CSS cannot reach them; use InlineStyleSheet.
     _genre_panel_ss = InlineStyleSheet(
         css="""
 :host {
@@ -466,7 +466,7 @@ def build_story_layout():
     foc_df = df.loc[_foc_mask]
     n = min(6000, len(foc_df))
     if len(foc_df) == 0:
-        raise ValueError("No tracks in focus genres — check track_genre values in dataset.csv")
+        raise ValueError("No tracks in focus genres: check track_genre values in dataset.csv")
     idx = rng.choice(len(foc_df), size=n, replace=False)
     sub = foc_df.iloc[idx].copy()
     _genre = sub["track_genre"].astype(str).str.lower().values
@@ -811,7 +811,7 @@ def build_story_layout():
         stylesheets=[_story_layout_ss],
     )
 
-    # ========== Chart 4 — hits vs non-hits (split scales so 0–1 traits stay visible) ==========
+    # ========== Chart 4: hits vs non-hits (split scales so 0–1 traits stay visible) ==========
     p90 = float(df["popularity"].quantile(0.90))
     p10 = float(df["popularity"].quantile(0.10))
     hits = df[df["popularity"] >= p90]

@@ -1,4 +1,4 @@
-"""Cécile — Phase 2 Bokeh source: regenerates the exploratory notebook and ``docs/bokeh_story.py``.
+"""Cécile: Phase 2 Bokeh source: regenerates the exploratory notebook and ``docs/bokeh_story.py``.
 
 Run from repo root:
 
@@ -17,11 +17,11 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 NB_PATH = ROOT / "notebooks" / "viz_exploration.ipynb"
 STORY_BOKEH_PATH = ROOT / "docs" / "bokeh_story.py"
 
-md_intro = """# Phase 2 — Charts & Jonas slider (Cécile)
+md_intro = """# Phase 2: Charts & Jonas slider (Cécile)
 
 Bokeh implementation of the **five** story charts plus the **Jonas slider panel**, using `data/dataset.csv` and the precomputed CSVs in `data/`.
 
-**Chart CSVs (Charlotte):** the notebook reads whatever is in `data/chart*.csv` — both the **repo-committed** shapes (`popularity,count`; radar with BPM `tempo`; chart4 with row labels) and **newer** outputs from `eda/data_for_charts.py` (`popularity_score`, `tempo_norm`, `group` column). Do not rely on this notebook having regenerated those files.
+**Chart CSVs (Charlotte):** the notebook reads whatever is in `data/chart*.csv`: both the **repo-committed** shapes (`popularity,count`; radar with BPM `tempo`; chart4 with row labels) and **newer** outputs from `eda/data_for_charts.py` (`popularity_score`, `tempo_norm`, `group` column). Do not rely on this notebook having regenerated those files.
 
 **Regenerate aggregates:** from `eda/` run `uv run python data_for_charts.py` after updating the raw dataset. Charlotte’s binned lookup lives in `data/slider_lookup.csv` (same bin edges as `eda/sliders_lookup.ipynb`).
 
@@ -90,7 +90,7 @@ def _find_project_root() -> Path:
     raise FileNotFoundError(
         "Could not find data/dataset.csv.\n"
         f"  Current working directory: {here}\n"
-        "  (1) Download dataset.csv into <project>/data/ — see README / SwitchDrive.\n"
+        "  (1) Download dataset.csv into <project>/data/: see README / SwitchDrive.\n"
         "  (2) Start Jupyter / VS Code from the project folder that contains `data/`, "
         "or set the kernel cwd there (File → Open Folder → …/Untitled).\n"
         "  (3) If the repo lives inside a parent workspace, keep this notebook inside "
@@ -312,7 +312,7 @@ _foc_mask = df["track_genre"].astype(str).str.lower().isin(FOCUS_GENRES)
 foc_df = df.loc[_foc_mask]
 n = min(6000, len(foc_df))
 if len(foc_df) == 0:
-    raise ValueError("No tracks in focus genres — check track_genre values in dataset.csv")
+    raise ValueError("No tracks in focus genres: check track_genre values in dataset.csv")
 idx = rng.choice(len(foc_df), size=n, replace=False)
 sub = foc_df.iloc[idx].copy()
 _genre = sub["track_genre"].astype(str).str.lower().values
@@ -532,7 +532,7 @@ p3b.legend.location = "bottom_right"
 
 genre_filter_help = Div(
     text=(
-        '<p style="margin:0 0 6px 0;font-size:13px"><b>Genres shown</b> — tick the styles you want in the '
+        '<p style="margin:0 0 6px 0;font-size:13px"><b>Genres shown</b>: tick the styles you want in the '
         "<b>danceability / energy vs popularity</b> scatters and in the <b>energy spread</b> chart.</p>"
     )
 )
@@ -577,7 +577,7 @@ for (let i = 0; i < gk.length; i++) {
 }
 src_box.data = {genre_key: gkey, genre: glab, q1: qq1, q2: qq2, q3: qq3};
 src_box.change.emit();
-p3b.y_range.factors = glab.length ? glab : ["—"];
+p3b.y_range.factors = glab.length ? glab : [": "];
 """,
 )
 genre_cb.js_on_change("active", _genre_filter_js)
@@ -599,7 +599,7 @@ x = feat_bar
 src_hit = ColumnDataSource(dict(x=x, v=hit_vals))
 src_miss = ColumnDataSource(dict(x=x, v=miss_vals))
 p4 = figure(
-    title="Top 10% vs bottom 10% by popularity — average audio profile",
+    title="Top 10% vs bottom 10% by popularity: average audio profile",
     x_range=FactorRange(*x),
     width=820,
     height=440,
@@ -695,12 +695,12 @@ explain = Div(
         "<p><b>What would your song score?</b> Drag the sliders to mirror how your track sounds. "
         "The star moves on the mood map (happy/sad vs calm/intense), the dashed line on the radar compares your shape "
         "to the genre averages, and the figure below is the <i>average popularity</i> of real tracks whose features fall "
-        "in the same bins — not a forecast.</p></div>"
+        "in the same bins: not a forecast.</p></div>"
     ),
 )
-readout = Div(text='<div style="font-size:13px;max-width:780px"><b>Matching-bin average popularity:</b> — / 100</div>')
+readout = Div(text='<div style="font-size:13px;max-width:780px"><b>Matching-bin average popularity:</b>: / 100</div>')
 disclaimer = Div(
-    text='<p style="color:#555;font-size:12px;max-width:780px"><i>This is the average for tracks with similar features — not a prediction.</i></p>',
+    text='<p style="color:#555;font-size:12px;max-width:780px"><i>This is the average for tracks with similar features: not a prediction.</i></p>',
 )
 
 sd = Slider(start=0, end=1, value=0.55, step=0.01, title="How danceable? (0 = not, 1 = very)")
@@ -780,7 +780,7 @@ jonas_mood.data = {x: [v], y: [e]};
 jonas_radar.change.emit();
 jonas_mood.change.emit();
 if (pop === undefined) {
-  readout.text = '<div style="font-size:13px;max-width:780px"><b>Matching-bin average popularity:</b> <i>no tracks in this exact bin combo</i> — nudge a slider.</div>';
+  readout.text = '<div style="font-size:13px;max-width:780px"><b>Matching-bin average popularity:</b> <i>no tracks in this exact bin combo</i>: nudge a slider.</div>';
 } else {
   readout.text = '<div style="font-size:13px;max-width:780px"><b>Matching-bin average popularity:</b> ' + Number(pop).toFixed(1) + ' / 100</div>';
 }
@@ -796,7 +796,7 @@ _pop0 = lookup_popularity(lookup, sd.value, se.value, sv.value, sa.value, st.val
 if _pop0 is None:
     readout.text = (
         '<div style="font-size:13px;max-width:780px"><b>Matching-bin average popularity:</b> '
-        "<i>no tracks in this exact bin combo</i> — nudge a slider.</div>"
+        "<i>no tracks in this exact bin combo</i>: nudge a slider.</div>"
     )
 else:
     readout.text = (
@@ -843,7 +843,7 @@ def _code_main_for_quarto_site() -> str:
     )
     q = q.replace("output_notebook(resources=INLINE)\n\n", "")
     if not q.endswith("show(full)\n"):
-        raise RuntimeError("Expected CODE_MAIN to end with show(full) — update _code_main_for_quarto_site")
+        raise RuntimeError("Expected CODE_MAIN to end with show(full): update _code_main_for_quarto_site")
     q = q[: -len("show(full)\n")] + "return full\n"
     return q
 
