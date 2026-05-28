@@ -686,9 +686,12 @@ def build_story_layout():
         line_dash="dashed",
         legend_label="Your track (sliders)",
     )
-    p3.legend.location = "bottom_center"
+    p3.legend.location = "top_left"
     p3.legend.click_policy = "hide"
     p3.legend.label_text_font_size = "8pt"
+    p3.legend.background_fill_alpha = 0.0
+    p3.legend.border_line_alpha = 0.0
+    p3.add_layout(p3.legend[0], "right")
     _apply_theme(p3, grid=False)
 
     # --- Chart 3b: spread of energy within each focus genre (median + quartiles) ---
@@ -882,7 +885,9 @@ def build_story_layout():
             )
         )
         if show_legend:
-            fig.legend.location = "top_center"
+            fig.legend.background_fill_alpha = 0.0
+            fig.legend.border_line_alpha = 0.0
+            fig.add_layout(fig.legend[0], "right")
         fig.xaxis.major_label_orientation = 0.8
         fig.xaxis.major_label_overrides = {
             k: (PLAIN[k].split("(")[0].strip() if k in PLAIN else k) for k in x
@@ -1019,8 +1024,11 @@ def build_story_layout():
         legend_label="Your track",
         marker="star",
     )
-    p5.legend.location = "top_center"
     p5.legend.label_text_font_size = "9pt"
+    p5.legend.background_fill_alpha = 0.0
+    p5.legend.border_line_alpha = 0.0
+    # Move legend out of the chart body for readability.
+    p5.add_layout(p5.legend[0], "right")
     _apply_theme(p5)
 
     _genre_mood_js = CustomJS(
@@ -1053,7 +1061,7 @@ def build_story_layout():
             "border:1px solid #2e2e42;"
             "background:linear-gradient(90deg,rgba(29,185,84,0.18),rgba(155,93,229,0.14),rgba(86,207,225,0.12));"
             'font-size:1rem;line-height:1.5;">'
-            '<span style="color:#9ca3b8;font-weight:600;">Matching-bin average popularity:</span> '
+            '<span style="color:#9ca3b8;font-weight:600;">Average popularity of similar tracks (not a prediction):</span> '
             f'<span style="color:#1DB954;font-size:1.45rem;font-weight:800;margin:0 0.15rem;">{value_html}</span>'
             '<span style="color:#9ca3b8;font-weight:600;"> / 100</span>'
             "</div>"
@@ -1089,6 +1097,57 @@ def build_story_layout():
             "</p>"
         )
 
+    _sim_cols = ["track_name", "artists", "danceability", "energy", "valence", "acousticness", "tempo", "popularity"]
+    _missing_sim = [c for c in _sim_cols if c not in df.columns]
+    if _missing_sim:
+        raise ValueError(f"dataset.csv missing columns needed for similar-track matching: {_missing_sim}")
+    _sim = df[_sim_cols].copy()
+    for _c in ("danceability", "energy", "valence", "acousticness", "tempo", "popularity"):
+        _sim[_c] = pd.to_numeric(_sim[_c], errors="coerce")
+    _sim["track_name"] = _sim["track_name"].astype(str).replace({"nan": "Unknown track"})
+    _sim["artists"] = _sim["artists"].astype(str).replace({"nan": "Unknown artist"})
+    _sim = _sim.dropna(subset=["danceability", "energy", "valence", "acousticness", "tempo", "popularity"])
+    _sim_cap = 3500
+    if len(_sim) > _sim_cap:
+        _sim = _sim.sample(_sim_cap, random_state=42)
+    _sim_t_denom = (tmax - tmin) if (np.isfinite(tmax) and np.isfinite(tmin) and tmax > tmin) else 1.0
+    _sim["tempo_norm"] = ((_sim["tempo"] - tmin) / _sim_t_denom).clip(0, 1)
+    _sim_data = dict(
+        track_name=_sim["track_name"].tolist(),
+        artists=_sim["artists"].tolist(),
+        d=_sim["danceability"].astype(float).tolist(),
+        e=_sim["energy"].astype(float).tolist(),
+        v=_sim["valence"].astype(float).tolist(),
+        a=_sim["acousticness"].astype(float).tolist(),
+        t=_sim["tempo_norm"].astype(float).tolist(),
+        p=_sim["popularity"].astype(float).tolist(),
+    )
+
+    def _closest_tracks_html(d: float, e: float, v: float, a: float, bpm: float) -> str:
+        tn = tempo_to_norm(bpm)
+        _sim_arr = _sim[["danceability", "energy", "valence", "acousticness", "tempo_norm"]].to_numpy(dtype=float)
+        _q = np.array([d, e, v, a, tn], dtype=float)
+        _w = np.array([1.0, 1.0, 1.0, 1.0, 0.75], dtype=float)
+        _dist = ((_sim_arr - _q) ** 2 * _w).sum(axis=1)
+        _top_idx = np.argsort(_dist)[:3]
+        _items = []
+        for _i in _top_idx:
+            _row = _sim.iloc[int(_i)]
+            _items.append(
+                '<li style="margin:0.2rem 0;color:#f4f4f8;">'
+                f'{_row["track_name"]} <span style="color:#9ca3b8;">({ _row["artists"] })</span>'
+                "</li>"
+            )
+        return (
+            '<div style="margin-top:0.8rem;padding:0.75rem 1rem;border-radius:10px;'
+            'border:1px solid #2e2e42;background:rgba(20,20,31,0.7);">'
+            '<p style="margin:0 0 0.35rem 0;font-size:0.88rem;color:#9ca3b8;">Most similar songs in the dataset:</p>'
+            '<ul style="margin:0;padding-left:1rem;line-height:1.35;">'
+            + "".join(_items)
+            + "</ul>"
+            "</div>"
+        )
+
     explain = Div(
         text=(
             '<p style="margin:0 0 1rem 0;font-size:0.95rem;line-height:1.6;color:#9ca3b8;">'
@@ -1096,16 +1155,24 @@ def build_story_layout():
             'The <strong style="color:#f4f4f8;">star</strong> moves on the mood map, the '
             '<strong style="color:#f4f4f8;">dashed line</strong> on the radar updates with your shape, and the '
             "readout below is the <em style=\"color:#c77dff;\">average popularity</em> of real tracks in the "
-            "same bins, not a forecast."
+            "same bins, not a forecast. We also show the closest songs by audio features."
             "</p>"
         ),
     )
+    how_to = Div(
+        text=(
+            '<p style="margin:0 0 0.7rem 0;font-size:0.88rem;line-height:1.45;color:#c8ceda;">'
+            "Drag sliders to place your track, then read genre, score, and similar songs."
+            "</p>"
+        )
+    )
     readout = Div(text=_readout_html("…"))
     genre_match = Div(text=_closest_genre_html(0.55, 0.55))
+    similar_tracks = Div(text=_closest_tracks_html(0.55, 0.55, 0.55, 0.30, 75.0))
     disclaimer = Div(
         text=(
             '<p style="margin:0.75rem 0 0;font-size:0.8rem;color:#9ca3b8;font-style:italic;">'
-            "<i>This is the average for tracks with similar features, not a prediction.</i>"
+            "<i>Similarity is feature-based only and not a recommendation or popularity prediction.</i>"
             "</p>"
         ),
     )
@@ -1164,8 +1231,10 @@ def build_story_layout():
             jonas_mood=jonas_mood,
             readout=readout,
             genre_match=genre_match,
+            similar_tracks=similar_tracks,
             genre_moods=_genre_moods,
             lut=_lut,
+            sim_data=_sim_data,
             tempo_edges=_tempo_edges,
             tempo_tb_max=_tb_js_max,
             tmin=float(tmin),
@@ -1221,10 +1290,44 @@ def build_story_layout():
       if (dist < bestD) { bestD = dist; best = g; }
     }
     genre_match.text = '<p style="margin:0.65rem 0 0;font-size:0.92rem;line-height:1.5;color:#9ca3b8;">Closest focus genre on the mood map: <b style="color:' + best.color + '">' + best.label + '</b></p>';
-    if (pop === undefined) {
-      readout.text = '<div class="slider-readout slider-readout-empty"><span class="slider-readout-label">Matching-bin average popularity:</span> <span class="slider-readout-value"><i>no tracks in this exact bin combo</i>; nudge a slider.</span></div>';
+    const SN = sim_data.track_name;
+    const SA = sim_data.artists;
+    const Sp = sim_data.p;
+    const Sd = sim_data.d, Se = sim_data.e, Sv = sim_data.v, Sa = sim_data.a, St = sim_data.t;
+    const wT = 0.75;
+    const bestI = [-1, -1, -1];
+    const bestD2 = [1e20, 1e20, 1e20];
+    for (let i = 0; i < SN.length; i++) {
+      const dd = d - Sd[i], de = e - Se[i], dv = v - Sv[i], da = a - Sa[i], dt = tn - St[i];
+      const dist2 = dd * dd + de * de + dv * dv + da * da + wT * dt * dt;
+      if (dist2 < bestD2[0]) {
+        bestD2[2] = bestD2[1]; bestI[2] = bestI[1];
+        bestD2[1] = bestD2[0]; bestI[1] = bestI[0];
+        bestD2[0] = dist2; bestI[0] = i;
+      } else if (dist2 < bestD2[1]) {
+        bestD2[2] = bestD2[1]; bestI[2] = bestI[1];
+        bestD2[1] = dist2; bestI[1] = i;
+      } else if (dist2 < bestD2[2]) {
+        bestD2[2] = dist2; bestI[2] = i;
+      }
+    }
+    let listHtml = '';
+    let popSum = 0.0;
+    let popN = 0;
+    for (let j = 0; j < bestI.length; j++) {
+      if (bestI[j] < 0) continue;
+      const idx = bestI[j];
+      listHtml += '<li style="margin:0.2rem 0;color:#f4f4f8;">' + SN[idx] + ' <span style="color:#9ca3b8;">(' + SA[idx] + ')</span></li>';
+      popSum += Number(Sp[idx]);
+      popN += 1;
+    }
+    similar_tracks.text = '<div style="margin-top:0.8rem;padding:0.75rem 1rem;border-radius:10px;border:1px solid #2e2e42;background:rgba(20,20,31,0.7);"><p style="margin:0 0 0.35rem 0;font-size:0.88rem;color:#9ca3b8;">Most similar songs in the dataset:</p><ul style="margin:0;padding-left:1rem;line-height:1.35;">' + listHtml + '</ul></div>';
+    const popNear = popN > 0 ? (popSum / popN) : undefined;
+    const popShow = (pop !== undefined) ? Number(pop) : popNear;
+    if (popShow === undefined || Number.isNaN(popShow)) {
+      readout.text = '<div class="slider-readout slider-readout-empty"><span class="slider-readout-label">Average popularity of similar tracks (not a prediction):</span> <span class="slider-readout-value"><i>score unavailable</i></span></div>';
     } else {
-      readout.text = '<div style="margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;border:1px solid #2e2e42;background:linear-gradient(90deg,rgba(29,185,84,0.18),rgba(155,93,229,0.14),rgba(86,207,225,0.12));font-size:1rem;"><span style="color:#9ca3b8;font-weight:600;">Matching-bin average popularity:</span> <span style="color:#1DB954;font-size:1.45rem;font-weight:800;">' + Number(pop).toFixed(1) + '</span><span style="color:#9ca3b8;font-weight:600;"> / 100</span></div>';
+      readout.text = '<div style="margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;border:1px solid #2e2e42;background:linear-gradient(90deg,rgba(29,185,84,0.18),rgba(155,93,229,0.14),rgba(86,207,225,0.12));font-size:1rem;"><span style="color:#9ca3b8;font-weight:600;">Average popularity of similar tracks (not a prediction):</span> <span style="color:#1DB954;font-size:1.45rem;font-weight:800;">' + Number(popShow).toFixed(1) + '</span><span style="color:#9ca3b8;font-weight:600;"> / 100</span></div>';
     }
     """,
     )
@@ -1234,6 +1337,7 @@ def build_story_layout():
 
     panel = column(
         explain,
+        how_to,
         row(
             sd,
             se,
@@ -1253,6 +1357,7 @@ def build_story_layout():
         st,
         readout,
         genre_match,
+        similar_tracks,
         disclaimer,
         align="center",
         sizing_mode="fixed",
@@ -1267,6 +1372,8 @@ def build_story_layout():
     else:
         readout.text = _readout_html(f"{_pop0:.1f}")
         readout.css_classes = ["slider-readout-wrap"]
+    genre_match.text = _closest_genre_html(float(sv.value), float(se.value))
+    similar_tracks.text = _closest_tracks_html(float(sd.value), float(se.value), float(sv.value), float(sa.value), float(st.value))
 
     global _STORY_SECTIONS
     _STORY_SECTIONS = {

@@ -54,22 +54,57 @@
     ctx.fillStyle = grad;
 
     const cx = cssW / 2;
-    const maxHalf = cssW * 0.46;
-    const rows = Math.max(280, Math.min(720, Math.round(cssH / 1.65)));
-    const rowH = cssH / rows;
-    const stripe = Math.max(1, rowH * 0.92);
+    const maxHalf = cssW * 0.48;
+    const bars = Math.max(320, Math.min(760, Math.round(cssH / 2.5)));
+    const stepY = cssH / Math.max(1, bars - 1);
+    const barThickness = Math.max(2.4, Math.min(6.8, stepY * 0.62));
 
-    for (let i = 0; i < rows; i++) {
-      const t = i / Math.max(1, rows - 1);
-      const amp = voiceAmplitudeAt(t);
-      const wobble = Math.sin(t * Math.PI * 340 + 0.4) * cssW * 0.04 * amp;
-      const half = amp * maxHalf;
-      const y = i * rowH;
-      const x0 = cx - half + wobble;
-      const w = Math.max(1.5, half * 2 - Math.abs(wobble) * 0.5);
-      ctx.globalAlpha = 0.55 + amp * 0.45;
-      ctx.fillRect(x0, y, w, stripe);
+    // Subtle center line.
+    ctx.globalAlpha = 0.32;
+    ctx.strokeStyle = "#8df3df";
+    ctx.lineWidth = Math.max(1, cssW * 0.022);
+    ctx.beginPath();
+    ctx.moveTo(cx, 0);
+    ctx.lineTo(cx, cssH);
+    ctx.stroke();
+
+    // Voice-wave style: thin baseline + quiet stretches + clustered bursts.
+    ctx.globalAlpha = 0.95;
+    ctx.strokeStyle = grad;
+    ctx.lineCap = "round";
+    ctx.lineWidth = barThickness;
+    const peakEnvelope = (t) => (
+      Math.exp(-Math.pow((t - 0.16) * 20, 2)) * 1.0 +
+      Math.exp(-Math.pow((t - 0.30) * 14, 2)) * 0.45 +
+      Math.exp(-Math.pow((t - 0.57) * 18, 2)) * 0.88 +
+      Math.exp(-Math.pow((t - 0.74) * 13, 2)) * 0.42
+    );
+
+    const noise = (i) => {
+      // Deterministic pseudo-random jitter, stable across renders.
+      const x = Math.sin((i + 13) * 12.9898) * 43758.5453;
+      return x - Math.floor(x);
+    };
+
+    for (let i = 0; i < bars; i++) {
+      const t = i / Math.max(1, bars - 1);
+      const y = i * stepY;
+      const env = Math.min(1, peakEnvelope(t) + voiceAmplitudeAt(t) * 0.08);
+      const carrier =
+        0.62 * Math.abs(Math.sin(t * Math.PI * 58 + 0.35)) +
+        0.25 * Math.abs(Math.sin(t * Math.PI * 27 + 1.2)) +
+        0.13 * Math.abs(Math.sin(t * Math.PI * 7 + 2.3));
+      const jitter = 0.84 + noise(i) * 0.28;
+      const amp = Math.max(0.006, Math.min(1, env * (0.18 + carrier * 0.86) * jitter));
+      const half = Math.max(0.75, maxHalf * amp);
+      const edgeFade = 0.72 + 0.28 * Math.sin(Math.PI * t);
+      ctx.globalAlpha = 0.55 + 0.4 * edgeFade;
+      ctx.beginPath();
+      ctx.moveTo(cx - half, y);
+      ctx.lineTo(cx + half, y);
+      ctx.stroke();
     }
+
     ctx.globalAlpha = 1;
   }
 
