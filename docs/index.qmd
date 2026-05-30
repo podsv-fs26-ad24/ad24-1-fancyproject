@@ -23,7 +23,7 @@ format:
   </div>
 
   <div class="landing-card">
-    <img src="presentation-media/from-pptx/spotify-notes.svg" class="landing-logo" alt="" width="72" height="72" />
+    <img src="assets/spotify-notes.svg" class="landing-logo" alt="" width="72" height="72" />
     <p class="landing-eyebrow">Spotify data story</p>
     <h1 class="landing-headline">Why do songs <span class="landing-accent">blow up</span>?</h1>
 
@@ -39,11 +39,11 @@ format:
       <a href="story.html" class="landing-btn landing-btn-primary">
         Explore the story <span class="landing-btn-arrow" aria-hidden="true">→</span>
       </a>
-      <a href="project_charta.html" class="landing-btn landing-btn-ghost">Docs</a>
+      <a href="project_charta.html" class="landing-btn landing-btn-ghost">Documentation</a>
     </div>
   </div>
 
-  <img src="presentation-media/wave-accent.svg" class="landing-wave" alt="" width="320" height="64" />
+  <img src="assets/wave-accent.svg" class="landing-wave" alt="" width="320" height="64" />
   <p class="landing-credit">Cécile Sulzer · Charlotte Windlin · Angelina Zambroni</p>
 </div>
 ```

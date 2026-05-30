@@ -1,6 +1,6 @@
 """Bokeh layout for the Quarto data story (auto-generated).
 
-Regenerate from project root: ``uv run python docs/viz/generate_phase2_notebook.py``
+Regenerate from project root: ``uv run python scripts/generate_viz_notebook.py``
 """
 
 _STORY_SECTIONS = None
@@ -105,6 +105,18 @@ def build_story_layout():
                 columns={c1.columns[0]: "popularity_score", c1.columns[1]: "number_of_songs"}
             )
 
+    c1["popularity_score"] = pd.to_numeric(c1["popularity_score"], errors="coerce")
+    c1["number_of_songs"] = pd.to_numeric(c1["number_of_songs"], errors="coerce")
+    c1["bin_lo"] = (c1["popularity_score"] // 10 * 10).astype(int)
+    c1 = (
+        c1.groupby("bin_lo", as_index=False)["number_of_songs"]
+        .sum()
+        .sort_values("bin_lo")
+        .reset_index(drop=True)
+    )
+    c1["bin_label"] = c1["bin_lo"].astype(str) + "–" + (c1["bin_lo"] + 9).astype(str)
+    c1["bin_center"] = c1["bin_lo"] + 4.5
+
     c3 = pd.read_csv(DATA / "chart3_genre_radar.csv").copy()
     c3.columns = [str(c).strip().lstrip("\ufeff") for c in c3.columns]
     if "track_genre" not in c3.columns:
@@ -205,6 +217,7 @@ def build_story_layout():
         CustomJS,
         CheckboxGroup,
         InlineStyleSheet,
+        Label,
         Spacer,
     )
     from bokeh.layouts import column, row
@@ -266,10 +279,10 @@ def build_story_layout():
 
     def _genre_checkbox_css() -> str:
         rules = [
-            ":host { display: block; width: 100%; }",
-            ".bk-input-group { display: flex !important; flex-wrap: wrap; gap: 0.55rem 0.9rem; margin: 0; }",
-            "label { display: inline-flex !important; align-items: center; gap: 0.45rem; margin: 0 !important;",
-            " padding: 0.4rem 0.7rem !important; border-radius: 999px !important;",
+            ":host { display: block; width: 100%; max-width: 100%; box-sizing: border-box; }",
+            ".bk-input-group { display: flex !important; flex-wrap: wrap; gap: 0.45rem 0.55rem; margin: 0; max-width: 100%; }",
+            "label { display: inline-flex !important; align-items: center; gap: 0.4rem; margin: 0 !important;",
+            " padding: 0.35rem 0.6rem !important; border-radius: 999px !important;",
             " border: 1px solid #2e2e42 !important; background: rgba(30, 30, 44, 0.9) !important; cursor: pointer; }",
             "label span { font-family: Figtree, system-ui, sans-serif !important; font-size: 0.82rem !important;",
             " font-weight: 600 !important; }",
@@ -340,8 +353,10 @@ def build_story_layout():
         cb.background_fill_color = C["panel"]
         cb.border_line_color = C["grid"]
 
-    # Figures ~960px; story prose stays 680px in styles.css
-    FIG_W = 720
+    # Charts and slider content: 640px inside 800px section cards (styles.css)
+    FIG_W = 640
+    SLIDER_PANEL_W = 736  # fills 800px section card minus horizontal padding
+    SLIDER_W = SLIDER_PANEL_W - 48
     W_MAIN = FIG_W
     W_SCATTER = FIG_W // 2
     W_HEAT_PLOT = FIG_W - 64  # leave room for colorbar so total width ≈ FIG_W
@@ -353,21 +368,27 @@ def build_story_layout():
         css="""
 :host {
   display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   margin: 0 auto 1.25rem auto;
-  padding: 1.1rem 1.35rem 1rem;
+  padding: 1rem 1rem 0.9rem;
   border-radius: 14px;
   border: 1px solid #2e2e42;
   background: linear-gradient(135deg, rgba(86,207,225,0.12) 0%, #14141f 45%, rgba(155,93,229,0.14) 100%);
   box-shadow: 0 10px 32px rgba(0,0,0,0.35);
-  max-width: 100%;
+  overflow: hidden;
 }
 """
     )
     _story_layout_ss = InlineStyleSheet(
         css="""
 :host {
+  width: 100% !important;
+  max-width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  box-sizing: border-box;
 }
 """
     )
@@ -378,20 +399,22 @@ def build_story_layout():
   flex-direction: row !important;
   justify-content: center !important;
   align-items: flex-start !important;
+  gap: 0.75rem !important;
   width: 100% !important;
   max-width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  box-sizing: border-box;
 }
 """
     )
 
     def _center_section(layout, *, width: int = FIG_W):
-        """Wrap any chart or block so it sits on the same centered 720px rail as Section 2."""
+        """Wrap chart blocks to fill the same column as section text."""
         return column(
             layout,
             align="center",
-            sizing_mode="fixed",
+            sizing_mode="stretch_width",
             width=width,
             stylesheets=[_story_layout_ss],
         )
@@ -401,13 +424,39 @@ def build_story_layout():
         css="""
 :host {
   display: block;
-  margin: 0 auto 1.5rem auto;
-  padding: 1.5rem 1.75rem 1.25rem;
-  border-radius: 16px;
+  margin: 0;
+  padding: 2rem 1.75rem 1.75rem;
+  border-radius: 18px;
   border: 1px solid #2e2e42;
   background: linear-gradient(145deg, rgba(155,93,229,0.14) 0%, #14141f 40%, rgba(29,185,84,0.12) 100%);
   box-shadow: 0 16px 48px rgba(0,0,0,0.4);
-  max-width: 100%;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+"""
+    )
+
+    _slider_stack_ss = InlineStyleSheet(
+        css="""
+:host {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0;
+  box-sizing: border-box;
+}
+"""
+    )
+
+    _panel_block_ss = InlineStyleSheet(
+        css="""
+:host {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0;
+  box-sizing: border-box;
 }
 """
     )
@@ -415,12 +464,15 @@ def build_story_layout():
     def _slider_ss(title_color: str, handle_border: str, handle_glow: str) -> InlineStyleSheet:
         return InlineStyleSheet(
             css=f"""
-:host {{ display: block; margin-bottom: 0.75rem; }}
+:host {{ display: block; margin-bottom: 1.1rem; width: 100% !important; }}
 .bk-slider-title {{
   color: {title_color} !important;
   font-weight: 700 !important;
   font-family: Figtree, system-ui, sans-serif !important;
-  font-size: 0.88rem !important;
+  font-size: 0.92rem !important;
+  white-space: normal !important;
+  line-height: 1.4 !important;
+  margin-bottom: 0.4rem !important;
 }}
 .bk-slider-track {{
   background: #2e2e42 !important;
@@ -440,23 +492,23 @@ def build_story_layout():
     src1 = ColumnDataSource(c1)
     p1 = figure(
         title="How popular are most songs, really?",
-        x_axis_label="Popularity score (0 = almost unheard, 100 = huge)",
-        y_axis_label="Number of tracks",
+        x_axis_label="Number of tracks",
+        y_axis_label="Popularity score (10-point bands; 0 = almost unheard, 100 = huge)",
         width=W_MAIN,
-        height=400,
+        height=480,
         tools="pan,wheel_zoom,box_zoom,reset,save",
     )
-    p1.vbar(
-        x="popularity_score",
-        width=0.85,
-        top="number_of_songs",
+    p1.hbar(
+        y="bin_center",
+        right="number_of_songs",
+        height=8,
         source=src1,
         fill_color=C["green"],
         line_color=None,
         fill_alpha=0.92,
     )
     p1.add_tools(
-        HoverTool(tooltips=[("Popularity", "@popularity_score"), ("Tracks", "@number_of_songs{0,0}")])
+        HoverTool(tooltips=[("Score range", "@bin_label"), ("Tracks", "@number_of_songs{0,0}")])
     )
     _apply_theme(p1)
 
@@ -790,8 +842,9 @@ def build_story_layout():
     genre_filter_panel = column(
         genre_filter_help,
         genre_cb,
-        align="center",
-        sizing_mode="stretch_width",
+        align="start",
+        sizing_mode="fixed",
+        width=FIG_W,
         stylesheets=[_genre_panel_ss],
     )
     sec2_heatmap_gap = Spacer(height=44, sizing_mode="fixed")
@@ -903,7 +956,7 @@ def build_story_layout():
         height=400,
         y_range=Range1d(0, 0.85),
     )
-    _p4_half = W_MAIN // 2
+    _p4_half = (FIG_W - 16) // 2
     p4b = _hits_vs_nonhits_bar(
         ["loudness"],
         title="Loudness",
@@ -1024,11 +1077,30 @@ def build_story_layout():
         legend_label="Your track",
         marker="star",
     )
+    star_label = Label(
+        x=0.55,
+        y=0.55,
+        text="Positive: 0.55\nIntense: 0.55",
+        text_color=C["text"],
+        text_font=_FONT,
+        text_font_size="10pt",
+        text_line_height=1.35,
+        x_offset=16,
+        y_offset=-10,
+        background_fill_color=C["panel"],
+        background_fill_alpha=0.92,
+        border_line_color=C["green"],
+        border_line_alpha=0.85,
+        padding=6,
+    )
+    p5.add_layout(star_label)
     p5.legend.label_text_font_size = "9pt"
-    p5.legend.background_fill_alpha = 0.0
+    p5.legend.background_fill_alpha = 0.94
     p5.legend.border_line_alpha = 0.0
-    # Move legend out of the chart body for readability.
-    p5.add_layout(p5.legend[0], "right")
+    p5.legend.orientation = "horizontal"
+    p5.legend.spacing = 14
+    p5.legend.margin = 12
+    p5.add_layout(p5.legend[0], "below")
     _apply_theme(p5)
 
     _genre_mood_js = CustomJS(
@@ -1057,7 +1129,7 @@ def build_story_layout():
     # ========== Jonas panel ==========
     def _readout_html(value_html: str) -> str:
         return (
-            '<div style="margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;'
+            '<div style="width:100%;box-sizing:border-box;margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;'
             "border:1px solid #2e2e42;"
             "background:linear-gradient(90deg,rgba(29,185,84,0.18),rgba(155,93,229,0.14),rgba(86,207,225,0.12));"
             'font-size:1rem;line-height:1.5;">'
@@ -1139,7 +1211,7 @@ def build_story_layout():
                 "</li>"
             )
         return (
-            '<div style="margin-top:0.8rem;padding:0.75rem 1rem;border-radius:10px;'
+            '<div style="width:100%;box-sizing:border-box;margin-top:0.8rem;padding:0.75rem 1rem;border-radius:10px;'
             'border:1px solid #2e2e42;background:rgba(20,20,31,0.7);">'
             '<p style="margin:0 0 0.35rem 0;font-size:0.88rem;color:#9ca3b8;">Most similar songs in the dataset:</p>'
             '<ul style="margin:0;padding-left:1rem;line-height:1.35;">'
@@ -1150,50 +1222,71 @@ def build_story_layout():
 
     explain = Div(
         text=(
-            '<p style="margin:0 0 1rem 0;font-size:0.95rem;line-height:1.6;color:#9ca3b8;">'
+            '<p style="margin:0 0 0.75rem 0;font-size:0.95rem;line-height:1.6;color:#9ca3b8;">'
             '<span style="color:#1DB954;font-weight:700;">Drag the sliders</span> to mirror how your track sounds. '
-            'The <strong style="color:#f4f4f8;">star</strong> moves on the mood map, the '
-            '<strong style="color:#f4f4f8;">dashed line</strong> on the radar updates with your shape, and the '
-            "readout below is the <em style=\"color:#c77dff;\">average popularity</em> of real tracks in the "
+            'Updates run instantly in the browser: the '
+            '<strong style="color:#f4f4f8;">star</strong> on the '
+            '<a href="#sec-moodmap" style="color:#1ed760;text-decoration:none;font-weight:600;">mood map (Section 5)</a> '
+            'and the <strong style="color:#f4f4f8;">dashed line</strong> on the '
+            '<a href="#sec-genres" style="color:#1ed760;text-decoration:none;font-weight:600;">genre radar (Section 3)</a>. '
+            "Scroll up to watch them move, or use the jump links below."
+            "</p>"
+            '<p class="story-slider-jumps" style="margin:0 0 1rem 0;display:flex;flex-wrap:wrap;gap:0.5rem;">'
+            '<a href="#sec-moodmap" class="story-slider-jump">↑ Mood map &amp; star</a>'
+            '<a href="#sec-genres" class="story-slider-jump">↑ Genre radar</a>'
+            "</p>"
+            '<p style="margin:0 0 1rem 0;font-size:0.92rem;line-height:1.55;color:#9ca3b8;">'
+            "The readout below is the <em style=\"color:#c77dff;\">average popularity</em> of real tracks in the "
             "same bins, not a forecast. We also show the closest songs by audio features."
             "</p>"
         ),
+        stylesheets=[_panel_block_ss],
     )
     how_to = Div(
         text=(
             '<p style="margin:0 0 0.7rem 0;font-size:0.88rem;line-height:1.45;color:#c8ceda;">'
-            "Drag sliders to place your track, then read genre, score, and similar songs."
+            "Tip: open Section 3 or 5 in another tab, or scroll up once after dragging. The linked charts live above this panel."
             "</p>"
-        )
+        ),
+        stylesheets=[_panel_block_ss],
     )
-    readout = Div(text=_readout_html("…"))
-    genre_match = Div(text=_closest_genre_html(0.55, 0.55))
-    similar_tracks = Div(text=_closest_tracks_html(0.55, 0.55, 0.55, 0.30, 75.0))
+    readout = Div(text=_readout_html("…"), stylesheets=[_panel_block_ss])
+    genre_match = Div(text=_closest_genre_html(0.55, 0.55), stylesheets=[_panel_block_ss])
+    similar_tracks = Div(text=_closest_tracks_html(0.55, 0.55, 0.55, 0.30, 75.0), stylesheets=[_panel_block_ss])
     disclaimer = Div(
         text=(
             '<p style="margin:0.75rem 0 0;font-size:0.8rem;color:#9ca3b8;font-style:italic;">'
             "<i>Similarity is feature-based only and not a recommendation or popularity prediction.</i>"
             "</p>"
         ),
+        stylesheets=[_panel_block_ss],
     )
 
     sd = Slider(
-        start=0, end=1, value=0.55, step=0.01, title="How danceable? (0 = not, 1 = very)",
+        start=0, end=1, value=0.55, step=0.01, title="Danceability",
+        width=SLIDER_W,
+        sizing_mode="stretch_width",
         bar_color=C["green"],
         stylesheets=[_slider_ss(C["green"], C["green"], "rgba(29,185,84,0.45)")],
     )
     se = Slider(
-        start=0, end=1, value=0.55, step=0.01, title="How intense / energetic?",
+        start=0, end=1, value=0.55, step=0.01, title="Energy",
+        width=SLIDER_W,
+        sizing_mode="stretch_width",
         bar_color=C["purple"],
         stylesheets=[_slider_ss(C["purple"], C["purple"], "rgba(155,93,229,0.45)")],
     )
     sv = Slider(
-        start=0, end=1, value=0.55, step=0.01, title="How happy / positive does it sound?",
+        start=0, end=1, value=0.55, step=0.01, title="Valence (mood / positivity)",
+        width=SLIDER_W,
+        sizing_mode="stretch_width",
         bar_color=C["blue"],
         stylesheets=[_slider_ss(C["blue"], C["blue"], "rgba(86,207,225,0.45)")],
     )
     sa = Slider(
-        start=0, end=1, value=0.30, step=0.01, title="How acoustic (not electronic)?",
+        start=0, end=1, value=0.30, step=0.01, title="Acousticness",
+        width=SLIDER_W,
+        sizing_mode="stretch_width",
         bar_color=C["silver"],
         stylesheets=[_slider_ss(C["silver"], C["silver"], "rgba(232,232,255,0.35)")],
     )
@@ -1207,6 +1300,8 @@ def build_story_layout():
         value=_st_mid,
         step=1,
         title="Tempo (BPM)",
+        width=SLIDER_W,
+        sizing_mode="stretch_width",
         bar_color=C["green_hi"],
         stylesheets=[_slider_ss(C["green_hi"], C["green_hi"], "rgba(30,215,96,0.45)")],
     )
@@ -1229,6 +1324,7 @@ def build_story_layout():
             st=st,
             jonas_radar=jonas_radar,
             jonas_mood=jonas_mood,
+            star_label=star_label,
             readout=readout,
             genre_match=genre_match,
             similar_tracks=similar_tracks,
@@ -1281,6 +1377,9 @@ def build_story_layout():
     jonas_mood.data = {x: [v], y: [e]};
     jonas_radar.change.emit();
     jonas_mood.change.emit();
+    star_label.x = v;
+    star_label.y = e;
+    star_label.text = 'Positive: ' + v.toFixed(2) + '\\nIntense: ' + e.toFixed(2);
     let best = genre_moods[0];
     let bestD = 1e20;
     for (let i = 0; i < genre_moods.length; i++) {
@@ -1321,13 +1420,13 @@ def build_story_layout():
       popSum += Number(Sp[idx]);
       popN += 1;
     }
-    similar_tracks.text = '<div style="margin-top:0.8rem;padding:0.75rem 1rem;border-radius:10px;border:1px solid #2e2e42;background:rgba(20,20,31,0.7);"><p style="margin:0 0 0.35rem 0;font-size:0.88rem;color:#9ca3b8;">Most similar songs in the dataset:</p><ul style="margin:0;padding-left:1rem;line-height:1.35;">' + listHtml + '</ul></div>';
+    similar_tracks.text = '<div style="width:100%;box-sizing:border-box;margin-top:0.8rem;padding:0.75rem 1rem;border-radius:10px;border:1px solid #2e2e42;background:rgba(20,20,31,0.7);"><p style="margin:0 0 0.35rem 0;font-size:0.88rem;color:#9ca3b8;">Most similar songs in the dataset:</p><ul style="margin:0;padding-left:1rem;line-height:1.35;">' + listHtml + '</ul></div>';
     const popNear = popN > 0 ? (popSum / popN) : undefined;
     const popShow = (pop !== undefined) ? Number(pop) : popNear;
     if (popShow === undefined || Number.isNaN(popShow)) {
-      readout.text = '<div class="slider-readout slider-readout-empty"><span class="slider-readout-label">Average popularity of similar tracks (not a prediction):</span> <span class="slider-readout-value"><i>score unavailable</i></span></div>';
+      readout.text = '<div class="slider-readout slider-readout-empty" style="width:100%;box-sizing:border-box;"><span class="slider-readout-label">Average popularity of similar tracks (not a prediction):</span> <span class="slider-readout-value"><i>score unavailable</i></span></div>';
     } else {
-      readout.text = '<div style="margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;border:1px solid #2e2e42;background:linear-gradient(90deg,rgba(29,185,84,0.18),rgba(155,93,229,0.14),rgba(86,207,225,0.12));font-size:1rem;"><span style="color:#9ca3b8;font-weight:600;">Average popularity of similar tracks (not a prediction):</span> <span style="color:#1DB954;font-size:1.45rem;font-weight:800;">' + Number(popShow).toFixed(1) + '</span><span style="color:#9ca3b8;font-weight:600;"> / 100</span></div>';
+      readout.text = '<div style="width:100%;box-sizing:border-box;margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;border:1px solid #2e2e42;background:linear-gradient(90deg,rgba(29,185,84,0.18),rgba(155,93,229,0.14),rgba(86,207,225,0.12));font-size:1rem;"><span style="color:#9ca3b8;font-weight:600;">Average popularity of similar tracks (not a prediction):</span> <span style="color:#1DB954;font-size:1.45rem;font-weight:800;">' + Number(popShow).toFixed(1) + '</span><span style="color:#9ca3b8;font-weight:600;"> / 100</span></div>';
     }
     """,
     )
@@ -1335,33 +1434,28 @@ def build_story_layout():
     for _w in (sd, se, sv, sa, st):
         _w.js_on_change("value", _jonas_cb)
 
+    slider_stack = column(
+        sd,
+        se,
+        sv,
+        sa,
+        st,
+        align="center",
+        sizing_mode="stretch_width",
+        stylesheets=[_slider_stack_ss],
+    )
+
     panel = column(
         explain,
         how_to,
-        row(
-            sd,
-            se,
-            align="center",
-            sizing_mode="fixed",
-            width=FIG_W,
-            stylesheets=[_center_row_ss],
-        ),
-        row(
-            sv,
-            sa,
-            align="center",
-            sizing_mode="fixed",
-            width=FIG_W,
-            stylesheets=[_center_row_ss],
-        ),
-        st,
+        slider_stack,
         readout,
         genre_match,
         similar_tracks,
         disclaimer,
         align="center",
-        sizing_mode="fixed",
-        width=FIG_W,
+        sizing_mode="stretch_width",
+        width=SLIDER_PANEL_W,
         stylesheets=[_slider_panel_ss, _story_layout_ss],
     )
 
@@ -1374,6 +1468,9 @@ def build_story_layout():
         readout.css_classes = ["slider-readout-wrap"]
     genre_match.text = _closest_genre_html(float(sv.value), float(se.value))
     similar_tracks.text = _closest_tracks_html(float(sd.value), float(se.value), float(sv.value), float(sa.value), float(st.value))
+    star_label.x = float(sv.value)
+    star_label.y = float(se.value)
+    star_label.text = f"Positive: {float(sv.value):.2f}\nIntense: {float(se.value):.2f}"
 
     global _STORY_SECTIONS
     _STORY_SECTIONS = {
@@ -1387,9 +1484,9 @@ def build_story_layout():
             width=FIG_W,
             stylesheets=[_story_layout_ss],
         ),
-        "sec4": sec4_block,
+        "sec4": _center_section(sec4_block),
         "sec5": _center_section(p5),
-        "slider": _center_section(panel),
+        "slider": panel,
     }
     return column(*_STORY_SECTIONS.values())
 
@@ -1427,7 +1524,18 @@ def story_scripts_html() -> str:
     from bokeh.resources import INLINE
 
     _ensure_embed_cache()
-    return INLINE.render_css() + INLINE.render_js() + _EMBED_CACHE[0]
+    tooltip_css = """
+<style id="story-bokeh-tooltip-vars">
+[popover="manual"] {
+  --background-color: #1e1e2c;
+  --color: #f4f4f8;
+  --divider-color: #2e2e42;
+  --icon-color: #2e2e42;
+  --tooltip-arrow-color: #1e1e2c;
+}
+</style>
+"""
+    return INLINE.render_css() + INLINE.render_js() + tooltip_css + _EMBED_CACHE[0]
 
 
 def story_page_extras_html() -> str:

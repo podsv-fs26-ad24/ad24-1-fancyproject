@@ -1,0 +1,13 @@
+## List of AI tools used
+
+Anthropic. (2026). *Claude Sonnet* (version 4.6). <https://claude.ai>
+
+- Debugging and error resolution
+- Code support and refinement
+- Technical explanation and guidance
+- Design support (layout, visual styling, and UX refinements)
+- Markdown writing enhancement (clarity, sentence structure, grammar)
+
+**Method reference:**
+
+Claude Sonnet 4.6 (Anthropic, 2026) was used in a supporting capacity during this project. It assisted with debugging errors, understanding technical concepts, refining code, design decisions (layout, visual styling, and user experience), and improving the clarity and structure of our markdown writing. All AI-generated outputs were critically reviewed and integrated by us. We are aware that generative AI can produce inaccurate or incomplete results, and we verified all outputs for relevance and correctness. The overall structure, methodology, and implementation decisions are entirely our own work.

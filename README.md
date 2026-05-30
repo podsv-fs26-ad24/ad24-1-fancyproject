@@ -7,13 +7,16 @@ An interactive data story exploring what makes Spotify tracks popular: built as 
 ---
 
 ## Submission
-- Visualization Product (link to GitHub pages)
-- Code & Documentation (link to GitHub repo)
-- Presentation slides
 
-Submission via Moodle **All group members must confirm the submission** 01.06.2026
+| Deliverable | Location |
+|-------------|----------|
+| Live visualization | [GitHub Pages site](https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/) |
+| Code & docs repo | This repository |
+| Presentation slides | `submission/ad24-1-presentation.pptx` (upload to Moodle as zip) |
 
-Presentation on 8.06.2026 10min + 5min discussion
+Submit via Moodle **01.06.2026** — all group members must confirm.
+
+Presentation on **08.06.2026** — 10 min + 5 min discussion.
 
 ---
 
@@ -105,20 +108,46 @@ Invoke-WebRequest -Uri "https://drive.switch.ch/index.php/s/Q4iQaQ3vxqzNFeY/down
 
 The `data/` folder is already in `.gitignore`: do **not** commit the raw dataset to GitHub.
 
-## Project Organisation
-The visualization product development is organised according to the following process model:
+## Project structure
+
+```
+.
+├── data/                 # Chart CSVs (committed) + dataset.csv (download locally)
+├── eda/                  # Data exploration and chart generation scripts
+├── notebooks/            # Jupyter notebooks for analysis and chart prototyping
+├── scripts/              # Utility scripts (e.g. regenerate bokeh_story.py)
+├── docs/                 # Quarto website (visualization product + required docs)
+│   ├── story.qmd         # Interactive data story (main product)
+│   ├── bokeh_story.py    # Bokeh charts and slider panel
+│   ├── project_charta.qmd
+│   ├── data_report.qmd
+│   ├── assets/           # Landing page images
+│   ├── reference/        # Optional template docs (not published)
+│   └── build/            # Rendered site (generated locally)
+├── submission/           # Moodle deliverables (presentation pptx)
+└── notes/                # Personal/coaching notes (local only, gitignored)
+```
+
+### What gets published
+
+The GitHub Pages site includes only:
+
+- **Data Story** (`story.qmd`) — the visualization product
+- **Project Charta** (`project_charta.qmd`) — required documentation
+- **Data Report** (`data_report.qmd`) — required documentation
+
+Optional template reports live in `docs/reference/` and are not part of the submission.
+
+### Phase overview
 
 ![The visualization product development process](docs/pics/vizproductprocess.png)
 
-Code and configurations used in the different project phases are stored in the correspoding subfolders. Documentation artefacts in the form of a Quarto project are provided in `docs`.
-
-| Phase | Code folders | Documentation section | `docs`-File |
-|:-------|:---|:---|:---|
-| Project Understanding | -  | Project Charta | project_charta.qmd  |
-| Data Acquisition and Exploration | `eda` | Data Report | data_report.qmd  |
-| Visual Encoding and Design | `encoding-design`  | Visual Encoding and Design | viz_encoding_design.qmd  |
-| Evaluation | `evaluation`  | Evaluation | evaluation.qmd  |
-| Deployment | `deployment` | Deployment | deployment.qmd |
+| Phase | Code | Documentation |
+|-------|------|---------------|
+| Project understanding | — | `docs/project_charta.qmd` |
+| Data acquisition & exploration | `eda/`, `notebooks/` | `docs/data_report.qmd` |
+| Visual encoding & design | `docs/bokeh_story.py`, `docs/story-extras.js` | `docs/story.qmd` |
+| Deployment | `.github/workflows/publish.yml` | GitHub Pages |
 
 See the [Quarto Setup and Usage](#quarto-setup-and-usage) section for instructions on how to build and serve the documentation website locally.
 

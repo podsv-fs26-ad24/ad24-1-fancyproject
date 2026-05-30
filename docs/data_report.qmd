@@ -1,7 +1,6 @@
 ---
 title: "Data Report: Spotify Tracks Analysis"
 author: "Angelina, Cécile and Charlotte"
-date: 2026-04-10
 ---
 
 ## Overview
@@ -115,3 +114,5 @@ Hip-hop is the only focus genre in the happy-energetic quadrant. Jazz and classi
 - Genres differ dramatically in their audio profiles. Classical and metal sit at opposite extremes: pop and rock cluster in the middle.
 - Hits are louder, more danceable, and less acoustic than non-hits, but the differences are modest.
 - Most genres are energetic. The calm quadrant is dominated by classical, jazz, ambient, and sleep.
+
+{{< include ai_declaration.qmd >}}

@@ -1,8 +1,8 @@
-"""Cécile: Phase 2 Bokeh source: regenerates the exploratory notebook and ``docs/bokeh_story.py``.
+"""Regenerate the exploratory notebook and ``docs/bokeh_story.py``.
 
 Run from repo root:
 
-    uv run python docs/viz/generate_phase2_notebook.py
+    uv run python scripts/generate_viz_notebook.py
 
 Writes ``notebooks/viz_exploration.ipynb`` and ``docs/bokeh_story.py``.
 """
@@ -13,7 +13,7 @@ import nbformat
 from nbformat.v4 import new_code_cell, new_markdown_cell, new_notebook
 
 # Repo root (folder that contains ``data/`` and ``docs/``), not ``docs/`` alone.
-ROOT = Path(__file__).resolve().parent.parent.parent
+ROOT = Path(__file__).resolve().parent.parent
 NB_PATH = ROOT / "notebooks" / "viz_exploration.ipynb"
 STORY_BOKEH_PATH = ROOT / "docs" / "bokeh_story.py"
 
@@ -25,13 +25,13 @@ Bokeh implementation of the **five** story charts plus the **Jonas slider panel*
 
 **Regenerate aggregates:** from `eda/` run `uv run python data_for_charts.py` after updating the raw dataset. Charlotte’s binned lookup lives in `data/slider_lookup.csv` (same bin edges as `eda/sliders_lookup.ipynb`).
 
-**Regenerate this `.ipynb` from source:** from the project root run `uv run python docs/viz/generate_phase2_notebook.py`.
+**Regenerate this `.ipynb` from source:** from the project root run `uv run python scripts/generate_viz_notebook.py`.
 
 **Plain language:** tooltips and slider titles avoid unexplained jargon where possible. The readout is a **bin average**, not a prediction.
 
 **How to run (one click):** restart the kernel (`Cmd+Shift+P` → “Jupyter: Restart Kernel”), then press **Run** on the **one code cell** below this text. Wait until plots and sliders appear. Bokeh uses **INLINE** JS; sliders use **CustomJS** (works in VS Code).
 
-**If it fails:** open the folder that contains **`data/`** (see README for `dataset.csv`). If you edited this notebook by hand, regenerate it with `uv run python docs/viz/generate_phase2_notebook.py` from the project root.
+**If it fails:** open the folder that contains **`data/`** (see README for `dataset.csv`). If you edited this notebook by hand, regenerate it with `uv run python scripts/generate_viz_notebook.py` from the project root.
 
 **Note:** Legacy `slider_lookup.csv` may use 0–100 BPM tempo bins; tempo is clipped for the lookup only; radar tempo still uses the full dataset range.
 """
@@ -887,7 +887,7 @@ def story_scripts_html() -> str:
 '''
 STORY_BOKEH_PATH.write_text(
     '"""Bokeh layout for the Quarto data story (auto-generated).\n\n'
-    "Regenerate from project root: ``uv run python docs/viz/generate_phase2_notebook.py``\n"
+    "Regenerate from project root: ``uv run python scripts/generate_viz_notebook.py``\n"
     '"""\n\n'
     "_STORY_SECTIONS = None\n"
     "_EMBED_CACHE = None\n"

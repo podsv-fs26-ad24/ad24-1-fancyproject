@@ -1,6 +1,11 @@
 project:
   type: website
   output-dir: build
+  render:
+    - index.qmd
+    - story.qmd
+    - project_charta.qmd
+    - data_report.qmd
 
 lang: en
 language:
@@ -19,18 +24,16 @@ website:
     style: "floating"
     search: true
     contents:
-      - story.qmd
-      - project_charta.qmd
-      - data_report.qmd
-      - viz_design_report.qmd
-      - evaluation.qmd
+      - text: "Project Charta"
+        href: project_charta.qmd
+      - text: "Data Report"
+        href: data_report.qmd
 
 format:
   html:
     theme: darkly
     css: styles.css
     toc: true
-
 
 number-sections: true
 

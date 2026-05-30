@@ -111,13 +111,21 @@ pre code {
   color: var(--text-muted) !important;
 }
 
-#quarto-sidebar a:hover .sidebar-item-text {
+#quarto-sidebar a.sidebar-link:hover .sidebar-item-text,
+#quarto-sidebar a.sidebar-link:hover {
   color: var(--text-primary) !important;
 }
 
-#quarto-sidebar .active > .sidebar-item-text {
-  color: var(--spotify-green) !important;
-  font-weight: 600;
+#quarto-sidebar a.sidebar-link.active,
+#quarto-sidebar a.sidebar-link.active .sidebar-item-text {
+  color: var(--spotify-green-h) !important;
+  font-weight: 700;
+}
+
+#quarto-sidebar .sidebar-item-container:has(a.sidebar-link.active) {
+  margin-left: -0.35rem;
+  padding-left: 0.65rem;
+  border-left: 3px solid var(--spotify-green);
 }
 
 /* TOC / margin sidebar */
@@ -291,9 +299,10 @@ body:has(.landing-stage) .quarto-navbar {
 body.landing-page .page-layout-full #quarto-document-content,
 body:has(.landing-stage) .page-layout-full #quarto-document-content {
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   min-height: calc(100vh - 3.5rem);
-  padding: clamp(2rem, 5vh, 3.5rem) clamp(1rem, 4vw, 2rem);
+  padding: clamp(2rem, 5vh, 3.5rem) clamp(1rem, 4vw, 2rem) clamp(3rem, 8vh, 5rem);
   background:
     radial-gradient(ellipse 90% 70% at 0% 0%, rgba(29, 185, 84, 0.32), transparent 58%),
     radial-gradient(ellipse 80% 60% at 100% 8%, rgba(155, 93, 229, 0.26), transparent 52%),
@@ -570,6 +579,64 @@ body:has(.landing-stage) .page-layout-full #quarto-document-content {
   opacity: 0.75;
 }
 
+.landing-stage .landing-ai-declaration {
+  margin: 2.25rem auto 0;
+  max-width: 42rem;
+  width: 100%;
+  padding: 1.75rem 1.25rem 0;
+  border-top: 1px solid var(--border);
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.landing-stage .landing-ai-declaration h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-primary);
+  border: none;
+  padding: 0;
+}
+
+.landing-stage .landing-ai-declaration p {
+  margin: 0 0 0.85rem 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.landing-stage .landing-ai-declaration p:last-child {
+  margin-bottom: 0;
+}
+
+.landing-stage .landing-ai-declaration ul {
+  margin: 0 0 1rem 0;
+  padding-left: 1.25rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.landing-stage .landing-ai-declaration li {
+  margin-bottom: 0.25rem;
+}
+
+.landing-stage .landing-ai-declaration a {
+  color: var(--spotify-green-h);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.landing-stage .landing-ai-declaration a:hover {
+  color: var(--spotify-green);
+}
+
+.landing-stage .landing-ai-declaration strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
 @media (max-width: 480px) {
   .landing-stage .landing-actions {
     flex-direction: column;
@@ -593,10 +660,11 @@ body:has(.landing-stage) .page-layout-full #quarto-document-content {
   padding: 0 1.5rem;
 }
 
-/* Data story: compact column, everything on one center axis */
+/* Data story: 640px content inside 800px section cards */
 body.story-page {
-  --prose-width: 560px;
-  --figure-width: 720px;
+  --figure-width: 640px;
+  --section-panel-width: 800px;
+  --prose-width: var(--figure-width);
   --story-wave-width: 3.75rem;
   --story-rail-width: 13.5rem;
   --story-rail-gap: 0.65rem;
@@ -606,11 +674,11 @@ body.story-page #quarto-content.page-columns {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  max-width: var(--figure-width) !important;
-  width: min(var(--figure-width), 94vw) !important;
+  max-width: var(--section-panel-width) !important;
+  width: min(var(--section-panel-width), 96vw) !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  padding: 0 1rem;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -639,12 +707,24 @@ body.story-page section.level2 {
 body.story-page section.level2 > h2,
 body.story-page section.level2 > p,
 body.story-page section.level2 > .callout,
-body.story-page section.level2 > .story-takeaway {
-  width: min(var(--prose-width), 100%);
+body.story-page section.level2 > .story-takeaway,
+body.story-page section.level2 > .cell,
+body.story-page section.level2 > nav {
+  width: 100%;
   max-width: var(--prose-width);
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
+}
+
+body.story-page #quarto-document-content section.level2[id^="sec-"] > h2,
+body.story-page #quarto-document-content section.level2[id^="sec-"] > p,
+body.story-page #quarto-document-content section.level2[id^="sec-"] > .callout,
+body.story-page #quarto-document-content section.level2[id^="sec-"] > .story-takeaway,
+body.story-page #quarto-document-content section.level2[id^="sec-"] > .cell {
+  width: 100%;
+  max-width: var(--figure-width);
+  margin-inline: auto;
 }
 
 /* Story hero banner (title block) */
@@ -704,16 +784,16 @@ body.story-page #title-block-header .subtitle {
 
 /* Chart rail: grid centering (works with Bokeh display:contents) */
 body.story-page .story-viz-rail {
-  width: min(var(--figure-width), 100%);
-  max-width: var(--figure-width);
-  margin-inline: auto;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: 0;
   display: grid;
   justify-items: center;
   box-sizing: border-box;
 }
 
 body.story-page section.level2 > .cell {
-  width: min(var(--figure-width), 100%);
+  width: 100%;
   max-width: var(--figure-width);
   margin-inline: auto;
   display: grid;
@@ -721,29 +801,45 @@ body.story-page section.level2 > .cell {
   box-sizing: border-box;
 }
 
+body.story-page #quarto-document-content section.level2[id^="sec-"] > .cell {
+  width: 100%;
+  max-width: 100%;
+  margin-inline: 0;
+}
+
 body.story-page .cell-output,
 body.story-page .cell-output-display {
   display: grid;
-  justify-items: center;
+  justify-items: stretch;
   width: 100%;
 }
 
 body.story-page .story-figure-wide,
 body.story-page .story-figure-center {
   width: 100%;
-  max-width: var(--figure-width);
-  margin-inline: auto;
+  max-width: 100%;
+  margin-inline: 0;
   display: grid;
-  justify-items: center;
+  justify-items: stretch;
   box-sizing: border-box;
 }
 
 body.story-page .story-figure-center [data-root-id],
 body.story-page .story-figure-wide [data-root-id] {
   display: block !important;
-  width: 100%;
-  max-width: var(--figure-width);
+  width: auto !important;
+  max-width: 100% !important;
   margin-inline: auto !important;
+}
+
+body.story-page.page-layout-article section.level2[id^="sec-"] .bk-root {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0.75rem 0 1.25rem 0 !important;
+  overflow: visible !important;
+  overflow-x: auto !important;
+  box-sizing: border-box;
 }
 
 body.story-page.page-layout-article .story-viz-rail .bk-root,
@@ -751,15 +847,11 @@ body.story-page.page-layout-article .cell-output-display .bk-root,
 body.story-page.page-layout-article .story-figure-center .bk-root,
 body.story-page.page-layout-article .story-figure-wide .bk-root {
   display: block !important;
-  width: min(var(--figure-width), 100%) !important;
-  max-width: var(--figure-width) !important;
-  margin: 0.5rem auto 1.75rem auto !important;
-  justify-self: center;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0.75rem auto 1.25rem auto !important;
   overflow: visible !important;
-  overflow-x: visible !important;
-}
-
-body.story-page.page-layout-article .cell-output-display .bk-root {
+  overflow-x: auto !important;
   box-sizing: border-box;
 }
 
@@ -784,11 +876,9 @@ body.story-page #title-block-header.story-reveal {
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-/* Stronger divider after hero */
+/* Stronger divider after hero — first story panel follows opening */
 body.story-page #title-block-header + section.level2 {
   margin-top: 0.25rem;
-  padding-top: 2.25rem;
-  border-top: 2px solid rgba(29, 185, 84, 0.35);
 }
 
 body.story-page section.level2 > hr,
@@ -802,13 +892,114 @@ body.story-page main.content > hr {
   opacity: 1;
 }
 
-/* Headings: same rail as text, symmetric box so the green bar doesn’t look shifted */
-body.story-page section.level2 > h2 {
-  width: min(var(--prose-width), 100%);
-  max-width: var(--prose-width);
-  margin-left: auto;
-  margin-right: auto;
+/* Story sections: card panels, shared inner width for text + charts */
+body.story-page #quarto-document-content {
+  counter-reset: story-sec;
+}
+
+body.story-page #quarto-document-content section.level2[id^="sec-"]:not(#sec-slider) {
+  counter-increment: story-sec;
+}
+
+body.story-page #quarto-document-content section.level2[id^="sec-"] {
+  width: 100%;
+  max-width: var(--section-panel-width);
+  margin: 0 auto 4rem auto;
+  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 2rem);
+  border-radius: 20px;
+  border: 1px solid rgba(46, 46, 66, 0.95);
+  background:
+    radial-gradient(ellipse 85% 45% at 0% 0%, rgba(29, 185, 84, 0.08), transparent 58%),
+    var(--bg-elevated);
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
+}
+
+body.story-page #title-block-header + section.level2[id^="sec-"] {
+  margin-top: 0.5rem;
+}
+
+body.story-page #quarto-document-content section.level2 > hr {
+  display: none;
+}
+
+body.story-page #quarto-document-content section.level2[id^="sec-"]:not(#sec-slider) > h2::before {
+  content: "Section " counter(story-sec);
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--spotify-green-h);
+  margin-bottom: 0.65rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(29, 185, 84, 0.45);
+  background: rgba(29, 185, 84, 0.12);
+}
+
+body.story-page #quarto-document-content section#sec-slider > h2::before {
+  content: "Try it";
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--spotify-green-h);
+  margin-bottom: 0.65rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(29, 185, 84, 0.45);
+  background: rgba(29, 185, 84, 0.12);
+}
+
+body.story-page #quarto-document-content section.level2[id^="sec-"] > h2 {
+  width: 100%;
+  max-width: var(--figure-width);
+  margin: 0 auto 1.25rem auto;
+  padding: 0 0 1rem 0;
+  box-sizing: border-box;
+  font-size: clamp(1.45rem, 3vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  border: none;
+  border-bottom: 2px solid rgba(29, 185, 84, 0.4);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+body.story-page #quarto-document-content section.level2[id^="sec-"] > .story-takeaway {
+  margin-top: 2.25rem;
+  margin-bottom: 0;
+  padding-top: 1.35rem;
+  border-top: 1px solid rgba(29, 185, 84, 0.25);
+}
+
+body.story-page #quarto-document-content section.level2[id^="sec-"] > h2,
+body.story-page #quarto-document-content section.level2[id^="sec-"] > p,
+body.story-page #quarto-document-content section.level2[id^="sec-"] > .callout,
+body.story-page #quarto-document-content section.level2[id^="sec-"] > .story-takeaway,
+body.story-page #quarto-document-content section.level2[id^="sec-"] > .cell,
+body.story-page #quarto-document-content section.level2[id^="sec-"] .story-viz-rail {
+  width: 100%;
+  max-width: var(--figure-width);
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* Try it: inner slider panel fills the full section card width */
+body.story-page #quarto-document-content section#sec-slider > .cell,
+body.story-page #quarto-document-content section#sec-slider .story-viz-rail {
+  max-width: 100%;
+  width: 100%;
+  margin-inline: 0;
+}
+
+body.story-page section.level2 > p {
+  margin-top: 0;
 }
 
 /* Key takeaway boxes */
@@ -833,6 +1024,42 @@ body.story-page .story-takeaway strong {
   color: var(--spotify-green-h);
 }
 
+body.story-page .story-limitations {
+  margin: 2rem auto 0 auto;
+  max-width: var(--prose-width);
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  border: 1px dashed var(--border);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+body.story-page .story-limitations strong {
+  color: var(--text-primary);
+}
+
+/* Slider panel jump links (Bokeh Div HTML) */
+.story-slider-jump,
+body.story-page a.story-slider-jump {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(29, 185, 84, 0.45);
+  background: rgba(29, 185, 84, 0.12);
+  color: var(--spotify-green-h) !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.story-slider-jump:hover,
+body.story-page a.story-slider-jump:hover {
+  background: rgba(29, 185, 84, 0.22);
+  border-color: var(--spotify-green);
+}
+
 /* Left rail: voice wave (back) + section nav (front) */
 body.story-page .story-spine-rail {
   display: none;
@@ -848,7 +1075,7 @@ body.story-page .story-spine-rail {
     left: max(
       0.5rem,
       calc(
-        50% - min(var(--figure-width), 94vw) / 2 - var(--story-rail-width) -
+        50% - min(var(--section-panel-width), 96vw) / 2 - var(--story-rail-width) -
           var(--story-rail-gap) + 0.75rem
       )
     );
@@ -1101,6 +1328,63 @@ body.story-page .story-figure-wide .bk-root,
 body.story-page .story-viz-rail .bk-root {
   max-width: var(--figure-width);
   overflow: visible;
+}
+
+/* ---------- Bokeh hover tooltips (dark mode) ---------- */
+/* Host-level vars for Bokeh 3 popover tooltips (shadow DOM). */
+[popover="manual"] {
+  --background-color: #1e1e2c !important;
+  --color: #f4f4f8 !important;
+  --divider-color: #2e2e42 !important;
+  --icon-color: #2e2e42 !important;
+  --tooltip-arrow-color: #1e1e2c !important;
+  --tooltip-color: #1e1e2c !important;
+  --tooltip-text: #f4f4f8 !important;
+  --tooltip-border: #2e2e42 !important;
+}
+
+.bk-tooltip,
+.bk-tooltip-custom {
+  --tooltip-color: var(--bg-elevated) !important;
+  --tooltip-text: var(--text-primary) !important;
+  --tooltip-border: var(--border) !important;
+  --tooltip-arrow-color: var(--bg-elevated) !important;
+  --tooltip-arrow-inner-color: var(--border) !important;
+  --background-color: var(--bg-elevated) !important;
+  --color: var(--text-primary) !important;
+  --divider-color: var(--border) !important;
+  background-color: rgba(30, 30, 44, 0.96) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55) !important;
+  font-family: var(--font) !important;
+  font-size: 0.84rem !important;
+  line-height: 1.45 !important;
+  padding: 0.45rem 0.65rem !important;
+  max-width: 280px !important;
+  pointer-events: none !important;
+  z-index: 10000 !important;
+}
+
+.bk-tooltip .bk-tooltip-content,
+.bk-tooltip-custom .bk-tooltip-content {
+  background: transparent !important;
+  color: var(--text-primary) !important;
+}
+
+.bk-tooltip .bk-tooltip-row-label,
+.bk-tooltip-custom .bk-tooltip-row-label,
+.bk-tooltip-content .bk-tooltip-row-label {
+  color: var(--text-muted) !important;
+  font-weight: 500 !important;
+}
+
+.bk-tooltip .bk-tooltip-row-value,
+.bk-tooltip-custom .bk-tooltip-row-value,
+.bk-tooltip-content .bk-tooltip-row-value {
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
 }
 
 .page-layout-article .cell-output-display,
@@ -1504,12 +1788,13 @@ body.story-page.page-layout-article .story-figure-wide.story-figure-center {
   }
 
   body.story-page {
-    --prose-width: min(100%, 36rem);
-    --figure-width: min(100vw - 1.25rem, 720px);
+    --figure-width: min(100vw - 1.25rem, 640px);
+    --section-panel-width: min(100vw - 0.75rem, 800px);
+    --prose-width: var(--figure-width);
   }
 
   body.story-page #quarto-content.page-columns {
-    width: min(var(--figure-width), 100%) !important;
+    width: min(var(--section-panel-width), 100%) !important;
     padding: 0 0.5rem;
   }
 
@@ -1532,7 +1817,9 @@ body.story-page.page-layout-article .story-figure-wide.story-figure-center {
 
   body.story-page.page-layout-article .story-viz-rail .bk-root,
   body.story-page.page-layout-article .cell-output-display .bk-root {
-    min-width: min(640px, 92vw);
+    min-width: 0;
+    width: auto !important;
+    max-width: 100% !important;
   }
 
   body.story-page #title-block-header .title {
