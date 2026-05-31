@@ -9,6 +9,8 @@ Interactive data story on **89,741 Spotify tracks** — popularity, audio featur
 
 ## Where to find our deliverables
 
+Start with the [landing page](https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/) → **Explore the story** for the full interactive experience.
+
 | Deliverable | Location |
 |-------------|----------|
 | **Live visualization** | [Open the data story](https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/story.html) |
@@ -18,7 +20,6 @@ Interactive data story on **89,741 Spotify tracks** — popularity, audio featur
 | **Source code & docs** | This repository |
 | **Presentation slides** | `ad24-1-presentation.pptx` (repository root) |
 
-Start with the [landing page](https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/) → **Explore the story** for the full interactive experience.
 
 ---
 
