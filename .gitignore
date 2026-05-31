@@ -1,11 +1,10 @@
 # Mac Stuff
 .DS_Store
 
-# Personal notes and local submission files (not part of the public repo)
-notes/
-submission/
+# Office temp files
+~$*
 
-# Raw Spotify dataset: download manually from Kaggle, do not commit
+# Raw Spotify dataset: download manually from SwitchDrive, do not commit
 data/dataset.csv
 data/*.csv.zip
 
@@ -22,7 +21,8 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+/build/
+docs/build/
 develop-eggs/
 dist/
 downloads/
