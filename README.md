@@ -16,7 +16,7 @@ Interactive data story on **89,741 Spotify tracks** — popularity, audio featur
 | **Project charta** (concept + personas) | [project_charta.html](https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/project_charta.html) |
 | **Data report** | [data_report.html](https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/data_report.html) |
 | **Source code & docs** | This repository |
-| **Presentation slides** | `ad24-1-presentation.pptx` (repository root) |
+| **Presentation slides** | [`submission pptx/ad24-1-presentation.pptx`](submission%20pptx/ad24-1-presentation.pptx) |
 
 Start with the [landing page](https://podsv-fs26-ad24.github.io/ad24-1-fancyproject/) → **Explore the story** for the full interactive experience.
 
@@ -51,6 +51,8 @@ data/
   slider_lookup.csv      ← lookup table for slider panel
 eda/                     ← scripts used to generate chart CSVs from raw data
 notebooks/               ← exploratory analysis (not required to run the site)
+submission pptx/
+  ad24-1-presentation.pptx  ← oral presentation slides
 ```
 
 The published GitHub Pages site includes **index**, **story**, **project charta**, and **data report** only. Files under `docs/reference/` are optional course-template material and are not deployed.
