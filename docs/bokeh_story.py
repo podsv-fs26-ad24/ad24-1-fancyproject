@@ -764,7 +764,7 @@ def build_story_layout():
         )
     src_box = ColumnDataSource(pd.DataFrame(rows))
     p3b = figure(
-        title="How consistent is each genre’s energy? (median and middle 50% of tracks)",
+        title="How consistent is each genre’s energy?",
         y_range=FactorRange(*[r["genre"] for r in rows]),
         width=W_BOX,
         height=360,

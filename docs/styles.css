@@ -925,32 +925,34 @@ body.story-page #quarto-document-content section.level2 > hr {
 
 body.story-page #quarto-document-content section.level2[id^="sec-"]:not(#sec-slider) > h2::before {
   content: "Section " counter(story-sec);
-  display: inline-block;
+  display: block;
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--spotify-green-h);
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.55rem;
   padding: 0.3rem 0.65rem;
   border-radius: 999px;
   border: 1px solid rgba(29, 185, 84, 0.45);
   background: rgba(29, 185, 84, 0.12);
+  width: fit-content;
 }
 
 body.story-page #quarto-document-content section#sec-slider > h2::before {
   content: "Try it";
-  display: inline-block;
+  display: block;
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--spotify-green-h);
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.55rem;
   padding: 0.3rem 0.65rem;
   border-radius: 999px;
   border: 1px solid rgba(29, 185, 84, 0.45);
   background: rgba(29, 185, 84, 0.12);
+  width: fit-content;
 }
 
 body.story-page #quarto-document-content section.level2[id^="sec-"] > h2 {
@@ -1029,7 +1031,7 @@ body.story-page .story-limitations {
   max-width: var(--prose-width);
   padding: 0.85rem 1rem;
   border-radius: 10px;
-  border: 1px dashed var(--border);
+  border: 1px dashed rgba(29, 185, 84, 0.45);
   font-size: 0.9rem;
   line-height: 1.5;
   color: var(--text-muted);
@@ -1711,6 +1713,59 @@ body.story-page.page-layout-article .story-figure-wide.story-figure-center {
 }
 .page-layout-article tbody tr:hover td {
   background: rgba(29, 185, 84, 0.08) !important;
+}
+
+/* Opening and Closing: card panels matching the middle sections */
+body.story-page #quarto-document-content section#opening,
+body.story-page #quarto-document-content section#closing {
+  width: 100%;
+  max-width: var(--section-panel-width);
+  margin: 0 auto 4rem auto;
+  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 2rem);
+  border-radius: 20px;
+  border: 1px solid rgba(46, 46, 66, 0.95);
+  background:
+    radial-gradient(ellipse 85% 45% at 0% 0%, rgba(29, 185, 84, 0.08), transparent 58%),
+    var(--bg-elevated);
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+body.story-page #title-block-header + section#opening {
+  margin-top: 0.5rem;
+}
+
+body.story-page #quarto-document-content section#opening > h2,
+body.story-page #quarto-document-content section#closing > h2 {
+  width: 100%;
+  max-width: var(--figure-width);
+  margin: 0 auto 1.25rem auto;
+  padding: 0 0 1rem 0;
+  box-sizing: border-box;
+  font-size: clamp(1.45rem, 3vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  border: none;
+  border-bottom: 2px solid rgba(29, 185, 84, 0.4);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+body.story-page #quarto-document-content section#opening > h2,
+body.story-page #quarto-document-content section#opening > p,
+body.story-page #quarto-document-content section#opening > .callout,
+body.story-page #quarto-document-content section#opening > nav,
+body.story-page #quarto-document-content section#closing > h2,
+body.story-page #quarto-document-content section#closing > p,
+body.story-page #quarto-document-content section#closing > .callout,
+body.story-page #quarto-document-content section#closing > .story-limitations {
+  width: 100%;
+  max-width: var(--figure-width);
+  margin-inline: auto;
+  box-sizing: border-box;
 }
 
 /* ============================================================
