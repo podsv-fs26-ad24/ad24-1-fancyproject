@@ -81,6 +81,44 @@
     });
   }
 
+  function styleMoodMapLegend(root) {
+    const scope = root || document;
+    const legendCss = `
+      .bk-panel.below,
+      .bk-panel-above,
+      .bk-panel-below {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+      }
+      .bk-legend,
+      .bk-legend-wrap {
+        margin-inline: auto !important;
+        width: fit-content !important;
+        max-width: 100% !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 0.35rem 0.85rem !important;
+      }
+    `;
+
+    scope
+      .querySelectorAll(
+        "body.story-page #sec-moodmap .bk-root, body.story-page .story-figure-sec5 .bk-root"
+      )
+      .forEach((host) => {
+        const shadow = host.shadowRoot;
+        if (!shadow || shadow.querySelector("[data-story-mood-legend]")) return;
+        const style = document.createElement("style");
+        style.setAttribute("data-story-mood-legend", "1");
+        style.textContent = legendCss;
+        shadow.appendChild(style);
+      });
+  }
+
   function mountStoryChrome() {
     const rail = document.getElementById("story-spine-rail");
     if (rail && rail.parentElement !== document.body) {
@@ -383,13 +421,24 @@
     document.addEventListener("bokeh:loaded", () => {
       centerStoryViz();
       styleBokehTooltips();
+      styleMoodMapLegend();
       if (waveState) buildWave();
     });
     window.addEventListener("resize", centerStoryViz, { passive: true });
 
     styleBokehTooltips();
+    styleMoodMapLegend();
+    [100, 400, 1200, 2500].forEach((ms) => {
+      setTimeout(() => {
+        styleBokehTooltips();
+        styleMoodMapLegend();
+      }, ms);
+    });
     if ("MutationObserver" in window) {
-      const tooltipObserver = new MutationObserver(() => styleBokehTooltips());
+      const tooltipObserver = new MutationObserver(() => {
+        styleBokehTooltips();
+        styleMoodMapLegend();
+      });
       tooltipObserver.observe(document.body, { childList: true, subtree: true });
     }
     document.addEventListener("pointermove", () => styleBokehTooltips(), { passive: true });

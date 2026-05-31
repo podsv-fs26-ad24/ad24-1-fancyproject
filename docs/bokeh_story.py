@@ -219,9 +219,11 @@ def build_story_layout():
         InlineStyleSheet,
         Label,
         Spacer,
+        FixedTicker,
     )
     from bokeh.layouts import column, row
     from bokeh.transform import dodge, transform, factor_cmap
+    from bokeh.core.property.vectorization import value
 
     FOCUS_GENRES = ["classical", "hip-hop", "jazz", "metal", "pop", "rock"]
     FOCUS_LABELS = {
@@ -300,35 +302,51 @@ def build_story_layout():
                 f" box-shadow: 0 0 12px rgba({r}, {gb}, {b}, 0.28); }}"
             )
         return "\n".join(rules)
-    CORR_PALETTE = [
-        "#7B2CBF",
-        "#9B5DE5",
-        "#B794F4",
-        "#5c5c72",
-        "#3d3d52",
-        "#2a2a38",
-        "#2a2a38",
-        "#1a6b45",
-        "#1DB954",
-        "#1ed760",
-        "#56CFE1",
-        "#4CC9F0",
-    ]
-    _FONT = "Figtree, system-ui, -apple-system, sans-serif"
+    def _lerp_hex(c1: str, c2: str, t: float) -> str:
+        r1, g1, b1 = _hex_rgb(c1)
+        r2, g2, b2 = _hex_rgb(c2)
+        t = max(0.0, min(1.0, t))
+        return f"#{int(r1 + (r2 - r1) * t):02x}{int(g1 + (g2 - g1) * t):02x}{int(b1 + (b2 - b1) * t):02x}"
+
+    def _build_corr_palette(steps: int = 256) -> list[str]:
+        stops = [
+            (-1.0, "#7B2CBF"),
+            (-0.5, "#9B5DE5"),
+            (-0.2, "#5c5578"),
+            (0.0, "#2e2e42"),
+            (0.2, "#3d5248"),
+            (0.5, "#1DB954"),
+            (1.0, "#56CFE1"),
+        ]
+        out: list[str] = []
+        for i in range(steps):
+            v = -1 + 2 * i / max(steps - 1, 1)
+            for j in range(len(stops) - 1):
+                v0, c0 = stops[j]
+                v1, c1 = stops[j + 1]
+                if v <= v1 or j == len(stops) - 2:
+                    t = (v - v0) / (v1 - v0) if v1 != v0 else 0.0
+                    out.append(_lerp_hex(c0, c1, t))
+                    break
+        return out
+
+    CORR_PALETTE = _build_corr_palette()
+    _FONT = "Figtree"
+    _FONT_CANVAS = "Helvetica"
 
     def _apply_theme(fig, *, grid: bool = True) -> None:
         fig.background_fill_color = C["bg"]
         fig.border_fill_color = C["bg"]
         fig.outline_line_color = None
         fig.title.text_color = C["text"]
-        fig.title.text_font = _FONT
+        fig.title.text_font = _FONT_CANVAS
         fig.title.text_font_size = "13pt"
         fig.title.text_font_style = "bold"
         for axis in (fig.xaxis, fig.yaxis):
             axis.axis_label_text_color = C["muted"]
             axis.major_label_text_color = C["muted"]
-            axis.axis_label_text_font = _FONT
-            axis.major_label_text_font = _FONT
+            axis.axis_label_text_font = _FONT_CANVAS
+            axis.major_label_text_font = _FONT_CANVAS
             axis.axis_line_color = C["grid"]
             axis.major_tick_line_color = C["grid"]
             axis.minor_tick_line_color = C["grid"]
@@ -341,24 +359,43 @@ def build_story_layout():
             fig.legend.background_fill_alpha = 0.94
             fig.legend.border_line_color = C["grid"]
             fig.legend.label_text_color = C["text"]
-            fig.legend.label_text_font = _FONT
+            fig.legend.label_text_font = _FONT_CANVAS
         fig.toolbar.logo = None
         fig.toolbar.autohide = True
         if fig.toolbar_location is not None:
             fig.toolbar_location = "above"
 
     def _style_colorbar(cb) -> None:
-        cb.title_text_color = C["muted"]
+        cb.title = None
         cb.major_label_text_color = C["muted"]
-        cb.background_fill_color = C["panel"]
-        cb.border_line_color = C["grid"]
+        cb.major_label_text_font = _FONT_CANVAS
+        cb.major_label_text_font_size = "9pt"
+        cb.background_fill_color = None
+        cb.background_fill_alpha = 0
+        cb.border_line_color = None
 
-    # Charts and slider content: 640px inside 800px section cards (styles.css)
+    def _corr_text_color(v: float) -> str:
+        if v >= 0.45:
+            return "#14141f"
+        if v <= -0.45:
+            return "#f4f4f8"
+        if v >= 0.2:
+            return "#14141f"
+        return "#e8e8ff"
+
+    # Charts and slider content: 640px default; sec2/slider use 736px inside 800px cards
     FIG_W = 640
     SLIDER_PANEL_W = 736  # fills 800px section card minus horizontal padding
-    SLIDER_W = SLIDER_PANEL_W - 48
+    SEC2_W = SLIDER_PANEL_W
+    _SLIDER_PANEL_PAD = 56  # matches 1.75rem horizontal padding × 2
+    _SLIDER_HANDLE_PAD = 16  # handle bleed past track edges
+    SLIDER_W = SLIDER_PANEL_W - _SLIDER_PANEL_PAD - _SLIDER_HANDLE_PAD
+    _SLIDER_GAP = 20
+    SLIDER_COL_W = (SLIDER_W - _SLIDER_GAP) // 2
     W_MAIN = FIG_W
-    W_SCATTER = FIG_W // 2
+    _SCATTER_GAP = 12  # matches _center_row_ss gap
+    W_SCATTER = (SEC2_W - _SCATTER_GAP) // 2
+    SCATTER_H = 400
     W_HEAT_PLOT = FIG_W - 64  # leave room for colorbar so total width ≈ FIG_W
     W_HEAT = FIG_W
     W_BOX = FIG_W
@@ -392,6 +429,17 @@ def build_story_layout():
 }
 """
     )
+    _sec2_layout_ss = InlineStyleSheet(
+        css=f"""
+:host {{
+  width: {SEC2_W}px !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box;
+}}
+"""
+    )
     _center_row_ss = InlineStyleSheet(
         css="""
 :host {
@@ -399,7 +447,7 @@ def build_story_layout():
   flex-direction: row !important;
   justify-content: center !important;
   align-items: flex-start !important;
-  gap: 0.75rem !important;
+  gap: 12px !important;
   width: 100% !important;
   max-width: 100% !important;
   margin-left: auto !important;
@@ -425,7 +473,7 @@ def build_story_layout():
 :host {
   display: block;
   margin: 0;
-  padding: 2rem 1.75rem 1.75rem;
+  padding: 1.75rem 1.75rem 1.5rem;
   border-radius: 18px;
   border: 1px solid #2e2e42;
   background: linear-gradient(145deg, rgba(155,93,229,0.14) 0%, #14141f 40%, rgba(29,185,84,0.12) 100%);
@@ -433,6 +481,7 @@ def build_story_layout():
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box;
+  overflow: hidden;
 }
 """
     )
@@ -443,7 +492,43 @@ def build_story_layout():
   display: block;
   width: 100% !important;
   max-width: 100% !important;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+"""
+    )
+
+    _slider_row_ss = InlineStyleSheet(
+        css="""
+:host {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.25rem;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-bottom: 0.35rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+:host > * {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: calc(50% - 0.625rem);
+}
+"""
+    )
+
+    _results_stack_ss = InlineStyleSheet(
+        css="""
+:host {
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0.35rem 0 0 0;
   box-sizing: border-box;
 }
 """
@@ -464,20 +549,35 @@ def build_story_layout():
     def _slider_ss(title_color: str, handle_border: str, handle_glow: str) -> InlineStyleSheet:
         return InlineStyleSheet(
             css=f"""
-:host {{ display: block; margin-bottom: 1.1rem; width: 100% !important; }}
+:host {{ display: block; margin-bottom: 0.5rem; width: {SLIDER_COL_W}px !important; max-width: 100% !important; box-sizing: border-box; overflow: hidden; }}
+.bk-input-group {{
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-bottom: 0.15rem !important;
+  box-sizing: border-box;
+  overflow: hidden;
+}}
+.bk-slider {{
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}}
 .bk-slider-title {{
   color: {title_color} !important;
   font-weight: 700 !important;
   font-family: Figtree, system-ui, sans-serif !important;
-  font-size: 0.92rem !important;
+  font-size: 0.82rem !important;
   white-space: normal !important;
-  line-height: 1.4 !important;
-  margin-bottom: 0.4rem !important;
+  line-height: 1.3 !important;
+  margin-bottom: 0.3rem !important;
+  min-height: 1.9rem;
+  overflow-wrap: anywhere;
 }}
 .bk-slider-track {{
   background: #2e2e42 !important;
   border-radius: 6px !important;
   height: 8px !important;
+  max-width: 100% !important;
 }}
 .bk-slider-handle {{
   background: #f4f4f8 !important;
@@ -533,11 +633,11 @@ def build_story_layout():
     src_d = ColumnDataSource(_scatter_d)
     src_d_all = ColumnDataSource({k: np.asarray(v).copy() for k, v in _scatter_d.items()})
     p2a = figure(
-        title="Danceability vs popularity (random sample)",
+        title="Danceability vs popularity",
         x_axis_label=PLAIN["danceability"],
         y_axis_label=PLAIN["popularity"],
         width=W_SCATTER,
-        height=360,
+        height=SCATTER_H,
         tools="pan,wheel_zoom,box_zoom,reset,save",
         toolbar_location="above",
     )
@@ -573,11 +673,11 @@ def build_story_layout():
     src_e = ColumnDataSource(_scatter_e)
     src_e_all = ColumnDataSource({k: np.asarray(v).copy() for k, v in _scatter_e.items()})
     p2b = figure(
-        title="Energy vs popularity (same sample)",
+        title="Energy vs popularity",
         x_axis_label=PLAIN["energy"],
         y_axis_label=PLAIN["popularity"],
         width=W_SCATTER,
-        height=360,
+        height=SCATTER_H,
         y_range=p2a.y_range,
         tools="pan,wheel_zoom,box_zoom,reset,save",
         toolbar_location="above",
@@ -607,23 +707,23 @@ def build_story_layout():
     # ========== Chart 2c correlation heatmap ==========
     feat_cols = ["danceability", "energy", "valence", "acousticness", "instrumentalness", "tempo"]
     cm = df[feat_cols].corr().reindex(feat_cols).T.reindex(feat_cols).T
-    z = cm.values
-    n_f = len(feat_cols)
-    xf = []
-    yf = []
-    for i, ri in enumerate(feat_cols):
-        for j, cj in enumerate(feat_cols):
+    z = cm.values.flatten()
+    xf, yf, labs, text_colors = [], [], [], []
+    for ri in feat_cols:
+        for cj in feat_cols:
             xf.append(cj)
             yf.append(ri)
-    labs = [f"{v:.2f}" for v in z.flatten()]
-    src_hm = ColumnDataSource(dict(x=xf, y=yf, v=z.flatten(), lab=labs))
+    for v in z:
+        labs.append(f"{v:.2f}")
+        text_colors.append(_corr_text_color(float(v)))
+    src_hm = ColumnDataSource(dict(x=xf, y=yf, v=z, lab=labs, text_color=text_colors))
     mapper = LinearColorMapper(palette=CORR_PALETTE, low=-1, high=1)
     cats = feat_cols
     p2c = figure(
         title="How audio features correlate with each other",
         x_range=FactorRange(*cats),
         y_range=FactorRange(*reversed(cats)),
-        width=W_HEAT_PLOT,
+        width=SEC2_W - 56,
         height=460,
         tools="hover,save,reset",
         toolbar_location="above",
@@ -632,12 +732,12 @@ def build_story_layout():
     p2c.rect(
         x="x",
         y="y",
-        width=1,
-        height=1,
+        width=0.92,
+        height=0.92,
         source=src_hm,
         fill_color=transform("v", mapper),
-        line_color=C["panel"],
-        line_width=0.5,
+        line_color=None,
+        fill_alpha=0.97,
     )
     p2c.text(
         x="x",
@@ -646,15 +746,29 @@ def build_story_layout():
         text_align="center",
         text_baseline="middle",
         text_font_size="9pt",
-        text_color=C["text"],
-        text_font=_FONT,
+        text_font_style="bold",
+        text_color="text_color",
+        text_font=value(_FONT),
         source=src_hm,
     )
-    p2c.add_tools(HoverTool(tooltips=[("Pair", "@x vs @y"), ("Correlation", "@v{0.000}")]))
-    _cb = ColorBar(color_mapper=mapper, location=(0, 0), title="r")
+    p2c.add_tools(HoverTool(tooltips=[("Pair", "@x vs @y"), ("Correlation (r)", "@lab")]))
+    _cb = ColorBar(
+        color_mapper=mapper,
+        location=(0, 0),
+        height=280,
+        width=10,
+        margin=10,
+        border_line_color=None,
+        background_fill_alpha=0,
+    )
+    _cb.ticker = FixedTicker(ticks=[-1, -0.5, 0, 0.5, 1])
     _style_colorbar(_cb)
     p2c.add_layout(_cb, "right")
-    _apply_theme(p2c)
+    _apply_theme(p2c, grid=False)
+    p2c.xaxis.major_label_text_font_size = "10pt"
+    p2c.yaxis.major_label_text_font_size = "10pt"
+    p2c.outline_line_color = C["grid"]
+    p2c.outline_line_alpha = 0.35
 
     # ========== Chart 3 radar ==========
     RADAR_FEATURES = ["danceability", "energy", "valence", "acousticness", "tempo_norm"]
@@ -663,7 +777,7 @@ def build_story_layout():
         "Energetic",
         "Happy-sounding",
         "Acoustic",
-        "Tempo (relative)",
+        "Tempo",
     ]
     N = len(RADAR_FEATURES)
     # Start at top (12 o'clock) so Danceability sits centered above the chart
@@ -679,17 +793,44 @@ def build_story_layout():
         return x, y
 
 
+    RADAR_W = SEC2_W - 56
+
+    def _radar_backdrop(fig, angles_arr) -> None:
+        """Faint rings + spokes so the radar reads at a glance."""
+        ring_angles = np.append(angles_arr, angles_arr[0])
+        for lvl in (0.25, 0.5, 0.75, 1.0):
+            fig.line(
+                lvl * np.cos(ring_angles),
+                lvl * np.sin(ring_angles),
+                color=C["grid"],
+                line_width=0.6,
+                line_alpha=0.45 if lvl < 1.0 else 0.65,
+            )
+        for ang in angles_arr:
+            fig.line(
+                [0, np.cos(ang)],
+                [0, np.sin(ang)],
+                color=C["grid"],
+                line_width=0.5,
+                line_alpha=0.28,
+            )
+
     p3 = figure(
         title="Average profile by genre (focus genres)",
-        width=FIG_W,
-        height=FIG_W,
+        width=RADAR_W,
+        height=RADAR_W,
         tools="pan,wheel_zoom,box_zoom,reset,save",
         match_aspect=True,
-        x_range=Range1d(-1.38, 1.38),
-        y_range=Range1d(-1.38, 1.38),
+        x_range=Range1d(-1.42, 1.42),
+        y_range=Range1d(-1.42, 1.42),
+        min_border_left=36,
+        min_border_right=36,
+        min_border_top=36,
+        min_border_bottom=28,
     )
     p3.axis.visible = False
     p3.grid.visible = False
+    _radar_backdrop(p3, angles)
     for i, g in enumerate(c3["track_genre"]):
         gmean = c3[c3["track_genre"] == g].iloc[0]
         vals = [float(gmean[f]) for f in RADAR_FEATURES]
@@ -698,32 +839,45 @@ def build_story_layout():
         lab = FOCUS_LABELS.get(str(g), str(g))
         gkey = str(g).lower()
         col = GENRE_COLOR.get(gkey, list(GENRE_COLOR.values())[i % len(GENRE_COLOR)])
-        p3.line("x", "y", source=cds, color=col, line_width=2.5, alpha=0.9, legend_label=lab)
-        p3.scatter("x", "y", source=cds, color=col, size=9, alpha=0.95, line_color=None, marker="circle")
+        p3.line("x", "y", source=cds, color=col, line_width=3, alpha=0.92, legend_label=lab)
+        p3.scatter(
+            "x",
+            "y",
+            source=cds,
+            color=col,
+            size=10,
+            alpha=0.98,
+            line_color=C["text"],
+            line_width=0.8,
+            marker="circle",
+        )
 
-    label_r = 1.12
+    label_r = 1.14
 
     def _radar_label_anchor(ang: float) -> tuple[str, str]:
         c, s = np.cos(ang), np.sin(ang)
         if s > 0.45:
             return "center", "bottom"
         if s < -0.45:
-            return "center", "top"
+            return "center", "bottom"
         if c > 0:
-            return "left", "middle"
-        return "right", "middle"
+            return "right", "middle"
+        return "left", "middle"
 
     for ang, lab in zip(angles, RADAR_LABELS):
         align, baseline = _radar_label_anchor(ang)
-        p3.text(
-            x=[label_r * np.cos(ang)],
-            y=[label_r * np.sin(ang)],
-            text=[lab],
-            text_align=align,
-            text_baseline=baseline,
-            text_font_size="10pt",
-            text_color=C["muted"],
-            text_font=_FONT,
+        p3.add_layout(
+            Label(
+                x=float(label_r * np.cos(ang)),
+                y=float(label_r * np.sin(ang)),
+                text=lab,
+                text_align=align,
+                text_baseline=baseline,
+                text_font_size="10pt",
+                text_font_style="bold",
+                text_color=C["text"],
+                text_font=_FONT,
+            )
         )
 
     init_vals = [0.55, 0.55, 0.55, 0.3, tempo_to_norm(75.0)]
@@ -734,17 +888,29 @@ def build_story_layout():
         "y",
         source=jonas_radar,
         color=C["text"],
-        line_width=3,
+        line_width=3.5,
         line_dash="dashed",
+        line_alpha=0.95,
         legend_label="Your track (sliders)",
     )
     p3.legend.location = "top_left"
+    p3.legend.orientation = "vertical"
     p3.legend.click_policy = "hide"
+    p3.legend.label_text_font = _FONT_CANVAS
     p3.legend.label_text_font_size = "8pt"
-    p3.legend.background_fill_alpha = 0.0
-    p3.legend.border_line_alpha = 0.0
-    p3.add_layout(p3.legend[0], "right")
+    p3.legend.label_text_color = C["text"]
+    p3.legend.spacing = 6
+    p3.legend.padding = 8
+    p3.legend.margin = 6
+    p3.legend.background_fill_color = C["panel"]
+    p3.legend.background_fill_alpha = 0.92
+    p3.legend.border_line_color = C["grid"]
+    p3.legend.border_line_alpha = 0.7
     _apply_theme(p3, grid=False)
+    p3.add_layout(p3.legend[0], "right")
+    p3.outline_line_color = C["grid"]
+    p3.outline_line_alpha = 0.35
+    p3.min_border_right = 108
 
     # --- Chart 3b: spread of energy within each focus genre (median + quartiles) ---
     FOCUS = ["classical", "hip-hop", "jazz", "metal", "pop", "rock"]
@@ -766,10 +932,10 @@ def build_story_layout():
     p3b = figure(
         title="How consistent is each genre’s energy?",
         y_range=FactorRange(*[r["genre"] for r in rows]),
-        width=W_BOX,
-        height=360,
-        min_border_left=72,
-        min_border_right=24,
+        width=SEC2_W,
+        height=380,
+        min_border_left=88,
+        min_border_right=28,
         tools="hover,save,reset",
         toolbar_location="above",
         x_axis_label=PLAIN["energy"],
@@ -778,24 +944,55 @@ def build_story_layout():
         y="genre",
         left="q1",
         right="q3",
-        height=0.45,
+        height=0.52,
         source=src_box,
         fill_color="color",
-        fill_alpha=0.45,
+        fill_alpha=0.38,
         line_color="color",
-        line_alpha=0.85,
+        line_alpha=0.95,
+        line_width=1.5,
     )
     p3b.scatter(
         x="q2",
         y="genre",
         source=src_box,
-        size=12,
+        size=14,
         color="color",
         line_color=C["text"],
-        line_width=1,
+        line_width=1.25,
+        fill_alpha=1,
     )
     p3b.add_tools(HoverTool(tooltips=[("Genre", "@genre"), ("Median energy", "@q2{0.00}"), ("25–75% range", "@q1{0.00} – @q3{0.00}")]))
     _apply_theme(p3b)
+    p3b.grid.grid_line_alpha = 0.35
+    p3b.xaxis.major_label_text_font_size = "10pt"
+    p3b.yaxis.major_label_text_font_size = "10pt"
+    p3b.outline_line_color = C["grid"]
+    p3b.outline_line_alpha = 0.35
+
+    sec3_radar_row = row(
+        p3,
+        align="center",
+        sizing_mode="fixed",
+        width=SEC2_W,
+        stylesheets=[_center_row_ss],
+    )
+    sec3_box_row = row(
+        p3b,
+        align="center",
+        sizing_mode="fixed",
+        width=SEC2_W,
+        stylesheets=[_center_row_ss],
+    )
+    sec3_block = column(
+        sec3_radar_row,
+        Spacer(height=32, sizing_mode="fixed"),
+        sec3_box_row,
+        align="center",
+        sizing_mode="fixed",
+        width=SEC2_W,
+        stylesheets=[_sec2_layout_ss],
+    )
 
     genre_filter_help = Div(
         text=(
@@ -844,27 +1041,43 @@ def build_story_layout():
         genre_cb,
         align="start",
         sizing_mode="fixed",
-        width=FIG_W,
+        width=SEC2_W,
         stylesheets=[_genre_panel_ss],
     )
     sec2_heatmap_gap = Spacer(height=44, sizing_mode="fixed")
+    sec2_scatter_note = Div(
+        text=(
+            '<p style="margin:0 0 0.65rem 0;font-size:0.82rem;line-height:1.45;color:#9ca3b8;text-align:center;">'
+            f"Random sample of up to {n:,} tracks from the six focus genres (same songs in both charts)."
+            "</p>"
+        ),
+        stylesheets=[_panel_block_ss],
+    )
     sec2_scatter_row = row(
         p2a,
         p2b,
         align="center",
         sizing_mode="fixed",
-        width=FIG_W,
+        width=SEC2_W,
+        stylesheets=[_center_row_ss],
+    )
+    sec2_heatmap_row = row(
+        p2c,
+        align="center",
+        sizing_mode="fixed",
+        width=SEC2_W,
         stylesheets=[_center_row_ss],
     )
     sec2_block = column(
         genre_filter_panel,
         sec2_scatter_row,
+        sec2_scatter_note,
         sec2_heatmap_gap,
-        p2c,
+        sec2_heatmap_row,
         align="center",
         sizing_mode="fixed",
-        width=FIG_W,
-        stylesheets=[_story_layout_ss],
+        width=SEC2_W,
+        stylesheets=[_sec2_layout_ss],
     )
 
     # ========== Chart 4: hits vs non-hits (split scales so 0–1 traits stay visible) ==========
@@ -1077,30 +1290,16 @@ def build_story_layout():
         legend_label="Your track",
         marker="star",
     )
-    star_label = Label(
-        x=0.55,
-        y=0.55,
-        text="Positive: 0.55\nIntense: 0.55",
-        text_color=C["text"],
-        text_font=_FONT,
-        text_font_size="10pt",
-        text_line_height=1.35,
-        x_offset=16,
-        y_offset=-10,
-        background_fill_color=C["panel"],
-        background_fill_alpha=0.92,
-        border_line_color=C["green"],
-        border_line_alpha=0.85,
-        padding=6,
-    )
-    p5.add_layout(star_label)
+    p5.legend.location = "bottom_center"
     p5.legend.label_text_font_size = "9pt"
     p5.legend.background_fill_alpha = 0.94
     p5.legend.border_line_alpha = 0.0
     p5.legend.orientation = "horizontal"
     p5.legend.spacing = 14
     p5.legend.margin = 12
+    p5.legend.padding = 8
     p5.add_layout(p5.legend[0], "below")
+    p5.min_border_bottom = 52
     _apply_theme(p5)
 
     _genre_mood_js = CustomJS(
@@ -1129,11 +1328,11 @@ def build_story_layout():
     # ========== Jonas panel ==========
     def _readout_html(value_html: str) -> str:
         return (
-            '<div style="width:100%;box-sizing:border-box;margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;'
+            '<div style="width:100%;box-sizing:border-box;margin-top:0.5rem;padding:1rem 1.25rem;border-radius:12px;'
             "border:1px solid #2e2e42;"
             "background:linear-gradient(90deg,rgba(29,185,84,0.18),rgba(155,93,229,0.14),rgba(86,207,225,0.12));"
             'font-size:1rem;line-height:1.5;">'
-            '<span style="color:#9ca3b8;font-weight:600;">Average popularity of similar tracks (not a prediction):</span> '
+            '<span style="color:#9ca3b8;font-weight:600;">Average popularity of similar tracks:</span> '
             f'<span style="color:#1DB954;font-size:1.45rem;font-weight:800;margin:0 0.15rem;">{value_html}</span>'
             '<span style="color:#9ca3b8;font-weight:600;"> / 100</span>'
             "</div>"
@@ -1154,7 +1353,7 @@ def build_story_layout():
             )
         )
 
-    def _closest_genre_html(valence: float, energy: float) -> str:
+    def _closest_genre_mood(valence: float, energy: float) -> dict:
         best = _genre_moods[0]
         best_d = 1e9
         for gm in _genre_moods:
@@ -1162,31 +1361,61 @@ def build_story_layout():
             if d < best_d:
                 best_d = d
                 best = gm
+        return best
+
+    def _closest_genre_html(
+        d: float, e: float, v: float, a: float, bpm: float
+    ) -> str:
+        mood = _closest_genre_mood(v, e)
+        feat = _closest_genre_features(d, e, v, a, tempo_to_norm(bpm))
         return (
-            '<p style="margin:0.65rem 0 0;font-size:0.92rem;line-height:1.5;color:#9ca3b8;">'
-            "Closest focus genre on the mood map: "
-            f'<b style="color:{best["color"]}">{best["label"]}</b>'
+            '<p style="margin:0.45rem 0 0;font-size:0.92rem;line-height:1.5;color:#9ca3b8;">'
+            "All sliders: "
+            f'<b style="color:{feat["color"]}">{feat["label"]}</b>'
+            " · Mood map: "
+            f'<b style="color:{mood["color"]}">{mood["label"]}</b>'
             "</p>"
         )
 
-    _sim_cols = ["track_name", "artists", "danceability", "energy", "valence", "acousticness", "tempo", "popularity"]
+    _sim_cols = [
+        "track_name",
+        "artists",
+        "track_genre",
+        "danceability",
+        "energy",
+        "valence",
+        "acousticness",
+        "tempo",
+        "popularity",
+    ]
     _missing_sim = [c for c in _sim_cols if c not in df.columns]
     if _missing_sim:
         raise ValueError(f"dataset.csv missing columns needed for similar-track matching: {_missing_sim}")
     _sim = df[_sim_cols].copy()
+    _sim["track_genre"] = _sim["track_genre"].astype(str).str.lower()
+    _sim = _sim[_sim["track_genre"].isin(FOCUS_GENRES)]
+    if len(_sim) == 0:
+        raise ValueError("No focus-genre tracks in dataset.csv for similar-track matching")
     for _c in ("danceability", "energy", "valence", "acousticness", "tempo", "popularity"):
         _sim[_c] = pd.to_numeric(_sim[_c], errors="coerce")
     _sim["track_name"] = _sim["track_name"].astype(str).replace({"nan": "Unknown track"})
     _sim["artists"] = _sim["artists"].astype(str).replace({"nan": "Unknown artist"})
     _sim = _sim.dropna(subset=["danceability", "energy", "valence", "acousticness", "tempo", "popularity"])
-    _sim_cap = 3500
+    _sim = _sim.reset_index(drop=True)
+    _sim["genre_key"] = _sim["track_genre"]
+    _sim["genre_label"] = _sim["genre_key"].map(FOCUS_LABELS)
+    _sim["genre_color"] = _sim["genre_key"].map(GENRE_COLOR)
+    _sim_cap = 6000
     if len(_sim) > _sim_cap:
-        _sim = _sim.sample(_sim_cap, random_state=42)
+        _sim = _sim.sample(_sim_cap, random_state=42).reset_index(drop=True)
     _sim_t_denom = (tmax - tmin) if (np.isfinite(tmax) and np.isfinite(tmin) and tmax > tmin) else 1.0
     _sim["tempo_norm"] = ((_sim["tempo"] - tmin) / _sim_t_denom).clip(0, 1)
     _sim_data = dict(
         track_name=_sim["track_name"].tolist(),
         artists=_sim["artists"].tolist(),
+        genre_key=_sim["genre_key"].tolist(),
+        genre_label=_sim["genre_label"].tolist(),
+        genre_color=_sim["genre_color"].tolist(),
         d=_sim["danceability"].astype(float).tolist(),
         e=_sim["energy"].astype(float).tolist(),
         v=_sim["valence"].astype(float).tolist(),
@@ -1194,26 +1423,75 @@ def build_story_layout():
         t=_sim["tempo_norm"].astype(float).tolist(),
         p=_sim["popularity"].astype(float).tolist(),
     )
+    _feat_w = np.array([1.0, 1.0, 1.0, 1.0, 0.75], dtype=float)
+    _genre_profiles = []
+    for _gk in FOCUS_GENRES:
+        _sub = _sim[_sim["genre_key"] == _gk]
+        if len(_sub) == 0:
+            continue
+        _genre_profiles.append(
+            dict(
+                key=_gk,
+                label=FOCUS_LABELS[_gk],
+                color=GENRE_COLOR[_gk],
+                d=float(_sub["danceability"].mean()),
+                e=float(_sub["energy"].mean()),
+                v=float(_sub["valence"].mean()),
+                a=float(_sub["acousticness"].mean()),
+                t=float(_sub["tempo_norm"].mean()),
+            )
+        )
+
+    def _closest_genre_features(d: float, e: float, v: float, a: float, tn: float) -> dict:
+        best = _genre_profiles[0]
+        best_d = 1e9
+        q = np.array([d, e, v, a, tn], dtype=float)
+        for gp in _genre_profiles:
+            g = np.array([gp["d"], gp["e"], gp["v"], gp["a"], gp["t"]], dtype=float)
+            dist = float((_feat_w * (q - g) ** 2).sum())
+            if dist < best_d:
+                best_d = dist
+                best = gp
+        return best
+
+    def _feature_distances(d: float, e: float, v: float, a: float, tn: float) -> np.ndarray:
+        _w = np.array([1.0, 1.0, 1.0, 1.0, 0.75], dtype=float)
+        _arr = _sim[["danceability", "energy", "valence", "acousticness", "tempo_norm"]].to_numpy(dtype=float)
+        _q = np.array([d, e, v, a, tn], dtype=float)
+        return ((_arr - _q) ** 2 * _w).sum(axis=1)
+
+    def _pick_similar_indices(d: float, e: float, v: float, a: float, bpm: float, *, n: int = 3) -> tuple[dict, list[int]]:
+        tn = tempo_to_norm(bpm)
+        pool_g = _closest_genre_features(d, e, v, a, tn)
+        dist = _feature_distances(d, e, v, a, tn)
+        same = np.flatnonzero(_sim["genre_key"].values == pool_g["key"])
+        pool = same if len(same) else np.arange(len(_sim))
+        order = pool[np.argsort(dist[pool])]
+        return pool_g, order[:n].astype(int).tolist()
 
     def _closest_tracks_html(d: float, e: float, v: float, a: float, bpm: float) -> str:
-        tn = tempo_to_norm(bpm)
-        _sim_arr = _sim[["danceability", "energy", "valence", "acousticness", "tempo_norm"]].to_numpy(dtype=float)
-        _q = np.array([d, e, v, a, tn], dtype=float)
-        _w = np.array([1.0, 1.0, 1.0, 1.0, 0.75], dtype=float)
-        _dist = ((_sim_arr - _q) ** 2 * _w).sum(axis=1)
-        _top_idx = np.argsort(_dist)[:3]
+        best_g, _top_idx = _pick_similar_indices(d, e, v, a, bpm)
+        _rows = [_sim.iloc[int(_i)] for _i in _top_idx]
+        _show_genre = len({_r["genre_key"] for _r in _rows}) > 1
         _items = []
-        for _i in _top_idx:
-            _row = _sim.iloc[int(_i)]
+        for _row in _rows:
+            _genre_bit = ""
+            if _show_genre:
+                _genre_bit = (
+                    f' <span style="color:{_row["genre_color"]};font-size:0.82rem;font-weight:600;">'
+                    f'{_row["genre_label"]}</span>'
+                )
             _items.append(
                 '<li style="margin:0.2rem 0;color:#f4f4f8;">'
-                f'{_row["track_name"]} <span style="color:#9ca3b8;">({ _row["artists"] })</span>'
+                f'{_row["track_name"]} <span style="color:#9ca3b8;">({_row["artists"]})</span>'
+                f"{_genre_bit}"
                 "</li>"
             )
         return (
-            '<div style="width:100%;box-sizing:border-box;margin-top:0.8rem;padding:0.75rem 1rem;border-radius:10px;'
+            '<div style="width:100%;box-sizing:border-box;margin-top:0.55rem;padding:0.75rem 1rem;border-radius:10px;'
             'border:1px solid #2e2e42;background:rgba(20,20,31,0.7);">'
-            '<p style="margin:0 0 0.35rem 0;font-size:0.88rem;color:#9ca3b8;">Most similar songs in the dataset:</p>'
+            f'<p style="margin:0 0 0.35rem 0;font-size:0.88rem;color:#9ca3b8;">'
+            f'Closest <strong style="color:{best_g["color"]}">{best_g["label"]}</strong> tracks:</p>'
             '<ul style="margin:0;padding-left:1rem;line-height:1.35;">'
             + "".join(_items)
             + "</ul>"
@@ -1222,71 +1500,68 @@ def build_story_layout():
 
     explain = Div(
         text=(
-            '<p style="margin:0 0 0.75rem 0;font-size:0.95rem;line-height:1.6;color:#9ca3b8;">'
-            '<span style="color:#1DB954;font-weight:700;">Drag the sliders</span> to mirror how your track sounds. '
-            'Updates run instantly in the browser: the '
-            '<strong style="color:#f4f4f8;">star</strong> on the '
-            '<a href="#sec-moodmap" style="color:#1ed760;text-decoration:none;font-weight:600;">mood map (Section 5)</a> '
-            'and the <strong style="color:#f4f4f8;">dashed line</strong> on the '
-            '<a href="#sec-genres" style="color:#1ed760;text-decoration:none;font-weight:600;">genre radar (Section 3)</a>. '
-            "Scroll up to watch them move, or use the jump links below."
+            '<p style="margin:0 0 0.5rem 0;font-size:0.95rem;line-height:1.55;color:#9ca3b8;">'
+            '<span style="color:#1DB954;font-weight:700;">Drag the sliders</span> to mirror your track, a demo, or a song you know. '
+            'Scroll up to see the '
+            '<a href="#sec-moodmap" style="color:#1ed760;text-decoration:none;font-weight:600;">mood map star</a> '
+            'and '
+            '<a href="#sec-genres" style="color:#1ed760;text-decoration:none;font-weight:600;">genre radar</a> '
+            "move."
             "</p>"
-            '<p class="story-slider-jumps" style="margin:0 0 1rem 0;display:flex;flex-wrap:wrap;gap:0.5rem;">'
-            '<a href="#sec-moodmap" class="story-slider-jump">↑ Mood map &amp; star</a>'
-            '<a href="#sec-genres" class="story-slider-jump">↑ Genre radar</a>'
+            '<p style="margin:0 0 0.65rem 0;font-size:0.9rem;line-height:1.5;color:#9ca3b8;">'
+            "The green score is the average popularity of similar tracks in the dataset. "
+            "The three songs below are the closest matches using "
+            "<strong style=\"color:#f4f4f8;\">all five sliders</strong> "
+            "(same genre as the “All sliders” line)."
             "</p>"
-            '<p style="margin:0 0 1rem 0;font-size:0.92rem;line-height:1.55;color:#9ca3b8;">'
-            "The readout below is the <em style=\"color:#c77dff;\">average popularity</em> of real tracks in the "
-            "same bins, not a forecast. We also show the closest songs by audio features."
-            "</p>"
-        ),
-        stylesheets=[_panel_block_ss],
-    )
-    how_to = Div(
-        text=(
-            '<p style="margin:0 0 0.7rem 0;font-size:0.88rem;line-height:1.45;color:#c8ceda;">'
-            "Tip: open Section 3 or 5 in another tab, or scroll up once after dragging. The linked charts live above this panel."
+            '<p class="story-slider-jumps" style="margin:0;display:flex;flex-wrap:wrap;gap:0.65rem;">'
+            '<a href="#sec-moodmap" class="story-slider-jump" '
+            'style="color:#c8ceda !important;text-decoration:none !important;font-size:0.82rem;font-weight:600;">'
+            '↑ Mood map &amp; star</a>'
+            '<a href="#sec-genres" class="story-slider-jump" '
+            'style="color:#c8ceda !important;text-decoration:none !important;font-size:0.82rem;font-weight:600;">'
+            '↑ Genre radar</a>'
             "</p>"
         ),
         stylesheets=[_panel_block_ss],
     )
     readout = Div(text=_readout_html("…"), stylesheets=[_panel_block_ss])
-    genre_match = Div(text=_closest_genre_html(0.55, 0.55), stylesheets=[_panel_block_ss])
+    genre_match = Div(text=_closest_genre_html(0.55, 0.55, 0.55, 0.30, 75.0), stylesheets=[_panel_block_ss])
     similar_tracks = Div(text=_closest_tracks_html(0.55, 0.55, 0.55, 0.30, 75.0), stylesheets=[_panel_block_ss])
     disclaimer = Div(
         text=(
-            '<p style="margin:0.75rem 0 0;font-size:0.8rem;color:#9ca3b8;font-style:italic;">'
-            "<i>Similarity is feature-based only and not a recommendation or popularity prediction.</i>"
+            '<p style="margin:0.55rem 0 0;font-size:0.8rem;color:#9ca3b8;font-style:italic;">'
+            "<i>Score and genres come from the dataset; tags can be imperfect.</i>"
             "</p>"
         ),
         stylesheets=[_panel_block_ss],
     )
 
     sd = Slider(
-        start=0, end=1, value=0.55, step=0.01, title="Danceability",
-        width=SLIDER_W,
-        sizing_mode="stretch_width",
+        start=0, end=1, value=0.55, step=0.01, title="How danceable?",
+        width=SLIDER_COL_W,
+        sizing_mode="fixed",
         bar_color=C["green"],
         stylesheets=[_slider_ss(C["green"], C["green"], "rgba(29,185,84,0.45)")],
     )
     se = Slider(
-        start=0, end=1, value=0.55, step=0.01, title="Energy",
-        width=SLIDER_W,
-        sizing_mode="stretch_width",
+        start=0, end=1, value=0.55, step=0.01, title="How intense / energetic?",
+        width=SLIDER_COL_W,
+        sizing_mode="fixed",
         bar_color=C["purple"],
         stylesheets=[_slider_ss(C["purple"], C["purple"], "rgba(155,93,229,0.45)")],
     )
     sv = Slider(
-        start=0, end=1, value=0.55, step=0.01, title="Valence (mood / positivity)",
-        width=SLIDER_W,
-        sizing_mode="stretch_width",
+        start=0, end=1, value=0.55, step=0.01, title="How happy / positive?",
+        width=SLIDER_COL_W,
+        sizing_mode="fixed",
         bar_color=C["blue"],
         stylesheets=[_slider_ss(C["blue"], C["blue"], "rgba(86,207,225,0.45)")],
     )
     sa = Slider(
-        start=0, end=1, value=0.30, step=0.01, title="Acousticness",
-        width=SLIDER_W,
-        sizing_mode="stretch_width",
+        start=0, end=1, value=0.30, step=0.01, title="How acoustic?",
+        width=SLIDER_COL_W,
+        sizing_mode="fixed",
         bar_color=C["silver"],
         stylesheets=[_slider_ss(C["silver"], C["silver"], "rgba(232,232,255,0.35)")],
     )
@@ -1300,8 +1575,8 @@ def build_story_layout():
         value=_st_mid,
         step=1,
         title="Tempo (BPM)",
-        width=SLIDER_W,
-        sizing_mode="stretch_width",
+        width=SLIDER_COL_W,
+        sizing_mode="fixed",
         bar_color=C["green_hi"],
         stylesheets=[_slider_ss(C["green_hi"], C["green_hi"], "rgba(30,215,96,0.45)")],
     )
@@ -1324,11 +1599,11 @@ def build_story_layout():
             st=st,
             jonas_radar=jonas_radar,
             jonas_mood=jonas_mood,
-            star_label=star_label,
             readout=readout,
             genre_match=genre_match,
             similar_tracks=similar_tracks,
             genre_moods=_genre_moods,
+            genre_profiles=_genre_profiles,
             lut=_lut,
             sim_data=_sim_data,
             tempo_edges=_tempo_edges,
@@ -1377,26 +1652,42 @@ def build_story_layout():
     jonas_mood.data = {x: [v], y: [e]};
     jonas_radar.change.emit();
     jonas_mood.change.emit();
-    star_label.x = v;
-    star_label.y = e;
-    star_label.text = 'Positive: ' + v.toFixed(2) + '\\nIntense: ' + e.toFixed(2);
-    let best = genre_moods[0];
-    let bestD = 1e20;
+    let moodBest = genre_moods[0];
+    let moodBestD = 1e20;
     for (let i = 0; i < genre_moods.length; i++) {
       const g = genre_moods[i];
       const dx = v - g.v, dy = e - g.e;
       const dist = dx * dx + dy * dy;
-      if (dist < bestD) { bestD = dist; best = g; }
+      if (dist < moodBestD) { moodBestD = dist; moodBest = g; }
     }
-    genre_match.text = '<p style="margin:0.65rem 0 0;font-size:0.92rem;line-height:1.5;color:#9ca3b8;">Closest focus genre on the mood map: <b style="color:' + best.color + '">' + best.label + '</b></p>';
+    const wFeat = [1.0, 1.0, 1.0, 1.0, 0.75];
+    let featBest = genre_profiles[0];
+    let featBestD = 1e20;
+    for (let i = 0; i < genre_profiles.length; i++) {
+      const g = genre_profiles[i];
+      const dd = d - g.d, de = e - g.e, dv = v - g.v, da = a - g.a, dt = tn - g.t;
+      const dist = wFeat[0]*dd*dd + wFeat[1]*de*de + wFeat[2]*dv*dv + wFeat[3]*da*da + wFeat[4]*dt*dt;
+      if (dist < featBestD) { featBestD = dist; featBest = g; }
+    }
+    const listGenre = featBest;
+    genre_match.text = '<p style="margin:0.45rem 0 0;font-size:0.92rem;line-height:1.5;color:#9ca3b8;">All sliders: <b style="color:' + featBest.color + '">' + featBest.label + '</b> · Mood map: <b style="color:' + moodBest.color + '">' + moodBest.label + '</b></p>';
     const SN = sim_data.track_name;
     const SA = sim_data.artists;
+    const Sg = sim_data.genre_key;
+    const Sgl = sim_data.genre_label;
+    const Sgc = sim_data.genre_color;
     const Sp = sim_data.p;
     const Sd = sim_data.d, Se = sim_data.e, Sv = sim_data.v, Sa = sim_data.a, St = sim_data.t;
     const wT = 0.75;
     const bestI = [-1, -1, -1];
     const bestD2 = [1e20, 1e20, 1e20];
+    let poolLen = 0;
     for (let i = 0; i < SN.length; i++) {
+      if (Sg[i] === listGenre.key) poolLen++;
+    }
+    const useGenreFilter = poolLen > 0;
+    for (let i = 0; i < SN.length; i++) {
+      if (useGenreFilter && Sg[i] !== listGenre.key) continue;
       const dd = d - Sd[i], de = e - Se[i], dv = v - Sv[i], da = a - Sa[i], dt = tn - St[i];
       const dist2 = dd * dd + de * de + dv * dv + da * da + wT * dt * dt;
       if (dist2 < bestD2[0]) {
@@ -1413,20 +1704,30 @@ def build_story_layout():
     let listHtml = '';
     let popSum = 0.0;
     let popN = 0;
+    const pickedGenres = new Set();
+    for (let j = 0; j < bestI.length; j++) {
+      if (bestI[j] < 0) continue;
+      pickedGenres.add(Sg[bestI[j]]);
+    }
+    const showTrackGenre = pickedGenres.size > 1;
     for (let j = 0; j < bestI.length; j++) {
       if (bestI[j] < 0) continue;
       const idx = bestI[j];
-      listHtml += '<li style="margin:0.2rem 0;color:#f4f4f8;">' + SN[idx] + ' <span style="color:#9ca3b8;">(' + SA[idx] + ')</span></li>';
+      let genreBit = '';
+      if (showTrackGenre) {
+        genreBit = ' <span style="color:' + Sgc[idx] + ';font-size:0.82rem;font-weight:600;">' + Sgl[idx] + '</span>';
+      }
+      listHtml += '<li style="margin:0.2rem 0;color:#f4f4f8;">' + SN[idx] + ' <span style="color:#9ca3b8;">(' + SA[idx] + ')</span>' + genreBit + '</li>';
       popSum += Number(Sp[idx]);
       popN += 1;
     }
-    similar_tracks.text = '<div style="width:100%;box-sizing:border-box;margin-top:0.8rem;padding:0.75rem 1rem;border-radius:10px;border:1px solid #2e2e42;background:rgba(20,20,31,0.7);"><p style="margin:0 0 0.35rem 0;font-size:0.88rem;color:#9ca3b8;">Most similar songs in the dataset:</p><ul style="margin:0;padding-left:1rem;line-height:1.35;">' + listHtml + '</ul></div>';
+    similar_tracks.text = '<div style="width:100%;box-sizing:border-box;margin-top:0.55rem;padding:0.75rem 1rem;border-radius:10px;border:1px solid #2e2e42;background:rgba(20,20,31,0.7);"><p style="margin:0 0 0.35rem 0;font-size:0.88rem;color:#9ca3b8;">Closest <strong style="color:' + listGenre.color + '">' + listGenre.label + '</strong> tracks:</p><ul style="margin:0;padding-left:1rem;line-height:1.35;">' + listHtml + '</ul></div>';
     const popNear = popN > 0 ? (popSum / popN) : undefined;
     const popShow = (pop !== undefined) ? Number(pop) : popNear;
     if (popShow === undefined || Number.isNaN(popShow)) {
-      readout.text = '<div class="slider-readout slider-readout-empty" style="width:100%;box-sizing:border-box;"><span class="slider-readout-label">Average popularity of similar tracks (not a prediction):</span> <span class="slider-readout-value"><i>score unavailable</i></span></div>';
+      readout.text = '<div class="slider-readout slider-readout-empty" style="width:100%;box-sizing:border-box;margin-top:0.5rem;"><span class="slider-readout-label">Average popularity of similar tracks:</span> <span class="slider-readout-value"><i>score unavailable</i></span></div>';
     } else {
-      readout.text = '<div style="width:100%;box-sizing:border-box;margin-top:1rem;padding:1rem 1.25rem;border-radius:12px;border:1px solid #2e2e42;background:linear-gradient(90deg,rgba(29,185,84,0.18),rgba(155,93,229,0.14),rgba(86,207,225,0.12));font-size:1rem;"><span style="color:#9ca3b8;font-weight:600;">Average popularity of similar tracks (not a prediction):</span> <span style="color:#1DB954;font-size:1.45rem;font-weight:800;">' + Number(popShow).toFixed(1) + '</span><span style="color:#9ca3b8;font-weight:600;"> / 100</span></div>';
+      readout.text = '<div style="width:100%;box-sizing:border-box;margin-top:0.5rem;padding:1rem 1.25rem;border-radius:12px;border:1px solid #2e2e42;background:linear-gradient(90deg,rgba(29,185,84,0.18),rgba(155,93,229,0.14),rgba(86,207,225,0.12));font-size:1rem;"><span style="color:#9ca3b8;font-weight:600;">Average popularity of similar tracks:</span> <span style="color:#1DB954;font-size:1.45rem;font-weight:800;">' + Number(popShow).toFixed(1) + '</span><span style="color:#9ca3b8;font-weight:600;"> / 100</span></div>';
     }
     """,
     )
@@ -1435,24 +1736,28 @@ def build_story_layout():
         _w.js_on_change("value", _jonas_cb)
 
     slider_stack = column(
-        sd,
-        se,
-        sv,
-        sa,
-        st,
+        row(sd, se, sizing_mode="stretch_width", stylesheets=[_slider_row_ss]),
+        row(sv, sa, sizing_mode="stretch_width", stylesheets=[_slider_row_ss]),
+        row(st, sizing_mode="stretch_width", stylesheets=[_slider_row_ss]),
         align="center",
         sizing_mode="stretch_width",
         stylesheets=[_slider_stack_ss],
     )
 
-    panel = column(
-        explain,
-        how_to,
-        slider_stack,
+    results_stack = column(
         readout,
         genre_match,
         similar_tracks,
         disclaimer,
+        align="center",
+        sizing_mode="stretch_width",
+        stylesheets=[_results_stack_ss],
+    )
+
+    panel = column(
+        explain,
+        slider_stack,
+        results_stack,
         align="center",
         sizing_mode="stretch_width",
         width=SLIDER_PANEL_W,
@@ -1466,24 +1771,16 @@ def build_story_layout():
     else:
         readout.text = _readout_html(f"{_pop0:.1f}")
         readout.css_classes = ["slider-readout-wrap"]
-    genre_match.text = _closest_genre_html(float(sv.value), float(se.value))
+    genre_match.text = _closest_genre_html(
+        float(sd.value), float(se.value), float(sv.value), float(sa.value), float(st.value)
+    )
     similar_tracks.text = _closest_tracks_html(float(sd.value), float(se.value), float(sv.value), float(sa.value), float(st.value))
-    star_label.x = float(sv.value)
-    star_label.y = float(se.value)
-    star_label.text = f"Positive: {float(sv.value):.2f}\nIntense: {float(se.value):.2f}"
 
     global _STORY_SECTIONS
     _STORY_SECTIONS = {
         "sec1": _center_section(p1),
         "sec2": sec2_block,
-        "sec3": column(
-            _center_section(p3),
-            _center_section(p3b),
-            align="center",
-            sizing_mode="fixed",
-            width=FIG_W,
-            stylesheets=[_story_layout_ss],
-        ),
+        "sec3": sec3_block,
         "sec4": _center_section(sec4_block),
         "sec5": _center_section(p5),
         "slider": panel,
@@ -1510,6 +1807,12 @@ def story_figure_html(section_id: str, *, centered: bool = True) -> str:
     idx = _STORY_SECTION_ORDER.index(section_id)
     html = _EMBED_CACHE[1][idx]
     classes = ["story-figure-wide", "story-figure-center"]
+    if section_id == "sec2":
+        classes.append("story-figure-sec2")
+    if section_id == "sec3":
+        classes.append("story-figure-sec3")
+    if section_id == "sec5":
+        classes.append("story-figure-sec5")
     if not centered:
         classes.remove("story-figure-center")
     return (
@@ -1534,6 +1837,9 @@ def story_scripts_html() -> str:
   --tooltip-arrow-color: #1e1e2c;
 }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@600;700&display=swap">
 """
     return INLINE.render_css() + INLINE.render_js() + tooltip_css + _EMBED_CACHE[0]
 

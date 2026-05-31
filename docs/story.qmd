@@ -62,27 +62,51 @@ Takeaway: Long bars at the bottom mean most tracks are rarely heard. Short bars 
 
 Spotify calculates nine audio features for every track. We measured how strongly each one links to popularity, on a scale from 0 (no link) to 1 (perfect link). Features turn out to explain each other far better than they explain popularity.
 
-::: {.callout-note appearance="minimal" collapse="true"}
-## What do these audio features actually mean?
-
-Danceability: how well a track works for dancing, based on tempo, rhythm stability, and beat strength. 0 means nearly impossible to dance to, 1.0 means it was made for the floor.
-
-Energy: how intense and active a song feels. Loud, fast, and dense tracks score high, while soft acoustic pieces score low.
-
-Valence: how positive or happy a track sounds. High valence is cheerful and upbeat, low valence is melancholic or dark.
-
-Acousticness: how likely a track is to use only acoustic instruments with no electronic production. A score near 1.0 means almost nothing was plugged in.
-
-Instrumentalness: how much of a track avoids vocals. Scores above 0.5 suggest mostly instrumental music, while anything with regular singing scores near zero.
-
-Speechiness: how much of a track sounds like spoken words rather than music. Rap and spoken-word tracks score high, most songs score below 0.1.
-
-Liveness: how likely a track is to have been recorded in front of a live audience. Scores above 0.8 strongly suggest a concert recording.
-
-Loudness: the overall volume of a track in decibels (dB). Values typically range from −60 dB (near silence) to 0 dB (as loud as a digital recording can go).
-
-Tempo: the speed of a track in beats per minute (BPM). A slow ballad sits around 60–80 BPM, a typical pop or dance track around 120–140 BPM.
-:::
+```{=html}
+<details class="story-feature-guide">
+  <summary class="story-feature-guide__summary"><span class="story-feature-guide__label">Glossary:</span> What do these audio features actually mean?</summary>
+  <div class="story-feature-guide__body">
+    <div class="story-feature-grid">
+      <div class="story-feature-card">
+        <p class="story-feature-card__title">Danceability</p>
+        <p class="story-feature-card__desc">How well a track works for dancing (tempo, rhythm, beat). 0 = hard to dance to, 1 = made for the floor.</p>
+      </div>
+      <div class="story-feature-card">
+        <p class="story-feature-card__title">Energy</p>
+        <p class="story-feature-card__desc">How intense and active a song feels. Loud, fast, dense tracks score high; soft acoustic pieces score low.</p>
+      </div>
+      <div class="story-feature-card">
+        <p class="story-feature-card__title">Valence</p>
+        <p class="story-feature-card__desc">How positive or happy a track sounds. High = cheerful; low = melancholic or dark.</p>
+      </div>
+      <div class="story-feature-card">
+        <p class="story-feature-card__title">Acousticness</p>
+        <p class="story-feature-card__desc">How likely the track uses only acoustic instruments. Near 1.0 = almost nothing electronic.</p>
+      </div>
+      <div class="story-feature-card">
+        <p class="story-feature-card__title">Instrumentalness</p>
+        <p class="story-feature-card__desc">How much of a track avoids vocals. Above 0.5 = mostly instrumental; regular singing ≈ 0.</p>
+      </div>
+      <div class="story-feature-card">
+        <p class="story-feature-card__title">Speechiness</p>
+        <p class="story-feature-card__desc">How much sounds like spoken words. Rap and spoken-word score high; most songs stay below 0.1.</p>
+      </div>
+      <div class="story-feature-card">
+        <p class="story-feature-card__title">Liveness</p>
+        <p class="story-feature-card__desc">How likely the track was recorded live. Above 0.8 strongly suggests a concert recording.</p>
+      </div>
+      <div class="story-feature-card">
+        <p class="story-feature-card__title">Loudness</p>
+        <p class="story-feature-card__desc">Overall volume in decibels (dB). Typically −60 dB (near silence) to 0 dB (as loud as digital allows).</p>
+      </div>
+      <div class="story-feature-card">
+        <p class="story-feature-card__title">Tempo</p>
+        <p class="story-feature-card__desc">Speed in beats per minute (BPM). Ballads ~60–80 BPM; pop and dance often ~120–140 BPM.</p>
+      </div>
+    </div>
+  </div>
+</details>
+```
 
 None of the nine features strongly predicts popularity. The closest one is instrumentalness, at −0.127. That negative value means tracks with fewer vocals tend to be less popular, which makes sense since most streamed music has singing in it. Loudness and danceability come next, but their links are even weaker. Energy, valence, and tempo show almost no relationship with popularity at all.
 
@@ -163,7 +187,91 @@ Takeaway: Most genres land in the energetic half of the map. Calm, low-energy st
 
 ## What would your song score? {#sec-slider}
 
-Five sliders let you describe a hypothetical track. As you drag, the star on the [mood map](#sec-moodmap) and the overlay in [Section 3](#sec-genres) update live in the browser. The readout shows the average popularity of similar tracks in the dataset, not a prediction.
+Set the five sliders to match **your own track** (demo, mix, or release) or **a song you already know**. The box below explains what updates live; open the guide for a step-by-step walkthrough.
+
+```{=html}
+<div class="story-slider-intro">
+  <p class="story-slider-intro__heading">What updates when you drag</p>
+  <ul class="story-slider-intro__list">
+    <li>
+      <strong><a href="#sec-moodmap">Mood map</a></strong>
+      <span>The star moves to show how happy and how intense your settings sound (Section 5).</span>
+    </li>
+    <li>
+      <strong><a href="#sec-genres">Genre radar</a></strong>
+      <span>The dashed line shows your danceable, acoustic, and tempo shape next to the six focus genres.</span>
+    </li>
+    <li>
+      <strong>Panel below</strong>
+      <span>The green score is the average popularity of similar tracks in the dataset; three songs list the closest audio matches.</span>
+    </li>
+  </ul>
+  <p class="story-slider-intro__heading">Why you may see two genre names</p>
+  <ul class="story-slider-intro__list story-slider-intro__list--compact">
+    <li>
+      <strong>All sliders</strong>
+      <span>Nearest genre using all five controls; this also picks the three songs in the list.</span>
+    </li>
+    <li>
+      <strong>Mood map</strong>
+      <span>Nearest genre using only happy and intense; same logic as the star above.</span>
+    </li>
+  </ul>
+</div>
+
+<details class="story-slider-guide">
+  <summary class="story-slider-guide__summary"><span class="story-slider-guide__label">Guide:</span> Match your track in four steps (by ear or Spotify features)</summary>
+  <div class="story-slider-guide__body">
+    <div class="story-guide-steps">
+      <div class="story-guide-step">
+        <span class="story-guide-step__num">1</span>
+        <div>
+          <p class="story-guide-step__title">Track</p>
+          <p class="story-guide-step__desc">Your demo, mix, or a song you know</p>
+        </div>
+      </div>
+      <div class="story-guide-step">
+        <span class="story-guide-step__num">2</span>
+        <div>
+          <p class="story-guide-step__title">Mood</p>
+          <p class="story-guide-step__desc"><em>How happy/positive</em> + <em>How intense/energetic</em> by ear</p>
+        </div>
+      </div>
+      <div class="story-guide-step">
+        <span class="story-guide-step__num">3</span>
+        <div>
+          <p class="story-guide-step__title">Shape</p>
+          <p class="story-guide-step__desc"><em>Danceable</em> · <em>Acoustic</em> · <em>Tempo</em> (tap BPM)</p>
+        </div>
+      </div>
+      <div class="story-guide-step">
+        <span class="story-guide-step__num">4</span>
+        <div>
+          <p class="story-guide-step__title">Read</p>
+          <p class="story-guide-step__desc">Check the star, radar line, score, and three closest tracks</p>
+        </div>
+      </div>
+    </div>
+    <div class="story-guide-modes">
+      <div class="story-guide-mode">
+        <p class="story-guide-mode__title">Your own track</p>
+        <ul>
+          <li><strong>Listen back</strong> — mood first, then danceable / acoustic / tempo</li>
+          <li><strong>DAW</strong> — compare to a reference in the same genre</li>
+        </ul>
+      </div>
+      <div class="story-guide-mode">
+        <p class="story-guide-mode__title">Song you know</p>
+        <ul>
+          <li><strong>By ear</strong> — same four steps as above</li>
+          <li><strong>Spotify features</strong> — danceability, energy, valence, acousticness (0–1) + BPM</li>
+        </ul>
+      </div>
+    </div>
+    <p class="story-guide-footnote">Exact numbers are optional. Small changes usually stay in the same band.</p>
+  </div>
+</details>
+```
 
 ```{python}
 #| echo: false
@@ -177,7 +285,7 @@ display(HTML(story_scripts_html()))
 ```
 
 ::: {.story-takeaway}
-Takeaway: Your settings place the track somewhere on the mood map. Compare the star to the six focus genres and the readout, not a guaranteed hit formula.
+Takeaway: Whether you are checking your own track or a favourite release, compare the star to the focus genres. The score is a dataset average for similar settings, not a guarantee yours would perform the same way.
 :::
 
 ---
